@@ -1,17 +1,12 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import NavComponent from "./nav";
-import SideBar from "./sidebar";
-import UserComponent from "./users";
-import LoginComponent from "./login";
-import UserProfile from "./userProfile";
+import { Grid } from "@mui/material";
+import BaseCard from "../src/components/baseCard/BaseCard";
 
-export default function Home() {
+export default function Index() {
   return (
-    <div>
-      <NavComponent />
-      <SideBar />
-    </div>
+    <Grid container spacing={0}>
+      <Grid item xs={12} lg={12}>
+        <BaseCard title="Home"></BaseCard>
+      </Grid>
+    </Grid>
   );
 }

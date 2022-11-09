@@ -1,0 +1,15 @@
+.borderRadius {
+  border-radius: 6px;
+}
+.roundedCircle {
+  border-radius: 100%;
+}
+
+.logoLink {
+  text-decoration: none !important;
+  color: #333 !important;
+}
+
+.logoText {
+  margin-left: 10px;
+}
