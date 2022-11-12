@@ -24,8 +24,14 @@ const EditProfile = () => {
     user_profileImage: "",
   });
 
-  const handleFilesChange = (files) => {
-    // Do something...
+  const handleFilesChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+
+    setValues({
+      ...values,
+      user_profileImage: file,
+    });
   };
 
   const handleInputChange = (event) => {
