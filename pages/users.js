@@ -70,62 +70,26 @@ const columns = [
   },
 ];
 
-const originalRows = [
-  {
-    _id: "63575c4ee05ce8d0bee1dda8",
-    user_name: "Ram nam",
-    user_email: "a@g.c",
-    user_district: "Achham",
-    user_city: "Kalagaun",
-    user_street: "Golpark",
-    user_contact: "9846761072",
-    user_gender: "Female",
-    user_password: "0000",
-    user_profileImage:
-      "http://172.105.253.132:3001/uploads/6e150223-d75b-4c16-84d9-b416aebfa7ac9485ccad-1a49-4f8c-90ec-958a8b817589.jpeg",
-    user_toc: { date: "Oct 25, 2022", time: "9:48 AM" },
-    user_status: "False",
-  },
-  {
-    _id: "63575e5ce05ce8d0bee1ddb5",
-    user_name: "Saroj neupane",
-    user_email: "A@b.c",
-    user_district: "Achham",
-    user_city: "Chaurpati",
-    user_street: "Okokokok",
-    user_contact: "9846761696",
-    user_gender: "Male",
-    user_password: "9876",
-    user_profileImage:
-      "http://192.168.100.11:3001/uploads/2ab58f6a-72e3-49fa-863a-17897268dd4fc4f61c94-0701-4cbe-a7a9-95f35d71e212.jpeg",
-    user_toc: { date: "Oct 25, 2022", time: "9:48 AM" },
-    user_status: "False",
-  },
-];
-
-//GIVEN_API_KEY=AXCF
-
 const Users = () => {
-  const [rows, setRows] = useState(originalRows);
+  const [rows, setRows] = useState([]);
 
   const getAllUsers = async () => {
     try {
-      const { data } = axios.post(
+      const { data } = await axios.post(
         "http://172.104.188.69:3001/v1/api/user/getAllUser",
         {
           GIVEN_API_KEY: "AXCF",
         }
       );
 
-      console.log(data);
-      setRows(data);
+      setRows(data.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    // getAllUsers();
+    getAllUsers();
   }, []);
 
   const tableIcons = {
