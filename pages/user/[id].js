@@ -67,12 +67,13 @@ const EditProfile = () => {
               </FormControl>
             </Stack>
             <Stack
-              direction="row"
               alignItems="center"
               justifyContent="space-between"
               my={2}
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 1, sm: 2, md: 1 }}
             >
-              <FormControl sx={{ my: 1, mr: 2 }} fullWidth>
+              <FormControl sx={{ my: 1 }} fullWidth>
                 <InputLabel htmlFor="name">Name</InputLabel>
                 <OutlinedInput
                   id="name"
@@ -96,12 +97,13 @@ const EditProfile = () => {
               />
             </Stack>
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 1, sm: 2, md: 1 }}
               alignItems="center"
               justifyContent="space-between"
               my={2}
             >
-              <FormControl sx={{ my: 1 }} fullWidth>
+              <FormControl fullWidth>
                 <InputLabel htmlFor="district">District</InputLabel>
                 <OutlinedInput
                   id="district"
@@ -133,7 +135,8 @@ const EditProfile = () => {
               />
             </Stack>
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 1, sm: 2, md: 1 }}
               alignItems="center"
               justifyContent="space-between"
               my={2}
@@ -151,7 +154,6 @@ const EditProfile = () => {
                 name="user_gender"
                 type="text"
                 label="Gender"
-                sx={{ mx: 2 }}
                 onChange={handleInputChange}
                 value={values.user_gender}
               />
