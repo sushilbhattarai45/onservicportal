@@ -22,6 +22,7 @@ import {
   Search,
   ViewColumn,
 } from "@material-ui/icons";
+import Link from "next/link";
 
 const columns = [
   {
@@ -52,20 +53,17 @@ const columns = [
     title: "Edit",
     align: "center",
     render: (rowData) => (
-      <div>
+      <Link href={`/user/${rowData._id}`}>
         <IconButton
           style={{
             backgroundColor: "transparent",
             border: "none",
             outline: "none",
           }}
-          onClick={() => {
-            console.log(rowData._id);
-          }}
         >
           <Edit />
         </IconButton>
-      </div>
+      </Link>
     ),
   },
 ];
