@@ -9,9 +9,14 @@ import {
 } from "@mui/material";
 import BaseCard from "../../src/components/baseCard/BaseCard";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const EditProfile = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
   const [values, setValues] = useState({
     user_name: "",
     user_email: "",
@@ -24,14 +29,13 @@ const EditProfile = () => {
     user_profileImage: "",
   });
 
+  const [image, setImage] = useState("");
+
   const handleFilesChange = (event) => {
     const file = event.target.files[0];
     console.log(file);
 
-    setValues({
-      ...values,
-      user_profileImage: file,
-    });
+    setImage(file);
   };
 
   const handleInputChange = (event) => {
@@ -44,9 +48,30 @@ const EditProfile = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
     console.log(values);
   };
+
+  const getUserDetails = async () => {
+    try {
+      const { data } = await axios.post(
+        `http://172.104.188.69:3001/v1/api/user/getOneUser`,
+        {
+          GIVEN_API_KEY: "AXCF",
+          user_contact: id,
+        }
+      );
+
+      setValues(data.data);
+
+      console.log(values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
 
   return (
     <Grid container spacing={0}>
@@ -54,7 +79,11 @@ const EditProfile = () => {
         <BaseCard title="User edit">
           <form onSubmit={handleFormSubmit}>
             <Stack spacing={2} direction="row" alignItems="center">
-              <img src="https://via.placeholder.com/150" alt="user" />
+              <img
+                src={values.user_profileImage}
+                alt="Error loading image"
+                width="150"
+              />
               <FormControl>
                 <input
                   id="outlined-adornment-amount"

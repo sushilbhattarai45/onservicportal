@@ -53,7 +53,7 @@ const columns = [
     title: "Edit",
     align: "center",
     render: (rowData) => (
-      <Link href={`/user/${rowData._id}`}>
+      <Link href={`/user/${rowData.user_contact}`}>
         <IconButton
           style={{
             backgroundColor: "transparent",
