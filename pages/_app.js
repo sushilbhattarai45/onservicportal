@@ -8,6 +8,9 @@ import theme from "../src/theme/theme";
 import createEmotionCache from "../src/createEmotionCache";
 import FullLayout from "../src/layouts/FullLayout";
 import "../styles/style.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -24,6 +27,16 @@ export default function MyApp(props) {
         <CssBaseline />
         <FullLayout>
           <Component {...pageProps} />
+          <ToastContainer
+            position="top-right"
+            autoClose={8000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            draggable={false}
+            pauseOnVisibilityChange
+            closeOnClick
+            pauseOnHover
+          />
         </FullLayout>
       </ThemeProvider>
     </CacheProvider>

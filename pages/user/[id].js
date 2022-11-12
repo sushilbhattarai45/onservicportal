@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import BaseCard from "../../src/components/baseCard/BaseCard";
+import toast from "../../src/components/Toast/index.js";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -30,12 +31,14 @@ const EditProfile = () => {
   });
 
   const [image, setImage] = useState("");
+  const [disableButton, setDisableButton] = useState(true);
 
   const handleFilesChange = (event) => {
     const file = event.target.files[0];
     console.log(file);
 
     setImage(file);
+    setDisableButton(false);
   };
 
   const handleInputChange = (event) => {
@@ -44,11 +47,32 @@ const EditProfile = () => {
       ...values,
       [name]: value,
     });
+    setDisableButton(false);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
+
+    if (!disableButton) {
+      console.log(values);
+
+      try {
+        const { data } = await axios.post(
+          `http://172.104.188.69:3001/v1/api/user/updateUser`,
+          {
+            ...values,
+          }
+        );
+
+        setDisableButton(true);
+        toast({
+          type: "success",
+          message: "User updated successfully",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const getUserDetails = async () => {
@@ -202,7 +226,12 @@ const EditProfile = () => {
               justifyContent="flex-end"
               my={2}
             >
-              <Button variant="contained" color="success" type="submit">
+              <Button
+                variant="contained"
+                color="success"
+                type="submit"
+                disabled={disableButton}
+              >
                 Update
               </Button>
             </Stack>
