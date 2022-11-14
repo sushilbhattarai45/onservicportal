@@ -88,14 +88,17 @@ const EditServiceProvider = () => {
 
       try {
         const { data } = await axios.post(
-          `http://172.104.188.69:3001/v1/api/user/updateUser`,
-          values
+          `http://172.104.188.69:3001/v1/api/sp/updateSp`,
+          {
+            GIVEN_API_KEY: "AXCF",
+            ...values,
+          }
         );
 
         setDisableButton(true);
         toast({
           type: "success",
-          message: "User updated successfully",
+          message: "Service Provider updated successfully",
         });
       } catch (error) {
         console.log(error);
@@ -113,7 +116,7 @@ const EditServiceProvider = () => {
     });
   };
 
-  const getUserDetails = async () => {
+  const getSpDetails = async () => {
     try {
       const { data } = await axios.post(
         `http://172.104.188.69:3001/v1/api/sp/getOneSp`,
@@ -132,13 +135,13 @@ const EditServiceProvider = () => {
   };
 
   useEffect(() => {
-    getUserDetails();
+    getSpDetails();
   }, []);
 
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
-        <BaseCard title="User edit">
+        <BaseCard title="Service Provider edit">
           <form onSubmit={handleFormSubmit}>
             <Stack spacing={2} direction="row" alignItems="center">
               {values?.sp_profileImage && (
@@ -301,15 +304,6 @@ const EditServiceProvider = () => {
               </FormControl>
             </Stack>
 
-            {/* <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={{ xs: 1, sm: 2, md: 1 }}
-              alignItems="center"
-              justifyContent="space-between"
-              my={2}
-            >
-             
-            </Stack> */}
             <Stack
               direction="row"
               alignItems="center"
