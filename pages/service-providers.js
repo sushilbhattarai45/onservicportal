@@ -59,7 +59,7 @@ const columns = [
     title: "Edit",
     align: "center",
     render: (rowData) => (
-      <Link href={`/sp/${rowData.category_id}`}>
+      <Link href={`/sp/${rowData.sp_contact}`}>
         <IconButton
           style={{
             backgroundColor: "transparent",
