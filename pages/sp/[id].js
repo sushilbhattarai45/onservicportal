@@ -7,7 +7,6 @@ import {
   OutlinedInput,
   Button,
   Select,
-  MenuProps,
   MenuItem,
   Box,
   Chip,
