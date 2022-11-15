@@ -19,7 +19,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const EditServiceProvider = () => {
+function EditServiceProvider() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -324,7 +324,7 @@ const EditServiceProvider = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 EditServiceProvider.displayName = "EditServiceProvider";
 export default EditServiceProvider;

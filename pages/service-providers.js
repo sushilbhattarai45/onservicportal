@@ -29,19 +29,23 @@ const columns = [
     field: "sp_profileImage",
     title: "Avatar",
     align: "center",
-    render: (rowData) => (
-      <img
-        src={rowData.user_profileImage}
-        style={{ width: 40, borderRadius: "50%" }}
-      />
-    ),
+    render: function (rowData) {
+      return (
+        <img
+          src={rowData.user_profileImage}
+          style={{ width: 40, borderRadius: "50%" }}
+        />
+      );
+    },
   },
   { field: "sp_name", title: "Name" },
   { field: "sp_bio", title: "Bio" },
   {
     field: "sp_skills",
     title: "Skills",
-    render: (rowData) => rowData.sp_skills.join(", "),
+    render: function (rowData) {
+      return rowData.sp_skills.join(", ");
+    },
   },
   { field: "sp_district", title: "District" },
   { field: "sp_city", title: "City" },
@@ -52,32 +56,36 @@ const columns = [
   {
     field: "sp_verified",
     title: "Verified",
-    render: (rowData) => (rowData.sp_verified ? <Check /> : <Clear />),
+    render: function (rowData) {
+      return rowData.sp_verified ? <Check /> : <Clear />;
+    },
   },
   {
     field: "edit",
     title: "Edit",
     align: "center",
-    render: (rowData) => (
-      <Link href={`/sp/${rowData.sp_contact}`}>
-        <IconButton
-          style={{
-            backgroundColor: "transparent",
-            border: "none",
-            outline: "none",
-          }}
-        >
-          <Edit />
-        </IconButton>
-      </Link>
-    ),
+    render: function (rowData) {
+      return (
+        <Link href={`/sp/${rowData.sp_contact}`}>
+          <IconButton
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              outline: "none",
+            }}
+          >
+            <Edit />
+          </IconButton>
+        </Link>
+      );
+    },
   },
 ];
 
-const ServiceProviders = () => {
+function ServiceProviders() {
   const [rows, setRows] = useState([]);
 
-  const getAllSps = async () => {
+  async function getAllSps() {
     try {
       const { data } = await axios.post(
         "http://172.104.188.69:3001/v1/api/sp/getAllSp",
@@ -91,38 +99,132 @@ const ServiceProviders = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
-  useEffect(() => {
+  useEffect(function () {
     getAllSps();
   }, []);
 
+  const Add = forwardRef(function (props, ref) {
+    return <AddBox {...props} ref={ref} />;
+  });
+
+  Add.displayName = "Add";
+
+  const Check = forwardRef(function (props, ref) {
+    return <Check {...props} ref={ref} />;
+  });
+
+  Check.displayName = "Check";
+
+  const Clear = forwardRef(function (props, ref) {
+    return <Clear {...props} ref={ref} />;
+  });
+
+  Clear.displayName = "Clear";
+
+  const Delete = forwardRef(function (props, ref) {
+    return <DeleteOutline {...props} ref={ref} />;
+  });
+
+  Delete.displayName = "Delete";
+
+  const DetailPanel = forwardRef(function (props, ref) {
+    return <ChevronRight {...props} ref={ref} />;
+  });
+
+  DetailPanel.displayName = "DetailPanel";
+
+  const Edit = forwardRef(function (props, ref) {
+    return <Edit {...props} ref={ref} />;
+  });
+
+  Edit.displayName = "Edit";
+
+  const Export = forwardRef(function (props, ref) {
+    return <SaveAlt {...props} ref={ref} />;
+  });
+
+  Export.displayName = "Export";
+
+  const Filter = forwardRef(function (props, ref) {
+    return <FilterList {...props} ref={ref} />;
+  });
+
+  Filter.displayName = "Filter";
+
+  const FirstPage = forwardRef(function (props, ref) {
+    return <FirstPage {...props} ref={ref} />;
+  });
+
+  FirstPage.displayName = "FirstPage";
+
+  const LastPage = forwardRef(function (props, ref) {
+    return <LastPage {...props} ref={ref} />;
+  });
+
+  LastPage.displayName = "LastPage";
+
+  const NextPage = forwardRef(function (props, ref) {
+    return <ChevronRight {...props} ref={ref} />;
+  });
+
+  NextPage.displayName = "NextPage";
+
+  const PreviousPage = forwardRef(function (props, ref) {
+    return <ChevronLeft {...props} ref={ref} />;
+  });
+
+  PreviousPage.displayName = "PreviousPage";
+
+  const ResetSearch = forwardRef(function (props, ref) {
+    return <Clear {...props} ref={ref} />;
+  });
+
+  ResetSearch.displayName = "ResetSearch";
+
+  const Search = forwardRef(function (props, ref) {
+    return <Search {...props} ref={ref} />;
+  });
+
+  Search.displayName = "Search";
+
+  const SortArrow = forwardRef(function (props, ref) {
+    return <ArrowDownward {...props} ref={ref} />;
+  });
+
+  SortArrow.displayName = "SortArrow";
+
+  const ThirdStateCheck = forwardRef(function (props, ref) {
+    return <Remove {...props} ref={ref} />;
+  });
+
+  ThirdStateCheck.displayName = "ThirdStateCheck";
+
+  const ViewColumn = forwardRef(function (props, ref) {
+    return <ViewColumn {...props} ref={ref} />;
+  });
+
+  ViewColumn.displayName = "ViewColumn";
+
   const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => (
-      <ChevronRight {...props} ref={ref} />
-    )),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => (
-      <ChevronLeft {...props} ref={ref} />
-    )),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => (
-      <ArrowDownward {...props} ref={ref} />
-    )),
-    ThirdStateCheck: forwardRef((props, ref) => (
-      <Remove {...props} ref={ref} />
-    )),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+    Add: Add,
+    Check: Check,
+    Clear: Clear,
+    Delete: Delete,
+    DetailPanel: DetailPanel,
+    Edit: Edit,
+    Export: Export,
+    Filter: Filter,
+    FirstPage: FirstPage,
+    LastPage: LastPage,
+    NextPage: NextPage,
+    PreviousPage: PreviousPage,
+    ResetSearch: ResetSearch,
+    Search: Search,
+    SortArrow: SortArrow,
+    ThirdStateCheck: ThirdStateCheck,
+    ViewColumn: ViewColumn,
   };
 
   return (
@@ -141,7 +243,7 @@ const ServiceProviders = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 ServiceProviders.displayName = "ServiceProviders";
 

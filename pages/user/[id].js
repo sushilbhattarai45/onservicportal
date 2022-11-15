@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const EditProfile = () => {
+function EditProfile() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -277,6 +277,6 @@ const EditProfile = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default EditProfile;
