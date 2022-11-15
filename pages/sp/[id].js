@@ -210,7 +210,6 @@ function EditServiceProvider() {
                       ))}
                     </Box>
                   )}
-                  MenuProps={MenuProps}
                 >
                   {skills.map((skill) => (
                     <MenuItem key={skill} value={skill}>
