@@ -14,4 +14,5 @@ const LogoIcon = () => {
   );
 };
 
+LogoIcon.displayName = "LogoIcon";
 export default LogoIcon;

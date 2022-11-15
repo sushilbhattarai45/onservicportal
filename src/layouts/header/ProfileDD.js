@@ -111,4 +111,6 @@ const ProfileDD = () => {
   );
 };
 
+ProfileDD.displayName = "ProfileDD";
+
 export default ProfileDD;

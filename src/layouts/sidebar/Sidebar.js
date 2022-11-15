@@ -115,4 +115,5 @@ Sidebar.propTypes = {
   isSidebarOpen: PropTypes.bool,
 };
 
+Sidebar.displayName = "Sidebar";
 export default Sidebar;

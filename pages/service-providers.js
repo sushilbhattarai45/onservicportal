@@ -143,4 +143,6 @@ const ServiceProviders = () => {
   );
 };
 
+ServiceProviders.displayName = "ServiceProviders";
+
 export default ServiceProviders;

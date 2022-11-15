@@ -326,4 +326,5 @@ const EditServiceProvider = () => {
   );
 };
 
+EditServiceProvider.displayName = "EditServiceProvider";
 export default EditServiceProvider;

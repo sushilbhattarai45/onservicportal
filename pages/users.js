@@ -136,4 +136,6 @@ const Users = () => {
   );
 };
 
+Users.displayName = "Users";
+
 export default Users;

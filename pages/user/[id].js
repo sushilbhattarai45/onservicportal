@@ -33,12 +33,51 @@ const EditProfile = () => {
   const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
-  const handleFilesChange = (event) => {
+  const handleFilesChange = async (event) => {
     const file = event.target.files[0];
+
     console.log(file);
 
-    setImage(file);
-    setDisableButton(false);
+    if (!file) {
+      return;
+    }
+
+    // setImage(file);
+    console.log(URL.createObjectURL(file));
+
+    let data = new FormData();
+    data.append("file", file);
+
+    console.log(data);
+
+    try {
+      const response = await axios.post(
+        "http://172.104.188.69:3001/v1/api/user/uploadImage",
+        {
+          data: data,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response?.data);
+
+      // const { data } = await axios.post(
+      //   "http://172.104.188.69:3001/v1/api/user/uploadImage",
+      //   { data: fd },
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+
+      // console.log(data.fileName);
+      setDisableButton(false);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(image);
   };
 
   const handleInputChange = (event) => {
@@ -59,9 +98,7 @@ const EditProfile = () => {
       try {
         const { data } = await axios.post(
           `http://172.104.188.69:3001/v1/api/user/updateUser`,
-          {
-            ...values,
-          }
+          values
         );
 
         setDisableButton(true);

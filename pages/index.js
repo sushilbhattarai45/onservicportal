@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import BaseCard from "../src/components/baseCard/BaseCard";
 
-export default function Index() {
+function Index() {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
@@ -10,3 +10,7 @@ export default function Index() {
     </Grid>
   );
 }
+
+Index.displayName = "Index";
+
+export default Index;

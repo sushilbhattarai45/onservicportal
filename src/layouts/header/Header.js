@@ -40,4 +40,8 @@ Header.propTypes = {
   toggleMobileSidebar: PropTypes.func,
 };
 
+
+
+Header.displayName = "Header";
+
 export default Header;

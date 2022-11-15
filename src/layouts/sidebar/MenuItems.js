@@ -31,4 +31,5 @@ const Menuitems = [
   },
 ];
 
+Menuitems.displayName = "Menuitems";
 export default Menuitems;

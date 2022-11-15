@@ -62,4 +62,5 @@ const FullLayout = ({ children }) => {
   );
 };
 
+FullLayout.displayName = "FullLayout";
 export default FullLayout;

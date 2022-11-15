@@ -131,4 +131,6 @@ const Categories = () => {
   );
 };
 
+Categories.displayName = "Categories";
+
 export default Categories;
