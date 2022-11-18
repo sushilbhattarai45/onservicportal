@@ -12,6 +12,7 @@ import {
   Categories,
   ServiceProviders,
   EditSP,
+  Storage,
 } from "./pages/dashboard";
 
 //import other pages
@@ -31,6 +32,7 @@ export default function Router() {
         { path: "user/:id", element: <EditUser /> },
         { path: "sp", element: <ServiceProviders /> },
         { path: "sp/:id", element: <EditSP /> },
+        { path: "storage", element: <Storage /> },
       ],
     },
     {

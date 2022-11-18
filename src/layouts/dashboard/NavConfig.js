@@ -27,6 +27,11 @@ const navConfig = [
     icon: getIcon("bxs:category"),
   },
   {
+    title: "Storage",
+    path: "/storage",
+    icon: getIcon("ic:baseline-sd-storage"),
+  },
+  {
     title: "login",
     path: "/admin/login",
     icon: getIcon("eva:lock-fill"),
