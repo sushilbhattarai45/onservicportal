@@ -289,7 +289,7 @@ export default function ServiceProviders() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${_id}`}>
+                          <Link to={`${sp_contact}`}>
                             <Edit />
                           </Link>
                         </TableCell>

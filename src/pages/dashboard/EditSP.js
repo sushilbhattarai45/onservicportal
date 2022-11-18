@@ -1,11 +1,15 @@
 import {
+  Container,
   TextField,
   Stack,
   FormControl,
   InputLabel,
   OutlinedInput,
   Button,
-  Container,
+  Select,
+  MenuItem,
+  Box,
+  Chip,
 } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
@@ -13,22 +17,39 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function EditProfile() {
+function EditServiceProvider() {
   const id = window.location.pathname.split("/")[2];
 
   const [values, setValues] = useState({
-    user_name: "",
-    user_email: "",
-    user_district: "",
-    user_city: "",
-    user_street: "",
-    user_contact: "",
-    user_gender: "",
-    user_password: "",
-    user_profileImage: "",
+    sp_name: "",
+    sp_district: "",
+    sp_city: "",
+    sp_street: "",
+    sp_contact: "",
+    sp_gender: "",
+    sp_skills: [],
+    sp_profileImage: "",
+    sp_verified: false,
+    sp_status: "ACTIVE",
+    sp_bio: "",
+    sp_showReview: true,
   });
 
-  const [image, setImage] = useState("");
+  const skills = [
+    "House Plumbing",
+    "Office Plumbing",
+    "School Plumbing",
+    "Electrician",
+    "Carpenter",
+    "Painter",
+    "Mason",
+    "Programmer",
+    "Teacher",
+    "Doctor",
+    "Lawyer",
+  ];
+
+  // const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const handleFilesChange = async (event) => {
@@ -45,25 +66,6 @@ function EditProfile() {
 
     let data = new FormData();
     data.append("file", file);
-
-    console.log(data);
-
-    try {
-      const response = await axios.post("/v1/api/user/uploadImage", {
-        data: data,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response?.data);
-
-      toast.success("Image uploaded successfully");
-
-      setDisableButton(false);
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(image);
   };
 
   const handleInputChange = (event) => {
@@ -79,57 +81,64 @@ function EditProfile() {
     event.preventDefault();
 
     if (!disableButton) {
-      const toastId = toast.loading("Updating...");
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/updateUser`, values);
+        await axios.post(`/v1/api/sp/updateSp`, {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          ...values,
+        });
 
         setDisableButton(true);
-        toast.success("User updated successfully", {
-          duration: 4000,
-          position: "top-center",
-        });
+        toast.success("Service Provider updated successfully");
       } catch (error) {
-        toast.error("Something went wrong");
         console.log(error);
-      } finally {
-        toast.dismiss(toastId);
       }
     }
   };
 
-  const getUserDetails = async () => {
+  const handleSkillsChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setValues({
+      ...values,
+      sp_skills: typeof value === "string" ? value.split(",") : value,
+    });
+
+    setDisableButton(false);
+  };
+
+  const getSpDetails = async () => {
     try {
-      console.log(id);
-      const { data } = await axios.post(`/v1/api/user/getOneUser`, {
+      const { data } = await axios.post(`/v1/api/sp/getOneSp`, {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        user_contact: id,
+        sp_contact: id,
       });
 
-      toast.success("User details fetched successfully");
-
       setValues(data.data);
+      console.log(values);
     } catch (error) {
-      toast.error("Something went wrong");
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getUserDetails();
+    getSpDetails();
   }, []);
 
   return (
-    <Page title="Edit user">
+    <Page title="Edit Service Provider">
       <Container>
         <form onSubmit={handleFormSubmit}>
           <Stack spacing={2} direction="row" alignItems="center">
-            <img
-              src={values?.user_profileImage}
-              alt="Error loading image"
-              width="150"
-            />
+            {values?.sp_profileImage && (
+              <img
+                src={values.sp_profileImage}
+                alt="Error loading image"
+                width="150"
+              />
+            )}
             <FormControl>
               <input
                 id="outlined-adornment-amount"
@@ -152,24 +161,52 @@ function EditProfile() {
               <InputLabel htmlFor="name">Name</InputLabel>
               <OutlinedInput
                 id="name"
-                name="user_name"
+                name="sp_name"
                 type="text"
                 label="name"
                 onChange={handleInputChange}
-                value={values?.user_name}
+                value={values.sp_name}
                 required
               />
             </FormControl>
 
             <TextField
               fullWidth
-              name="user_email"
-              type="email"
-              label="Email"
+              name="sp_bio"
+              type="text"
+              label="Bio"
+              multiline
               onChange={handleInputChange}
-              value={values?.user_email}
+              value={values.sp_bio}
               required
             />
+
+            <FormControl fullWidth>
+              <InputLabel id="multiple-skills-label">Skills</InputLabel>
+              <Select
+                labelId="multiple-skills-label"
+                id="multiple-skills-label"
+                multiple
+                value={values.sp_skills}
+                onChange={handleSkillsChange}
+                input={
+                  <OutlinedInput id="select-multiple-chip" label="Skills" />
+                }
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+              >
+                {skills.map((skill) => (
+                  <MenuItem key={skill} value={skill}>
+                    {skill}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -182,31 +219,31 @@ function EditProfile() {
               <InputLabel htmlFor="district">District</InputLabel>
               <OutlinedInput
                 id="district"
-                name="user_district"
+                name="sp_district"
                 type="text"
                 label="district"
                 onChange={handleInputChange}
-                value={values?.user_district}
+                value={values.sp_district}
               />
             </FormControl>
             <FormControl sx={{ mx: 2 }} fullWidth>
               <InputLabel htmlFor="city">City</InputLabel>
               <OutlinedInput
                 id="city"
-                name="user_city"
+                name="sp_city"
                 type="text"
                 label="city"
                 onChange={handleInputChange}
-                value={values?.user_city}
+                value={values.sp_city}
               />
             </FormControl>
             <TextField
               fullWidth
-              name="user_street"
+              name="sp_street"
               type="text"
               label="Street"
               onChange={handleInputChange}
-              value={values?.user_street}
+              value={values.sp_street}
             />
           </Stack>
           <Stack
@@ -218,28 +255,40 @@ function EditProfile() {
           >
             <TextField
               fullWidth
-              name="user_contact"
+              name="sp_contact"
               type="number"
               label="Contact"
               onChange={handleInputChange}
-              value={values?.user_contact}
+              value={values.sp_contact}
             />
             <TextField
               fullWidth
-              name="user_gender"
+              name="sp_gender"
               type="text"
               label="Gender"
               onChange={handleInputChange}
-              value={values?.user_gender}
+              value={values.sp_gender}
             />
             <TextField
               fullWidth
               name="user_password"
               type="text"
-              label="Password"
+              label="Status"
               onChange={handleInputChange}
-              value={values?.user_password}
+              value={values.sp_status}
             />
+            <FormControl fullWidth>
+              <InputLabel id="select-verified">Verified</InputLabel>
+              <Select
+                labelId="select-verified"
+                value={values.sp_verified}
+                label="Verified"
+                onChange={handleInputChange}
+              >
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
+              </Select>
+            </FormControl>
           </Stack>
 
           <Stack
@@ -250,7 +299,7 @@ function EditProfile() {
           >
             <Button
               variant="contained"
-              color="primary"
+              color="success"
               type="submit"
               disabled={disableButton}
             >
@@ -263,4 +312,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export default EditServiceProvider;
