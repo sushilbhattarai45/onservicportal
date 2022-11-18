@@ -272,7 +272,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${_id}`}>
+                          <Link to={`${user_contact}`}>
                             <Edit />
                           </Link>
                         </TableCell>

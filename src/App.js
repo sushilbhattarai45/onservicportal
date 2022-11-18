@@ -2,12 +2,14 @@
 import Router from "./routes";
 // theme
 import ThemeProvider from "./theme";
-// components
+
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <ThemeProvider>
       <Router />
+      <Toaster />
     </ThemeProvider>
   );
 };
