@@ -81,7 +81,7 @@ function EditServiceProvider() {
     event.preventDefault();
 
     if (!disableButton) {
-      console.log(values);
+      const toastId = toast.loading("Updating Service Provider...");
 
       try {
         await axios.post(`/v1/api/sp/updateSp`, {
@@ -94,6 +94,8 @@ function EditServiceProvider() {
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);
+      } finally {
+        toast.dismiss(toastId);
       }
     }
   };
