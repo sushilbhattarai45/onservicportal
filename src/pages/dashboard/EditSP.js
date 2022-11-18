@@ -92,6 +92,7 @@ function EditServiceProvider() {
         setDisableButton(true);
         toast.success("Service Provider updated successfully");
       } catch (error) {
+        toast.error("Something went wrong");
         console.log(error);
       }
     }
@@ -117,8 +118,9 @@ function EditServiceProvider() {
       });
 
       setValues(data.data);
-      console.log(values);
+      toast.success("Details fetched successfully");
     } catch (error) {
+      toast.error("Error fetching details");
       console.log(error);
     }
   };
