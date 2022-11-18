@@ -1,5 +1,4 @@
 import { filter } from "lodash";
-import { sentenceCase } from "change-case";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 // material
@@ -26,7 +25,7 @@ import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
-import { Cancel, CancelOutlined, Check, Edit } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 
 // ----------------------------------------------------------------------
 
@@ -149,12 +148,9 @@ export default function ServiceProviders() {
 
   const getAllSPs = async () => {
     try {
-      const { data } = await axios.post(
-        "http://172.104.188.69:3001/v1/api/categories",
-        {
-          GIVEN_API_KEY: "AXCF",
-        }
-      );
+      const { data } = await axios.post("/v1/api/categories", {
+        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      });
 
       console.log(data);
       setSPs(data);

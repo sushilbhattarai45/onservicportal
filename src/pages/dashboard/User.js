@@ -155,12 +155,9 @@ export default function User() {
 
   const getAllUsers = async () => {
     try {
-      const { data } = await axios.post(
-        "http://172.104.188.69:3001/v1/api/user/getAllUser",
-        {
-          GIVEN_API_KEY: "AXCF",
-        }
-      );
+      const { data } = await axios.post("/v1/api/user/getAllUser", {
+        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      });
 
       setUSERLIST(data.data);
     } catch (err) {
