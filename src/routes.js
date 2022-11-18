@@ -21,10 +21,10 @@ import NotFound from "./pages/Page404";
 export default function Router() {
   return useRoutes([
     {
-      path: "/dashboard",
+      path: "/",
       element: <DashboardLayout />,
       children: [
-        { path: "app", element: <DashboardApp /> },
+        { path: "", element: <DashboardApp /> },
         { path: "user", element: <User /> },
         { path: "categories", element: <Categories /> },
         { path: "user/:id", element: <AdminRegister /> },
