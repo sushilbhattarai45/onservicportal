@@ -8,7 +8,7 @@ import {
   DashboardApp,
   User,
   AdminLogin,
-  AdminRegister,
+  EditUser,
   Categories,
   ServiceProviders,
 } from "./pages/dashboard";
@@ -27,7 +27,7 @@ export default function Router() {
         { path: "app", element: <DashboardApp /> },
         { path: "user", element: <User /> },
         { path: "categories", element: <Categories /> },
-        { path: "user/:id", element: <AdminRegister /> },
+        { path: "user/:id", element: <EditUser /> },
         { path: "sp", element: <ServiceProviders /> },
       ],
     },
