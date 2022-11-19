@@ -30,12 +30,11 @@ import { Edit } from "@mui/icons-material";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: "category_name", label: "Name" },
-  { id: "category_status", label: "Status" },
-  // { id: "category_doc", label: "Doc" },
-  // { id: "category_dou", label: "Dou" },
-  { id: "category_showonhome", label: "Show on home" },
-  { id: "category_updatedby", label: "Updated by" },
+  { id: "subCat_name", label: "Name" },
+  { id: "category", label: "Category" },
+  { id: "subCat_status", label: "Status" },
+  { id: "subCat_updatedby", label: "Updated by" },
+  { id: "subCat_hassubCat", label: "Has Sub Category" },
   { id: "" },
 ];
 
@@ -68,25 +67,20 @@ function applySortFilter(array, comparator, query) {
     return filter(
       array,
       (_user) =>
-        _user.category_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        _user.subCat_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Categories() {
-  const [Categories, setCategories] = useState([]);
+export default function SubCategories() {
+  const [SubCategories, setSubCategories] = useState([]);
 
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState("asc");
-
   const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState("category_name");
-
+  const [orderBy, setOrderBy] = useState("subCat_name");
   const [filterName, setFilterName] = useState("");
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
@@ -97,7 +91,7 @@ export default function Categories() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = Categories.map((n) => n.name);
+      const newSelecteds = SubCategories.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -136,31 +130,47 @@ export default function Categories() {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Categories.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - SubCategories.length) : 0;
 
   const filteredUsers = applySortFilter(
-    Categories,
+    SubCategories,
     getComparator(order, orderBy),
     filterName
   );
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  const getAllCategories = async () => {
+  const getAllSubCategories = async () => {
     try {
-      const { data } = await axios.post("/v1/api/categories", {
+      const { data } = await axios.post(
+        "/v1/api/subcategories/getallsubcategory",
+        {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        }
+      );
+
+      const { data: catData } = await axios.post("/v1/api/categories", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
-      console.log(data);
-      setCategories(data);
+      // update the state with the data
+      const newData = data.data.map((item) => {
+        const found = catData.find((element) => element.id === item.category);
+        return {
+          ...item,
+          category: found ? found.category_name : "Not Found",
+        };
+      });
+
+      console.log(newData);
+      setSubCategories(newData);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getAllCategories();
+    getAllSubCategories();
   }, []);
 
   return (
@@ -173,7 +183,7 @@ export default function Categories() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Categories
+            Sub Categories
           </Typography>
           <Button
             variant="contained"
@@ -181,7 +191,7 @@ export default function Categories() {
             to="new-user"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Category
+            Add sub category
           </Button>
         </Stack>
 
@@ -198,7 +208,7 @@ export default function Categories() {
                 order={order}
                 orderBy={orderBy}
                 headLabel={TABLE_HEAD}
-                rowCount={Categories.length}
+                rowCount={SubCategories.length}
                 numSelected={selected.length}
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -209,16 +219,15 @@ export default function Categories() {
                   .map((row) => {
                     const {
                       _id,
-                      category_photo,
-                      category_name,
-                      category_status,
-                      // category_doc,
-                      // category_dou,
-                      category_showonhome,
-                      category_updatedby,
+                      subCat_photo,
+                      subCat_name,
+                      subCat_status,
+                      subCat_updatedby,
+                      subCat_hassubCat,
+                      subCat_id,
+                      category,
                     } = row;
-                    const isItemSelected =
-                      selected.indexOf(category_name) !== -1;
+                    const isItemSelected = selected.indexOf(subCat_name) !== -1;
 
                     return (
                       <TableRow
@@ -233,7 +242,7 @@ export default function Categories() {
                           <Checkbox
                             checked={isItemSelected}
                             onChange={(event) =>
-                              handleClick(event, category_name)
+                              handleClick(event, subCat_name)
                             }
                           />
                         </TableCell>
@@ -243,14 +252,15 @@ export default function Categories() {
                             alignItems="center"
                             spacing={2}
                           >
-                            <Avatar alt={category_name} src={category_photo} />
+                            <Avatar alt={subCat_name} src={subCat_photo} />
                             <Typography variant="subtitle2" noWrap>
-                              {category_name}
+                              {subCat_name}
                             </Typography>
                           </Stack>
                         </TableCell>
+                        <TableCell align="left">{category}</TableCell>
                         <TableCell align="left">
-                          {category_status === true ? (
+                          {subCat_status === true ? (
                             <Label variant="ghost" color="success">
                               Active
                             </Label>
@@ -260,15 +270,21 @@ export default function Categories() {
                             </Label>
                           )}
                         </TableCell>
-                        {/* <TableCell align="left">{category_doc}</TableCell>
-                        <TableCell align="left">{category_dou}</TableCell> */}
+                        <TableCell align="left">{subCat_updatedby}</TableCell>
                         <TableCell align="left">
-                          {(category_showonhome === false && "No") || "Yes"}
+                          {subCat_hassubCat === true ? (
+                            <Label variant="ghost" color="success">
+                              Yes
+                            </Label>
+                          ) : (
+                            <Label variant="ghost" color="error">
+                              No
+                            </Label>
+                          )}
                         </TableCell>
-                        <TableCell align="left">{category_updatedby}</TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${_id}`}>
+                          <Link to={`${subCat_id}`}>
                             <Edit />
                           </Link>
                         </TableCell>
@@ -297,7 +313,7 @@ export default function Categories() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 50]}
             component="div"
-            count={Categories.length}
+            count={SubCategories.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

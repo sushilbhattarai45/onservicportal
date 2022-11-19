@@ -74,19 +74,13 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Categories() {
-  const [Categories, setCategories] = useState([]);
-
+export default function Ads() {
+  const [Ads, setAds] = useState([]);
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState("asc");
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState("category_name");
-
   const [filterName, setFilterName] = useState("");
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
@@ -97,7 +91,7 @@ export default function Categories() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = Categories.map((n) => n.name);
+      const newSelecteds = Ads.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -136,35 +130,35 @@ export default function Categories() {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Categories.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Ads.length) : 0;
 
   const filteredUsers = applySortFilter(
-    Categories,
+    Ads,
     getComparator(order, orderBy),
     filterName
   );
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  const getAllCategories = async () => {
+  const getAllAds = async () => {
     try {
-      const { data } = await axios.post("/v1/api/categories", {
+      const { data } = await axios.post("/v1/api/Ads", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
       console.log(data);
-      setCategories(data);
+      setAds(data);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getAllCategories();
+    getAllAds();
   }, []);
 
   return (
-    <Page title="Service providers">
+    <Page title="Ads">
       <Container>
         <Stack
           direction="row"
@@ -173,7 +167,7 @@ export default function Categories() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Categories
+            Ads
           </Typography>
           <Button
             variant="contained"
@@ -181,7 +175,7 @@ export default function Categories() {
             to="new-user"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Category
+            New Ad
           </Button>
         </Stack>
 
@@ -198,7 +192,7 @@ export default function Categories() {
                 order={order}
                 orderBy={orderBy}
                 headLabel={TABLE_HEAD}
-                rowCount={Categories.length}
+                rowCount={Ads.length}
                 numSelected={selected.length}
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -297,7 +291,7 @@ export default function Categories() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 50]}
             component="div"
-            count={Categories.length}
+            count={Ads.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

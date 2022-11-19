@@ -27,8 +27,13 @@ const navConfig = [
     icon: getIcon("bxs:category"),
   },
   {
-    title: "Storage",
-    path: "/storage",
+    title: "Sub Category",
+    path: "/sub-category",
+    icon: getIcon("bxs:category-alt"),
+  },
+  {
+    title: "Ads",
+    path: "/ads",
     icon: getIcon("ic:baseline-sd-storage"),
   },
 ];
