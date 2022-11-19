@@ -31,11 +31,6 @@ const navConfig = [
     path: "/storage",
     icon: getIcon("ic:baseline-sd-storage"),
   },
-  {
-    title: "login",
-    path: "/login",
-    icon: getIcon("eva:lock-fill"),
-  },
 ];
 
 export default navConfig;

@@ -1,4 +1,4 @@
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 // layouts
 import DashboardLayout from "./layouts/dashboard";
 import LogoOnlyLayout from "./layouts/LogoOnlyLayout";
@@ -18,13 +18,18 @@ import {
 //import other pages
 import NotFound from "./pages/Page404";
 
-// ----------------------------------------------------------------------
+// user logged in or not
+import { useContext } from "react";
+import { ContextProvider } from "./Context";
 
 export default function Router() {
+  const { login } = useContext(ContextProvider);
+  const [isLogged] = login;
+
   return useRoutes([
     {
       path: "/",
-      element: <DashboardLayout />,
+      element: isLogged ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: "app", element: <DashboardApp /> },
         { path: "user", element: <User /> },
@@ -37,7 +42,7 @@ export default function Router() {
     },
     {
       path: "/",
-      element: <LogoOnlyLayout />,
+      element: isLogged ? <Navigate to="/app" /> : <LogoOnlyLayout />,
       children: [{ path: "login", element: <AdminLogin /> }],
     },
     { path: "*", element: <NotFound /> },
