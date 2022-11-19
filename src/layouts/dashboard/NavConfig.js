@@ -33,7 +33,7 @@ const navConfig = [
   },
   {
     title: "login",
-    path: "/admin/login",
+    path: "/login",
     icon: getIcon("eva:lock-fill"),
   },
 ];

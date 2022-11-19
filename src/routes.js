@@ -36,7 +36,7 @@ export default function Router() {
       ],
     },
     {
-      path: "/admin",
+      path: "/",
       element: <LogoOnlyLayout />,
       children: [{ path: "login", element: <AdminLogin /> }],
     },
