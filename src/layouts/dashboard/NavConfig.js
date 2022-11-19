@@ -34,7 +34,7 @@ const navConfig = [
   {
     title: "Ads",
     path: "/ads",
-    icon: getIcon("ic:baseline-sd-storage"),
+    icon: getIcon("tabler:ad-2"),
   },
 ];
 

@@ -30,12 +30,14 @@ import { Edit } from "@mui/icons-material";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: "category_name", label: "Name" },
-  { id: "category_status", label: "Status" },
-  // { id: "category_doc", label: "Doc" },
-  // { id: "category_dou", label: "Dou" },
-  { id: "category_showonhome", label: "Show on home" },
-  { id: "category_updatedby", label: "Updated by" },
+  { id: "ads_name", label: "Name" },
+  { id: "ads_givenEmail", label: "Email" },
+  { id: "ads_link", label: "Link" },
+  { id: "ads_location", label: "Location" },
+  { id: "ads_type", label: "Type" },
+  { id: "ads_status", label: "Status" },
+  { id: "ads_tag", label: "Tags" },
+  { id: "ads_updatedby", label: "Updated by" },
   { id: "" },
 ];
 
@@ -68,7 +70,7 @@ function applySortFilter(array, comparator, query) {
     return filter(
       array,
       (_user) =>
-        _user.category_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        _user.ads_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -79,7 +81,7 @@ export default function Ads() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState("category_name");
+  const [orderBy, setOrderBy] = useState("ads_name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -142,12 +144,24 @@ export default function Ads() {
 
   const getAllAds = async () => {
     try {
-      const { data } = await axios.post("/v1/api/Ads", {
+      const { data } = await axios.post("/v1/api/ads/getAds", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
-      console.log(data);
-      setAds(data);
+      const refinedData = Object.values(data)
+        .map((item) => {
+          return item;
+        })
+        .flatMap((item) => {
+          return item;
+        })
+        .filter((item) => {
+          if (item._id) {
+            return item;
+          }
+        });
+
+      setAds(refinedData);
     } catch (err) {
       console.log(err);
     }
@@ -203,16 +217,17 @@ export default function Ads() {
                   .map((row) => {
                     const {
                       _id,
-                      category_photo,
-                      category_name,
-                      category_status,
-                      // category_doc,
-                      // category_dou,
-                      category_showonhome,
-                      category_updatedby,
+                      ads_name,
+                      ads_givenEmail,
+                      ads_mediaLink,
+                      ads_link,
+                      ads_location,
+                      ads_type,
+                      ads_status,
+                      ads_updatedBy,
+                      ads_tag,
                     } = row;
-                    const isItemSelected =
-                      selected.indexOf(category_name) !== -1;
+                    const isItemSelected = selected.indexOf(ads_name) !== -1;
 
                     return (
                       <TableRow
@@ -226,9 +241,7 @@ export default function Ads() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) =>
-                              handleClick(event, category_name)
-                            }
+                            onChange={(event) => handleClick(event, ads_name)}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
@@ -237,14 +250,18 @@ export default function Ads() {
                             alignItems="center"
                             spacing={2}
                           >
-                            <Avatar alt={category_name} src={category_photo} />
+                            <Avatar alt={ads_name} src={ads_mediaLink} />
                             <Typography variant="subtitle2" noWrap>
-                              {category_name}
+                              {ads_name}
                             </Typography>
                           </Stack>
                         </TableCell>
+                        <TableCell align="left">{ads_givenEmail}</TableCell>
+                        <TableCell align="left">{ads_link}</TableCell>
+                        <TableCell align="left">{ads_location}</TableCell>
+                        <TableCell align="left">{ads_type}</TableCell>
                         <TableCell align="left">
-                          {category_status === true ? (
+                          {ads_status === true ? (
                             <Label variant="ghost" color="success">
                               Active
                             </Label>
@@ -254,12 +271,18 @@ export default function Ads() {
                             </Label>
                           )}
                         </TableCell>
-                        {/* <TableCell align="left">{category_doc}</TableCell>
-                        <TableCell align="left">{category_dou}</TableCell> */}
                         <TableCell align="left">
-                          {(category_showonhome === false && "No") || "Yes"}
+                          {ads_tag.length !== 0
+                            ? ads_tag.map((item) => {
+                                return (
+                                  <Label variant="ghost" color="info">
+                                    {item}
+                                  </Label>
+                                );
+                              })
+                            : `Null`}
                         </TableCell>
-                        <TableCell align="left">{category_updatedby}</TableCell>
+                        <TableCell align="left">{ads_updatedBy}</TableCell>
 
                         <TableCell align="right">
                           <Link to={`${_id}`}>
