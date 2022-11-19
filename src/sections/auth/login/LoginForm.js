@@ -15,10 +15,16 @@ import {
 import { LoadingButton } from "@mui/lab";
 // component
 import Iconify from "../../../components/Iconify";
+import toast from "react-hot-toast";
 
-// ----------------------------------------------------------------------
+// user logged in or not
+import { useContext } from "react";
+import { ContextProvider } from "../../../Context";
 
 export default function LoginForm() {
+  const { login } = useContext(ContextProvider);
+  const [, setUser] = login;
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +44,20 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate("/app", { replace: true });
+      if (
+        formik.values.email === "test@admin.com" &&
+        formik.values.password === "test"
+      ) {
+        setUser({
+          displayName: "Admin",
+          email: formik.values.email,
+          photoURL: "/static/illustrations/illustration_avatar.png",
+        });
+        toast.success("Login Successful");
+        navigate("/app", { replace: true });
+      } else {
+        toast.error("Invalid Credentials");
+      }
     },
   });
 

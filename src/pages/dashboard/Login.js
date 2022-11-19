@@ -10,8 +10,6 @@ import Logo from "../../components/Logo";
 // sections
 import { LoginForm } from "../../sections/auth/login";
 
-// ----------------------------------------------------------------------
-
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     display: "flex",
@@ -52,8 +50,6 @@ const ContentStyle = styled("div")(({ theme }) => ({
   flexDirection: "column",
   padding: theme.spacing(12, 0),
 }));
-
-// ----------------------------------------------------------------------
 
 export default function Login() {
   const smUp = useResponsive("up", "sm");

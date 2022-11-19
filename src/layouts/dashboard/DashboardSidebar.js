@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 // material
 import { styled } from "@mui/material/styles";
@@ -12,6 +12,7 @@ import Logo from "../../components/Logo";
 import NavSection from "../../components/NavSection";
 //
 import navConfig from "./NavConfig";
+import { ContextProvider } from "../../Context";
 
 // ----------------------------------------------------------------------
 
@@ -40,15 +41,11 @@ DashboardSidebar.propTypes = {
 };
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive("up", "lg");
-
-  const account = {
-    displayName: "Admin",
-    email: "mail@aashishpanthi.info.np",
-    photoURL: "/static/illustrations/illustration_avatar.png",
-  };
 
   useEffect(() => {
     if (isOpenSidebar) {

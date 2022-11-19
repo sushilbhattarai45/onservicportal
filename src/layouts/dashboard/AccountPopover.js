@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
 import {
@@ -12,12 +12,11 @@ import {
 // components
 import MenuPopover from "../../components/MenuPopover";
 
+import { ContextProvider } from "../../Context";
+
 export default function AccountPopover() {
-  const account = {
-    displayName: "Admin",
-    email: "mail@aashishpanthi.info.np",
-    photoURL: "/static/illustrations/illustration_avatar.png",
-  };
+  const { login } = useContext(ContextProvider);
+  const [account, setAccount] = login;
 
   const anchorRef = useRef(null);
 
@@ -79,7 +78,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={() => setAccount(null)} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>
