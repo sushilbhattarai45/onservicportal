@@ -30,6 +30,11 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const logout = () => {
+    setAccount(null);
+    localStorage.removeItem("user");
+  };
+
   return (
     <>
       <IconButton
@@ -78,7 +83,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        <MenuItem onClick={() => setAccount(null)} sx={{ m: 1 }}>
+        <MenuItem onClick={logout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>

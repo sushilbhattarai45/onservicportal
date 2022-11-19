@@ -48,11 +48,15 @@ export default function LoginForm() {
         formik.values.email === "test@admin.com" &&
         formik.values.password === "test"
       ) {
-        setUser({
+        const user = {
           displayName: "Admin",
           email: formik.values.email,
           photoURL: "/static/illustrations/illustration_avatar.png",
-        });
+        };
+        setUser(user);
+        if (formik.values.remember) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
         toast.success("Login Successful");
         navigate("/app", { replace: true });
       } else {

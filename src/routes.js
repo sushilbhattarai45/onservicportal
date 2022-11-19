@@ -12,19 +12,27 @@ import {
   Categories,
   ServiceProviders,
   EditSP,
-  Storage,
+  SubCategory,
+  Ads,
 } from "./pages/dashboard";
 
 //import other pages
 import NotFound from "./pages/Page404";
 
 // user logged in or not
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ContextProvider } from "./Context";
 
 export default function Router() {
   const { login } = useContext(ContextProvider);
-  const [isLogged] = login;
+  const [isLogged, setUser] = login;
+  const user = localStorage.getItem("user");
+
+  useEffect(() => {
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, [user]);
 
   return useRoutes([
     {
@@ -37,7 +45,8 @@ export default function Router() {
         { path: "user/:id", element: <EditUser /> },
         { path: "sp", element: <ServiceProviders /> },
         { path: "sp/:id", element: <EditSP /> },
-        { path: "storage", element: <Storage /> },
+        { path: "sub-category", element: <SubCategory /> },
+        { path: "ads", element: <Ads /> },
       ],
     },
     {
