@@ -184,7 +184,7 @@ export default function User() {
           <Button
             variant="contained"
             component={Link}
-            to="new-user"
+            to="new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New User
@@ -272,7 +272,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${user_contact}`}>
+                          <Link to={`edit/${user_contact}`}>
                             <Edit />
                           </Link>
                         </TableCell>

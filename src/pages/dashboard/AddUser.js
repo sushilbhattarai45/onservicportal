@@ -2,13 +2,11 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import UserForm from "../../components/dashboard/UserForm";
 
 function EditProfile() {
-  const id = window.location.pathname.split("/")[3];
-
   const [values, setValues] = useState({
     user_name: "",
     user_email: "",
@@ -17,7 +15,7 @@ function EditProfile() {
     user_street: "",
     user_contact: "",
     user_gender: "",
-    user_password: "",
+    user_password: "1234",
     user_profileImage: "",
   });
 
@@ -72,14 +70,14 @@ function EditProfile() {
     event.preventDefault();
 
     if (!disableButton) {
-      const toastId = toast.loading("Updating...");
+      const toastId = toast.loading("Saving...");
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/updateUser`, values);
+        await axios.post(`/v1/api/user/register`, values);
 
         setDisableButton(true);
-        toast.success("User updated successfully", {
+        toast.success("User added successfully", {
           duration: 4000,
           position: "top-center",
         });
@@ -92,29 +90,8 @@ function EditProfile() {
     }
   };
 
-  const getUserDetails = async () => {
-    try {
-      console.log(id);
-      const { data } = await axios.post(`/v1/api/user/getOneUser`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        user_contact: id,
-      });
-
-      toast.success("User details fetched successfully");
-
-      setValues(data.data);
-    } catch (error) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getUserDetails();
-  }, []);
-
   return (
-    <Page title="Edit user">
+    <Page title="Add new user">
       <Container>
         <UserForm
           values={values}
@@ -122,7 +99,7 @@ function EditProfile() {
           disableButton={disableButton}
           handleFilesChange={handleFilesChange}
           handleInputChange={handleInputChange}
-          buttonText="Update"
+          buttonText="Save"
         />
       </Container>
     </Page>
