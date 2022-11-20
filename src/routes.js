@@ -15,6 +15,7 @@ import {
   SubCategory,
   Ads,
   AddUser,
+  AddSP,
 } from "./pages/dashboard";
 
 //import other pages
@@ -46,7 +47,8 @@ export default function Router() {
         { path: "user/new", element: <AddUser /> },
         { path: "user/edit/:id", element: <EditUser /> },
         { path: "sp", element: <ServiceProviders /> },
-        { path: "sp/:id", element: <EditSP /> },
+        { path: "sp/new", element: <AddSP /> },
+        { path: "sp/edit/:id", element: <EditSP /> },
         { path: "sub-category", element: <SubCategory /> },
         { path: "ads", element: <Ads /> },
       ],

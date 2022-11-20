@@ -189,7 +189,7 @@ export default function ServiceProviders() {
           <Button
             variant="contained"
             component={Link}
-            to="new-user"
+            to="new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New SP
@@ -289,7 +289,7 @@ export default function ServiceProviders() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${sp_contact}`}>
+                          <Link to={`edit/${sp_contact}`}>
                             <Edit />
                           </Link>
                         </TableCell>

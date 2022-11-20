@@ -2,13 +2,12 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import SPForm from "../../components/dashboard/SPForm";
+import { useNavigate } from "react-router-dom";
 
 function EditServiceProvider() {
-  const id = window.location.pathname.split("/")[3];
-
   const [values, setValues] = useState({
     sp_name: "",
     sp_district: "",
@@ -24,24 +23,11 @@ function EditServiceProvider() {
     sp_showReview: true,
   });
 
-  // const [image, setImage] = useState("");
+  const navigate = useNavigate();
+
   const [disableButton, setDisableButton] = useState(true);
 
-  const handleFilesChange = async (event) => {
-    const file = event.target.files[0];
-
-    console.log(file);
-
-    if (!file) {
-      return;
-    }
-
-    // setImage(file);
-    console.log(URL.createObjectURL(file));
-
-    let data = new FormData();
-    data.append("file", file);
-  };
+  const handleFilesChange = async (event) => {};
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -56,16 +42,22 @@ function EditServiceProvider() {
     event.preventDefault();
 
     if (!disableButton) {
-      const toastId = toast.loading("Updating Service Provider...");
+      const toastId = toast.loading("Adding Service Provider...");
 
       try {
-        await axios.post(`/v1/api/sp/updateSp`, {
+        const { data } = await axios.post(`/v1/api/sp/postSp`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
         });
 
-        setDisableButton(true);
-        toast.success("Service Provider updated successfully");
+        if (data.sp) {
+          setDisableButton(true);
+          toast.success("Service Provider added successfully");
+          const id = data.sp.sp_contact;
+          navigate(`/sp/edit/${id}`);
+        } else {
+          toast.error(data.message);
+        }
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);
@@ -75,27 +67,8 @@ function EditServiceProvider() {
     }
   };
 
-  const getSpDetails = async () => {
-    try {
-      const { data } = await axios.post(`/v1/api/sp/getOneSp`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        sp_contact: id,
-      });
-
-      setValues(data.data);
-      toast.success("Details fetched successfully");
-    } catch (error) {
-      toast.error("Error fetching details");
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getSpDetails();
-  }, []);
-
   return (
-    <Page title="Edit Service Provider">
+    <Page title="Add Service Provider">
       <Container>
         <SPForm
           values={values}
@@ -105,7 +78,7 @@ function EditServiceProvider() {
           handleFilesChange={handleFilesChange}
           disableButton={disableButton}
           setDisableButton={setDisableButton}
-          buttonText="Update"
+          buttonText="Save"
         />
       </Container>
     </Page>
