@@ -104,7 +104,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = USERLIST.map((n) => n.user_contact);
       setSelected(newSelecteds);
       return;
     }
@@ -225,7 +225,8 @@ export default function User() {
                       user_status,
                       user_profileImage,
                     } = row;
-                    const isItemSelected = selected.indexOf(user_name) !== -1;
+                    const isItemSelected =
+                      selected.indexOf(user_contact) !== -1;
 
                     return (
                       <TableRow
@@ -239,7 +240,9 @@ export default function User() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) => handleClick(event, user_name)}
+                            onChange={(event) =>
+                              handleClick(event, user_contact)
+                            }
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
