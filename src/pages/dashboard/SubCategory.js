@@ -155,10 +155,18 @@ export default function SubCategories() {
 
       // update the state with the data
       const newData = data.data.map((item) => {
-        const found = catData.find((element) => element.id === item.category);
+        const found = catData.find(
+          (element) => element._id === item.category_id
+        );
         return {
           ...item,
-          category: found ? found.category_name : "Not Found",
+          category: found ? (
+            found.category_name
+          ) : (
+            <Label variant="ghost" color="error">
+              Not Found
+            </Label>
+          ),
         };
       });
 
@@ -188,7 +196,7 @@ export default function SubCategories() {
           <Button
             variant="contained"
             component={Link}
-            to="new-user"
+            to="new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Add sub category
@@ -224,7 +232,6 @@ export default function SubCategories() {
                       subCat_status,
                       subCat_updatedby,
                       subCat_hassubCat,
-                      subCat_id,
                       category,
                     } = row;
                     const isItemSelected = selected.indexOf(subCat_name) !== -1;
@@ -284,7 +291,7 @@ export default function SubCategories() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${subCat_id}`}>
+                          <Link to={`edit/${_id}`}>
                             <Edit />
                           </Link>
                         </TableCell>

@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const CategoryForm = ({
+const SubCategoryForm = ({
   values,
   handleFormSubmit,
   disableButton,
@@ -20,11 +20,7 @@ const CategoryForm = ({
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={2} direction="row" alignItems="center">
-        <img
-          src={values?.category_photo}
-          alt="Error loading image"
-          width="150"
-        />
+        <img src={values?.subCat_photo} alt="Error loading image" width="150" />
         <FormControl>
           <input
             id="outlined-adornment-amount"
@@ -47,46 +43,71 @@ const CategoryForm = ({
           <InputLabel htmlFor="name">Name</InputLabel>
           <OutlinedInput
             id="name"
-            name="category_name"
+            name="subCat_name"
             type="text"
             label="name"
             onChange={handleInputChange}
-            value={values?.category_name}
+            value={values?.subCat_name}
             required
           />
         </FormControl>
 
         <FormControl fullWidth>
-          <InputLabel id="select-verified">Show on home</InputLabel>
+          <InputLabel id="select-verified">Category</InputLabel>
           <Select
             labelId="select-verified"
-            value={values?.category_showonhome}
-            label="Show on home"
+            value={values?.category_id}
+            label="Category"
             onChange={handleInputChange}
-            name="category_showonhome"
+            name="category_id"
+            required
+          >
+            {values?.categories.map((category) => (
+              <MenuItem value={category._id} key={category._id}>
+                {category.category_name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Stack>
+
+      <Stack
+        alignItems="center"
+        justifyContent="space-between"
+        my={2}
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
+      >
+        <FormControl fullWidth>
+          <InputLabel id="select-verified">Has Sub Category</InputLabel>
+          <Select
+            labelId="select-verified"
+            value={values?.subCat_hassubCat}
+            label="Has Sub Category"
+            onChange={handleInputChange}
+            name="subCat_hassubCat"
           >
             <MenuItem value={true}>True</MenuItem>
             <MenuItem value={false}>False</MenuItem>
           </Select>
         </FormControl>
-
         <TextField
           fullWidth
-          name="category_updatedby"
+          name="subCat_updatedby"
           type="text"
           label="Updated By"
           onChange={handleInputChange}
-          value={values?.category_updatedby}
+          value={values?.subCat_updatedby}
         />
 
         <FormControl fullWidth>
           <InputLabel id="select-verified">Status</InputLabel>
           <Select
             labelId="select-verified"
-            value={values?.category_status}
+            value={values?.subCat_status}
             label="Status"
             onChange={handleInputChange}
-            name="category_status"
+            name="subCat_status"
           >
             <MenuItem value={true}>True</MenuItem>
             <MenuItem value={false}>False</MenuItem>
@@ -113,4 +134,4 @@ const CategoryForm = ({
   );
 };
 
-export default CategoryForm;
+export default SubCategoryForm;

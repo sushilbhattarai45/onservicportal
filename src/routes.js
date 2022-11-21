@@ -18,6 +18,8 @@ import {
   AddSP,
   AddCategory,
   EditCategory,
+  AddSubCategory,
+  EditSubCategory,
 } from "./pages/dashboard";
 
 //import other pages
@@ -54,6 +56,8 @@ export default function Router() {
         { path: "sp/new", element: <AddSP /> },
         { path: "sp/edit/:id", element: <EditSP /> },
         { path: "sub-category", element: <SubCategory /> },
+        { path: "sub-category/new", element: <AddSubCategory /> },
+        { path: "sub-category/edit/:id", element: <EditSubCategory /> },
         { path: "ads", element: <Ads /> },
       ],
     },
