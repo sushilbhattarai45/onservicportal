@@ -45,6 +45,7 @@ function EditServiceProvider() {
       const toastId = toast.loading("Adding Service Provider...");
 
       try {
+        // save the service provider
         const { data } = await axios.post(`/v1/api/sp/postSp`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
@@ -52,6 +53,24 @@ function EditServiceProvider() {
 
         if (data.sp) {
           setDisableButton(true);
+
+          // save the service provider as a user
+
+          const userData = {
+            user_name: values.sp_name,
+            user_email: "",
+            user_district: values.sp_district,
+            user_city: values.sp_city,
+            user_street: values.sp_street,
+            user_contact: values.sp_contact,
+            user_gender: values.sp_gender,
+            user_password: "1234",
+            user_profileImage: values.sp_profileImage,
+          };
+
+          console.log(userData);
+          await axios.post(`/v1/api/user/register`, userData);
+
           toast.success("Service Provider added successfully");
           const id = data.sp.sp_contact;
           navigate(`/sp/edit/${id}`);
