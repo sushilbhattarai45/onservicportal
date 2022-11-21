@@ -4,23 +4,23 @@ import toast from "react-hot-toast";
 
 import { useState } from "react";
 import axios from "axios";
-import UserForm from "../../components/dashboard/UserForm";
+import CategoryForm from "../../components/dashboard/CategoryForm";
 
-function AddUser() {
+import { useNavigate } from "react-router-dom";
+
+function AddCategory() {
   const [values, setValues] = useState({
-    user_name: "",
-    user_email: "",
-    user_district: "",
-    user_city: "",
-    user_street: "",
-    user_contact: "",
-    user_gender: "",
-    user_password: "1234",
-    user_profileImage: "",
+    category_name: "",
+    category_status: true,
+    category_showonhome: false,
+    category_photo: "",
+    category_updatedby: "",
   });
 
   const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
+
+  const navigate = useNavigate();
 
   const handleFilesChange = async (event) => {
     const file = event.target.files[0];
@@ -74,10 +74,17 @@ function AddUser() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/register`, values);
+        const { data } = await axios.post(`/v1/api/categories/postcategory`, {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          ...values,
+        });
+
+        // redirect to the edit page
+        const { _id } = data.postcategory;
+        navigate(`/categories/edit/${_id}`);
 
         setDisableButton(true);
-        toast.success("User added successfully", {
+        toast.success("Category added successfully", {
           duration: 4000,
           position: "top-center",
         });
@@ -91,9 +98,9 @@ function AddUser() {
   };
 
   return (
-    <Page title="Add new user">
+    <Page title="Add new category">
       <Container>
-        <UserForm
+        <CategoryForm
           values={values}
           handleFormSubmit={handleFormSubmit}
           disableButton={disableButton}
@@ -106,4 +113,4 @@ function AddUser() {
   );
 }
 
-export default AddUser;
+export default AddCategory;

@@ -16,6 +16,8 @@ import {
   Ads,
   AddUser,
   AddSP,
+  AddCategory,
+  EditCategory,
 } from "./pages/dashboard";
 
 //import other pages
@@ -44,6 +46,8 @@ export default function Router() {
         { path: "app", element: <DashboardApp /> },
         { path: "user", element: <User /> },
         { path: "categories", element: <Categories /> },
+        { path: "categories/new", element: <AddCategory /> },
+        { path: "categories/edit/:id", element: <EditCategory /> },
         { path: "user/new", element: <AddUser /> },
         { path: "user/edit/:id", element: <EditUser /> },
         { path: "sp", element: <ServiceProviders /> },

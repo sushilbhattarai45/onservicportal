@@ -213,6 +213,7 @@ const SPForm = ({
             value={values.sp_verified}
             label="Verified"
             onChange={handleInputChange}
+            name="sp_verified"
           >
             <MenuItem value={true}>True</MenuItem>
             <MenuItem value={false}>False</MenuItem>

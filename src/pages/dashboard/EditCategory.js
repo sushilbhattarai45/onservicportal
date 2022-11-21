@@ -2,25 +2,25 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import UserForm from "../../components/dashboard/UserForm";
+import CategoryForm from "../../components/dashboard/CategoryForm";
 
-function AddUser() {
+import { useNavigate } from "react-router-dom";
+
+function EditCategory() {
   const [values, setValues] = useState({
-    user_name: "",
-    user_email: "",
-    user_district: "",
-    user_city: "",
-    user_street: "",
-    user_contact: "",
-    user_gender: "",
-    user_password: "1234",
-    user_profileImage: "",
+    category_name: "",
+    category_status: true,
+    category_showonhome: false,
+    category_photo: "",
+    category_updatedby: "",
   });
 
   const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
+
+  const id = window.location.pathname.split("/")[3];
 
   const handleFilesChange = async (event) => {
     const file = event.target.files[0];
@@ -74,10 +74,14 @@ function AddUser() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/register`, values);
+        await axios.post(`/v1/api/categories/updatecategory`, {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          ...values,
+          id,
+        });
 
         setDisableButton(true);
-        toast.success("User added successfully", {
+        toast.success("Category updated successfully", {
           duration: 4000,
           position: "top-center",
         });
@@ -90,20 +94,40 @@ function AddUser() {
     }
   };
 
+  const getCategoryDetails = async () => {
+    try {
+      const { data } = await axios.post(`/v1/api/categories`, {
+        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      });
+
+      const category = data.find((category) => category._id === id);
+
+      setValues(category);
+      toast.success("Details fetched successfully");
+    } catch (error) {
+      toast.error("Error fetching details");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategoryDetails();
+  }, []);
+
   return (
-    <Page title="Add new user">
+    <Page title="Edit category">
       <Container>
-        <UserForm
+        <CategoryForm
           values={values}
           handleFormSubmit={handleFormSubmit}
           disableButton={disableButton}
           handleFilesChange={handleFilesChange}
           handleInputChange={handleInputChange}
-          buttonText="Save"
+          buttonText="Update"
         />
       </Container>
     </Page>
   );
 }
 
-export default AddUser;
+export default EditCategory;

@@ -178,7 +178,7 @@ export default function Categories() {
           <Button
             variant="contained"
             component={Link}
-            to="new-user"
+            to="new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Category
@@ -268,7 +268,7 @@ export default function Categories() {
                         <TableCell align="left">{category_updatedby}</TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${_id}`}>
+                          <Link to={`edit/${_id}`}>
                             <Edit />
                           </Link>
                         </TableCell>

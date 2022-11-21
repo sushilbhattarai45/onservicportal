@@ -1,6 +1,8 @@
 export { default as AdminLogin } from "./Login";
 export { default as DashboardApp } from "./DashboardApp";
 export { default as Categories } from "./Categories";
+export { default as AddCategory } from "./AddCategory";
+export { default as EditCategory } from "./EditCategory";
 export { default as EditUser } from "./EditUser";
 export { default as AddUser } from "./AddUser";
 export { default as AddSP } from "./AddSP";
