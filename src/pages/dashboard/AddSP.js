@@ -21,6 +21,7 @@ function EditServiceProvider() {
     sp_status: "ACTIVE",
     sp_bio: "",
     sp_showReview: true,
+    email: "",
   });
 
   const navigate = useNavigate();
@@ -45,34 +46,34 @@ function EditServiceProvider() {
       const toastId = toast.loading("Adding Service Provider...");
 
       try {
-        // save the service provider
-        const { data } = await axios.post(`/v1/api/sp/postSp`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
-        });
+        // save the service provider as a user
 
-        if (data.sp) {
+        const userData = {
+          user_name: values.sp_name,
+          user_email: values.email,
+          user_district: values.sp_district,
+          user_city: values.sp_city,
+          user_street: values.sp_street,
+          user_contact: values.sp_contact,
+          user_gender: values.sp_gender,
+          user_password: "1234",
+          user_profileImage: values.sp_profileImage,
+        };
+
+        console.log(userData);
+        const { data } = await axios.post(`/v1/api/user/register`, userData);
+
+        if (data.user) {
           setDisableButton(true);
 
-          // save the service provider as a user
-
-          const userData = {
-            user_name: values.sp_name,
-            user_email: "",
-            user_district: values.sp_district,
-            user_city: values.sp_city,
-            user_street: values.sp_street,
-            user_contact: values.sp_contact,
-            user_gender: values.sp_gender,
-            user_password: "1234",
-            user_profileImage: values.sp_profileImage,
-          };
-
-          console.log(userData);
-          await axios.post(`/v1/api/user/register`, userData);
+          // save the service provider
+          const { data: sp_data } = await axios.post(`/v1/api/sp/postSp`, {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+          });
 
           toast.success("Service Provider added successfully");
-          const id = data.sp.sp_contact;
+          const id = sp_data.sp.sp_contact;
           navigate(`/sp/edit/${id}`);
         } else {
           toast.error(data.message);
@@ -98,6 +99,7 @@ function EditServiceProvider() {
           disableButton={disableButton}
           setDisableButton={setDisableButton}
           buttonText="Save"
+          email={true}
         />
       </Container>
     </Page>

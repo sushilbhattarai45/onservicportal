@@ -34,6 +34,7 @@ const SPForm = ({
   setValues,
   setDisableButton,
   buttonText,
+  email,
 }) => {
   const handleSkillsChange = (event) => {
     const {
@@ -102,6 +103,7 @@ const SPForm = ({
         <FormControl fullWidth>
           <InputLabel id="multiple-skills-label">Skills</InputLabel>
           <Select
+            required
             labelId="multiple-skills-label"
             id="multiple-skills-label"
             multiple
@@ -131,6 +133,17 @@ const SPForm = ({
         justifyContent="space-between"
         my={2}
       >
+        {email && (
+          <TextField
+            fullWidth
+            name="email"
+            type="email"
+            label="Email"
+            required
+            onChange={handleInputChange}
+            value={values.email}
+          />
+        )}
         <FormControl fullWidth>
           <InputLabel htmlFor="district">District</InputLabel>
           <OutlinedInput

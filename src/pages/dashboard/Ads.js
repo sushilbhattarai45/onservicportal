@@ -261,7 +261,7 @@ export default function Ads() {
                         <TableCell align="left">{ads_location}</TableCell>
                         <TableCell align="left">{ads_type}</TableCell>
                         <TableCell align="left">
-                          {ads_status === true ? (
+                          {ads_status === "true" ? (
                             <Label variant="ghost" color="success">
                               Active
                             </Label>
