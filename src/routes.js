@@ -1,4 +1,4 @@
-import { Navigate, useRoutes } from "react-router-dom";
+import { Navigate, useRoutes, useNavigate } from "react-router-dom";
 // layouts
 import DashboardLayout from "./layouts/dashboard";
 import LogoOnlyLayout from "./layouts/LogoOnlyLayout";
@@ -34,9 +34,12 @@ export default function Router() {
   const [isLogged, setUser] = login;
   const user = localStorage.getItem("user");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (user) {
       setUser(JSON.parse(user));
+      navigate(-1);
     }
   }, [user]);
 
