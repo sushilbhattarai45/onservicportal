@@ -26,6 +26,7 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { toast } from "react-hot-toast";
 
 // ----------------------------------------------------------------------
 
@@ -91,7 +92,7 @@ export default function SubCategories() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = SubCategories.map((n) => n._id);
+      const newSelecteds = SubCategories.map((n) => n.subCat_id);
       setSelected(newSelecteds);
       return;
     }
@@ -181,6 +182,29 @@ export default function SubCategories() {
     getAllSubCategories();
   }, []);
 
+  const handleDelete = async () => {
+    let deleteStatus = true;
+
+    for (let i = 0; i < selected.length; i++) {
+      console.log(selected[i]);
+      try {
+        await axios.post("/v1/api/subcategories/deleteone", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          id: selected[i],
+        });
+      } catch (err) {
+        deleteStatus = false;
+        console.log(err);
+      }
+    }
+
+    if (deleteStatus) {
+      toast.success("Deleted Successfully");
+    } else {
+      toast.error("Failed to delete");
+    }
+  };
+
   return (
     <Page title="Service providers">
       <Container>
@@ -208,6 +232,7 @@ export default function SubCategories() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            handleDelete={handleDelete}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
@@ -233,8 +258,9 @@ export default function SubCategories() {
                       subCat_updatedby,
                       subCat_hassubCat,
                       category,
+                      subCat_id,
                     } = row;
-                    const isItemSelected = selected.indexOf(_id) !== -1;
+                    const isItemSelected = selected.indexOf(subCat_id) !== -1;
 
                     return (
                       <TableRow
@@ -248,7 +274,7 @@ export default function SubCategories() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) => handleClick(event, _id)}
+                            onChange={(event) => handleClick(event, subCat_id)}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
