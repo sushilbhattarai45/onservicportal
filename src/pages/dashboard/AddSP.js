@@ -14,7 +14,7 @@ function EditServiceProvider() {
     sp_city: "",
     sp_street: "",
     sp_contact: "",
-    sp_gender: "",
+    sp_gender: "Male",
     sp_skills: [],
     sp_profileImage: "",
     sp_verified: false,
@@ -22,6 +22,11 @@ function EditServiceProvider() {
     sp_bio: "",
     sp_showReview: true,
     email: "",
+    sp_paid: true,
+    sp_location: "",
+    sp_tiktok: "",
+    sp_officeNumber: "",
+    sp_verified: true,
   });
 
   const navigate = useNavigate();

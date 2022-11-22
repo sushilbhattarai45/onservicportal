@@ -144,6 +144,57 @@ const SPForm = ({
             value={values.email}
           />
         )}
+
+        <FormControl fullWidth>
+          <InputLabel id="select-paid">Paid</InputLabel>
+          <Select
+            labelId="select-paid"
+            value={values.sp_paid}
+            label="Paid"
+            onChange={handleInputChange}
+            name="sp_paid"
+            required
+          >
+            <MenuItem value={true}>Yes</MenuItem>
+            <MenuItem value={false}>No</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          fullWidth
+          name="sp_location"
+          type="url"
+          label="Map Location"
+          onChange={handleInputChange}
+          value={values?.sp_location}
+          required
+        />
+
+        <TextField
+          fullWidth
+          name="sp_tiktok"
+          type="text"
+          label="Tiktok Link"
+          onChange={handleInputChange}
+          value={values.sp_tiktok}
+        />
+      </Stack>
+
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
+        alignItems="center"
+        justifyContent="space-between"
+        my={2}
+      >
+        <TextField
+          fullWidth
+          name="sp_officeNumber"
+          type="number"
+          label="Office Number"
+          onChange={handleInputChange}
+          value={values.sp_officeNumber}
+        />
         <FormControl fullWidth>
           <InputLabel htmlFor="district">District</InputLabel>
           <OutlinedInput
@@ -190,22 +241,37 @@ const SPForm = ({
           onChange={handleInputChange}
           value={values.sp_contact}
         />
-        <TextField
-          fullWidth
-          name="sp_gender"
-          type="text"
-          label="Gender"
-          onChange={handleInputChange}
-          value={values.sp_gender}
-        />
-        <TextField
-          fullWidth
-          name="user_password"
-          type="text"
-          label="Status"
-          onChange={handleInputChange}
-          value={values.sp_status}
-        />
+
+        <FormControl fullWidth>
+          <InputLabel id="select-gender">Gender</InputLabel>
+          <Select
+            labelId="select-gender"
+            value={values.sp_gender}
+            label="Gender"
+            onChange={handleInputChange}
+            name="sp_gender"
+          >
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+            <MenuItem value="Others">Others</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="select-status">Status</InputLabel>
+          <Select
+            labelId="select-status"
+            value={values.sp_status}
+            label="Status"
+            onChange={handleInputChange}
+            name="sp_status"
+          >
+            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+            <MenuItem value="SUSPENDED">SUSPENDED</MenuItem>
+          </Select>
+        </FormControl>
+
         <FormControl fullWidth>
           <InputLabel id="select-verified">Verified</InputLabel>
           <Select
@@ -214,6 +280,20 @@ const SPForm = ({
             label="Verified"
             onChange={handleInputChange}
             name="sp_verified"
+          >
+            <MenuItem value={true}>True</MenuItem>
+            <MenuItem value={false}>False</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="select-review">Show Review</InputLabel>
+          <Select
+            labelId="select-review"
+            value={values.sp_showReview}
+            label="Show Review"
+            onChange={handleInputChange}
+            name="sp_showReview"
           >
             <MenuItem value={true}>True</MenuItem>
             <MenuItem value={false}>False</MenuItem>

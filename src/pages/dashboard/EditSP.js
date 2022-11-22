@@ -22,6 +22,10 @@ function EditServiceProvider() {
     sp_status: "ACTIVE",
     sp_bio: "",
     sp_showReview: true,
+    sp_paid: true,
+    sp_location: "",
+    sp_tiktok: "",
+    sp_officeNumber: "",
   });
 
   // const [image, setImage] = useState("");
