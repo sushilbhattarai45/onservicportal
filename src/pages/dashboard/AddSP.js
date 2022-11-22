@@ -71,10 +71,15 @@ function EditServiceProvider() {
         if (data.user) {
           setDisableButton(true);
 
+          const spData = {
+            ...values,
+            user_id: data.user._id,
+          };
+
           // save the service provider
           const { data: sp_data } = await axios.post(`/v1/api/sp/postSp`, {
             GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-            ...values,
+            ...spData,
           });
 
           toast.success("Service Provider added successfully");
