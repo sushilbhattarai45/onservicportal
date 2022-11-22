@@ -27,6 +27,7 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { CancelOutlined, Check, Edit } from "@mui/icons-material";
+import { toast } from "react-hot-toast";
 
 // ----------------------------------------------------------------------
 
@@ -175,6 +176,29 @@ export default function ServiceProviders() {
     getAllSPs();
   }, []);
 
+  const handleDelete = async () => {
+    let deleteStatus = true;
+
+    for (let i = 0; i < selected.length; i++) {
+      console.log(selected[i]);
+      try {
+        await axios.post("/v1/api/sp/deletesp", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          sp_contact: selected[i],
+        });
+      } catch (err) {
+        deleteStatus = false;
+        console.log(err);
+      }
+    }
+
+    if (deleteStatus) {
+      toast.success("Deleted Successfully");
+    } else {
+      toast.error("Failed to delete");
+    }
+  };
+
   return (
     <Page title="Service providers">
       <Container>
@@ -202,6 +226,7 @@ export default function ServiceProviders() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            handleDelete={handleDelete}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
