@@ -33,6 +33,7 @@ import { CancelOutlined, Check, Edit } from "@mui/icons-material";
 const TABLE_HEAD = [
   { id: "sp_name", label: "Name" },
   { id: "sp_bio", label: "Bio" },
+  { id: "sp_paid", label: "Paid" },
   {
     id: "sp_skills",
     label: "Skills",
@@ -231,6 +232,7 @@ export default function ServiceProviders() {
                       sp_showReview,
                       sp_verified,
                       sp_profileImage,
+                      sp_paid,
                     } = row;
                     const isItemSelected = selected.indexOf(sp_contact) !== -1;
 
@@ -262,6 +264,9 @@ export default function ServiceProviders() {
                           </Stack>
                         </TableCell>
                         <TableCell align="left">{sp_bio}</TableCell>
+                        <TableCell align="center">
+                          {sp_paid === false ? <CancelOutlined /> : <Check />}
+                        </TableCell>
                         <TableCell align="left">{sp_skills}</TableCell>
                         <TableCell align="left">{sp_district}</TableCell>
                         <TableCell align="left">{sp_city}</TableCell>
@@ -271,7 +276,7 @@ export default function ServiceProviders() {
                           <Label
                             variant="ghost"
                             color={
-                              (sp_status === false && "error") || "success"
+                              (sp_status === "ACTIVE" && "success") || "error"
                             }
                           >
                             {sentenceCase(sp_status)}
