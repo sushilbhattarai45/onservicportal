@@ -97,7 +97,7 @@ export default function Categories() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = Categories.map((n) => n.name);
+      const newSelecteds = Categories.map((n) => n._id);
       setSelected(newSelecteds);
       return;
     }
@@ -212,13 +212,10 @@ export default function Categories() {
                       category_photo,
                       category_name,
                       category_status,
-                      // category_doc,
-                      // category_dou,
                       category_showonhome,
                       category_updatedby,
                     } = row;
-                    const isItemSelected =
-                      selected.indexOf(category_name) !== -1;
+                    const isItemSelected = selected.indexOf(_id) !== -1;
 
                     return (
                       <TableRow
@@ -232,9 +229,7 @@ export default function Categories() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) =>
-                              handleClick(event, category_name)
-                            }
+                            onChange={(event) => handleClick(event, _id)}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">

@@ -91,7 +91,7 @@ export default function SubCategories() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = SubCategories.map((n) => n.name);
+      const newSelecteds = SubCategories.map((n) => n._id);
       setSelected(newSelecteds);
       return;
     }
@@ -234,7 +234,7 @@ export default function SubCategories() {
                       subCat_hassubCat,
                       category,
                     } = row;
-                    const isItemSelected = selected.indexOf(subCat_name) !== -1;
+                    const isItemSelected = selected.indexOf(_id) !== -1;
 
                     return (
                       <TableRow
@@ -248,9 +248,7 @@ export default function SubCategories() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) =>
-                              handleClick(event, subCat_name)
-                            }
+                            onChange={(event) => handleClick(event, _id)}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">

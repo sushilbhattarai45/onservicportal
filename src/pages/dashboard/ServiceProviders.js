@@ -107,7 +107,7 @@ export default function ServiceProviders() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = SPs.map((n) => n.name);
+      const newSelecteds = SPs.map((n) => n.sp_contact);
       setSelected(newSelecteds);
       return;
     }
@@ -232,7 +232,7 @@ export default function ServiceProviders() {
                       sp_verified,
                       sp_profileImage,
                     } = row;
-                    const isItemSelected = selected.indexOf(sp_name) !== -1;
+                    const isItemSelected = selected.indexOf(sp_contact) !== -1;
 
                     return (
                       <TableRow
@@ -246,7 +246,7 @@ export default function ServiceProviders() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) => handleClick(event, sp_name)}
+                            onChange={(event) => handleClick(event, sp_contact)}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
