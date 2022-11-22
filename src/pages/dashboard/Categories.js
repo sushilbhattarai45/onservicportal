@@ -33,8 +33,6 @@ import toast from "react-hot-toast";
 const TABLE_HEAD = [
   { id: "category_name", label: "Name" },
   { id: "category_status", label: "Status" },
-  // { id: "category_doc", label: "Doc" },
-  // { id: "category_dou", label: "Dou" },
   { id: "category_showonhome", label: "Show on home" },
   { id: "category_updatedby", label: "Updated by" },
   { id: "" },
@@ -154,6 +152,8 @@ export default function Categories() {
 
     if (deleteStatus) {
       toast.success("Deleted Successfully");
+      await getAllCategories();
+      setSelected([]);
     } else {
       toast.error("Failed to delete");
     }

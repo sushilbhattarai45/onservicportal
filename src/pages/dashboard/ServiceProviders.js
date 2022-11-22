@@ -194,6 +194,8 @@ export default function ServiceProviders() {
 
     if (deleteStatus) {
       toast.success("Deleted Successfully");
+      await getAllSPs();
+      setSelected([]);
     } else {
       toast.error("Failed to delete");
     }

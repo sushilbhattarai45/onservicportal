@@ -200,6 +200,8 @@ export default function SubCategories() {
 
     if (deleteStatus) {
       toast.success("Deleted Successfully");
+      await getAllSubCategories();
+      setSelected([]);
     } else {
       toast.error("Failed to delete");
     }

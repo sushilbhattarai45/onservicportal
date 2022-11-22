@@ -188,6 +188,8 @@ export default function User() {
 
     if (deleteStatus) {
       toast.success("Deleted Successfully");
+      await getAllUsers();
+      setSelected([]);
     } else {
       toast.error("Failed to delete");
     }
