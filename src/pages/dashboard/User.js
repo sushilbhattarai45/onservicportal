@@ -27,6 +27,7 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { toast } from "react-hot-toast";
 
 // ----------------------------------------------------------------------
 
@@ -169,6 +170,29 @@ export default function User() {
     getAllUsers();
   }, []);
 
+  const handleDelete = async () => {
+    let deleteStatus = true;
+
+    for (let i = 0; i < selected.length; i++) {
+      console.log(selected[i]);
+      try {
+        await axios.post("/v1/api/user/deleteuser", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          user_contact: selected[i],
+        });
+      } catch (err) {
+        deleteStatus = false;
+        console.log(err);
+      }
+    }
+
+    if (deleteStatus) {
+      toast.success("Deleted Successfully");
+    } else {
+      toast.error("Failed to delete");
+    }
+  };
+
   return (
     <Page title="User">
       <Container>
@@ -196,6 +220,7 @@ export default function User() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            handleDelete={handleDelete}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
