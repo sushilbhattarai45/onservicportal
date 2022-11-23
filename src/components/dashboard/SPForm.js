@@ -10,20 +10,9 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-
-const skills = [
-  "House Plumbing",
-  "Office Plumbing",
-  "School Plumbing",
-  "Electrician",
-  "Carpenter",
-  "Painter",
-  "Mason",
-  "Programmer",
-  "Teacher",
-  "Doctor",
-  "Lawyer",
-];
+import toast from "react-hot-toast";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const SPForm = ({
   values,
@@ -36,6 +25,7 @@ const SPForm = ({
   buttonText,
   email,
 }) => {
+  const [skills, setSkills] = useState([]);
   const handleSkillsChange = (event) => {
     const {
       target: { value },
@@ -47,6 +37,29 @@ const SPForm = ({
 
     setDisableButton(false);
   };
+
+  const getSkills = async () => {
+    try {
+      const { data } = await axios.post(
+        "/v1/api/subcategories/getmixedsubcategory",
+        {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        }
+      );
+
+      console.log(data.data);
+      const s = data.data.map((skill) => skill.subCat_name);
+      console.log(s);
+      setSkills(s);
+    } catch (error) {
+      console.log(error);
+      toast();
+    }
+  };
+
+  useEffect(() => {
+    getSkills();
+  }, []);
 
   return (
     <form onSubmit={handleFormSubmit}>
