@@ -5,6 +5,8 @@ import {
   InputLabel,
   OutlinedInput,
   Button,
+  MenuItem,
+  Select,
 } from "@mui/material";
 
 const UserForm = ({
@@ -117,14 +119,34 @@ const UserForm = ({
           onChange={handleInputChange}
           value={values?.user_contact}
         />
-        <TextField
-          fullWidth
-          name="user_gender"
-          type="text"
-          label="Gender"
-          onChange={handleInputChange}
-          value={values?.user_gender}
-        />
+        <FormControl fullWidth>
+          <InputLabel id="select-gender">Gender</InputLabel>
+          <Select
+            labelId="select-gender"
+            value={values.user_gender}
+            label="Gender"
+            onChange={handleInputChange}
+            name="user_gender"
+          >
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+            <MenuItem value="Others">Others</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="select-status">Status</InputLabel>
+          <Select
+            labelId="select-status"
+            value={values.user_status}
+            label="Status"
+            onChange={handleInputChange}
+            name="user_status"
+          >
+            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+            <MenuItem value="SUSPENDED">SUSPENDED</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           name="user_password"
