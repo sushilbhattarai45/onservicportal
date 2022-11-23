@@ -14,9 +14,10 @@ function AddUser() {
     user_city: "",
     user_street: "",
     user_contact: "",
-    user_gender: "",
+    user_gender: "Male",
     user_password: "1234",
     user_profileImage: "",
+    user_status: "ACTIVE",
   });
 
   const [image, setImage] = useState("");
