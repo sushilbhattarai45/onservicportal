@@ -126,8 +126,7 @@ function AddAds() {
 
         // redirect to the edit page
         const { _id } = data.data;
-        console.log(data.data);
-        // navigate(`/ads/edit/${_id}`);
+        navigate(`/ads/edit/${_id}`);
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);

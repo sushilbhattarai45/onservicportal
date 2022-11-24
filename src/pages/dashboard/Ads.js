@@ -284,7 +284,11 @@ export default function Ads() {
                           </Stack>
                         </TableCell>
                         <TableCell align="left">{ads_givenEmail}</TableCell>
-                        <TableCell align="left">{ads_link}</TableCell>
+                        <TableCell align="left">
+                          <a href={ads_link} title="Open the link">
+                            {ads_link}
+                          </a>
+                        </TableCell>
                         <TableCell align="left">{ads_location}</TableCell>
                         <TableCell align="left">{ads_type}</TableCell>
                         <TableCell align="left">
