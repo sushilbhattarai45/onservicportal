@@ -14,6 +14,7 @@ import {
   EditSP,
   SubCategory,
   Ads,
+  AddAds,
   AddUser,
   AddSP,
   AddCategory,
@@ -62,6 +63,7 @@ export default function Router() {
         { path: "sub-category/new", element: <AddSubCategory /> },
         { path: "sub-category/edit/:id", element: <EditSubCategory /> },
         { path: "ads", element: <Ads /> },
+        { path: "ads/new", element: <AddAds /> },
       ],
     },
     {

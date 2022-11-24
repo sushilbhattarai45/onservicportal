@@ -144,7 +144,7 @@ export default function Ads() {
 
   const getAllAds = async () => {
     try {
-      const { data } = await axios.post("/v1/api/ads/getAds", {
+      const { data } = await axios.post("/v1/api/ads/getAllAds", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
@@ -186,7 +186,7 @@ export default function Ads() {
           <Button
             variant="contained"
             component={Link}
-            to="new-user"
+            to="new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Ad

@@ -12,4 +12,5 @@ export { default as SubCategory } from "./SubCategory";
 export { default as AddSubCategory } from "./AddSubCategory";
 export { default as EditSubCategory } from "./EditSubCategory";
 export { default as Ads } from "./Ads";
+export { default as AddAds } from "./AddAds";
 export { default as ServiceProviders } from "./ServiceProviders";
