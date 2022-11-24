@@ -285,7 +285,7 @@ export default function Ads() {
                         <TableCell align="left">{ads_updatedBy}</TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${_id}`}>
+                          <Link to={`edit/${_id}`}>
                             <Edit />
                           </Link>
                         </TableCell>
