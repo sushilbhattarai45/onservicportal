@@ -110,7 +110,6 @@ const AdsForm = ({
         <FormControl fullWidth>
           <InputLabel id="multiple-tags-label">Tags</InputLabel>
           <Select
-            required
             labelId="multiple-tags-label"
             id="multiple-tags-label"
             multiple
