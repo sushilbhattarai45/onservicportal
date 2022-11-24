@@ -110,14 +110,14 @@ function EditAds() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/categories/updatecategory`, {
+        await axios.post(`/v1/api/ads/updateAds`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
-          id,
+          _id: id,
         });
 
         setDisableButton(true);
-        toast.success("Category updated successfully", {
+        toast.success("Ad updated successfully", {
           duration: 4000,
           position: "top-center",
         });
