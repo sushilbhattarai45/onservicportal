@@ -34,19 +34,24 @@ function AddUser() {
     // setImage(file);
     console.log(URL.createObjectURL(file));
 
-    let data = new FormData();
-    data.append("file", file);
+    const data = new FormData();
+    data.append("profile", {
+      uri: file.url,
+      name: file.name,
+      type: "image/jpg",
+    });
 
-    console.log(data);
-
+    const serverUrl = "http://172.104.188.69:3001/v1/api/user/uploadImage";
     try {
-      const response = await axios.post("/v1/api/user/uploadImage", {
+      const response = await axios.post(serverUrl, {
+        method: "post",
         data: data,
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response?.data);
+      let url = response?.data?.fileName;
+      console.log(url);
 
       toast.success("Image uploaded successfully");
 
