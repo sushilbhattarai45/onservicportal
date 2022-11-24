@@ -26,6 +26,7 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { toast } from "react-hot-toast";
 
 // ----------------------------------------------------------------------
 
@@ -144,7 +145,7 @@ export default function Ads() {
 
   const getAllAds = async () => {
     try {
-      const { data } = await axios.post("/v1/api/ads/getAds", {
+      const { data } = await axios.post("/v1/api/ads/getAllAds", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
@@ -171,6 +172,31 @@ export default function Ads() {
     getAllAds();
   }, []);
 
+  const handleDelete = async () => {
+    let deleteStatus = true;
+
+    for (let i = 0; i < selected.length; i++) {
+      console.log(selected[i]);
+      try {
+        await axios.post("/v1/api/ads/delete", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          _id: selected[i],
+        });
+      } catch (err) {
+        deleteStatus = false;
+        console.log(err);
+      }
+    }
+
+    if (deleteStatus) {
+      toast.success("Deleted Successfully");
+      await getAllAds();
+      setSelected([]);
+    } else {
+      toast.error("Failed to delete");
+    }
+  };
+
   return (
     <Page title="Ads">
       <Container>
@@ -186,7 +212,7 @@ export default function Ads() {
           <Button
             variant="contained"
             component={Link}
-            to="new-user"
+            to="new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Ad
@@ -198,6 +224,7 @@ export default function Ads() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            handleDelete={handleDelete}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
@@ -261,7 +288,7 @@ export default function Ads() {
                         <TableCell align="left">{ads_location}</TableCell>
                         <TableCell align="left">{ads_type}</TableCell>
                         <TableCell align="left">
-                          {ads_status === "true" ? (
+                          {ads_status === "ACTIVE" ? (
                             <Label variant="ghost" color="success">
                               Active
                             </Label>
@@ -285,7 +312,7 @@ export default function Ads() {
                         <TableCell align="left">{ads_updatedBy}</TableCell>
 
                         <TableCell align="right">
-                          <Link to={`${_id}`}>
+                          <Link to={`edit/${_id}`}>
                             <Edit />
                           </Link>
                         </TableCell>
