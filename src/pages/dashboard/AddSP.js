@@ -16,7 +16,8 @@ function EditServiceProvider() {
     sp_contact: "",
     sp_gender: "Male",
     sp_skills: [],
-    sp_profileImage: "",
+    sp_profileImage:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
     sp_verified: false,
     sp_status: "ACTIVE",
     sp_bio: "",
