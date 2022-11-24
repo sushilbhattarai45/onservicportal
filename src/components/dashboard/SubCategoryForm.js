@@ -96,7 +96,7 @@ const SubCategoryForm = ({
           name="subCat_updatedby"
           type="text"
           label="Updated By"
-          onChange={handleInputChange}
+          disabled={true}
           value={values?.subCat_updatedby}
         />
 
