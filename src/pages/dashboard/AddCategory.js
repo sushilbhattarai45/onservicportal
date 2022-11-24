@@ -2,19 +2,23 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import CategoryForm from "../../components/dashboard/CategoryForm";
 
 import { useNavigate } from "react-router-dom";
+import { ContextProvider } from "../../Context";
 
 function AddCategory() {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   const [values, setValues] = useState({
     category_name: "",
     category_status: true,
     category_showonhome: false,
     category_photo: "",
-    category_updatedby: "",
+    category_updatedby: account.displayName,
   });
 
   const [image, setImage] = useState("");

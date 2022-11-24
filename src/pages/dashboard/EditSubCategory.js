@@ -2,17 +2,21 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SubCategoryForm from "../../components/dashboard/SubCategoryForm";
+import { ContextProvider } from "../../Context";
 
 function EditSubCategory() {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   const [values, setValues] = useState({
     subCat_name: "",
     subCat_hassubCat: true,
     subCat_status: false,
     subCat_photo: "",
-    subCat_updatedby: "",
+    subCat_updatedby: account.displayName,
     categories: [],
     category_id: "",
   });
