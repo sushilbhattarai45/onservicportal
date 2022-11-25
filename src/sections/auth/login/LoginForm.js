@@ -49,7 +49,7 @@ export default function LoginForm() {
         formik.values.password === "test"
       ) {
         const user = {
-          displayName: "Admin",
+          displayName: "Aashish",
           email: formik.values.email,
           photoURL: "/static/illustrations/illustration_avatar.png",
         };

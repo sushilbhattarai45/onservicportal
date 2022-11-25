@@ -27,12 +27,14 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { CancelOutlined, Check, Edit } from "@mui/icons-material";
+import { toast } from "react-hot-toast";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: "sp_name", label: "Name" },
   { id: "sp_bio", label: "Bio" },
+  { id: "sp_paid", label: "Paid" },
   {
     id: "sp_skills",
     label: "Skills",
@@ -174,6 +176,31 @@ export default function ServiceProviders() {
     getAllSPs();
   }, []);
 
+  const handleDelete = async () => {
+    let deleteStatus = true;
+
+    for (let i = 0; i < selected.length; i++) {
+      console.log(selected[i]);
+      try {
+        await axios.post("/v1/api/sp/deletesp", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          sp_contact: selected[i],
+        });
+      } catch (err) {
+        deleteStatus = false;
+        console.log(err);
+      }
+    }
+
+    if (deleteStatus) {
+      toast.success("Deleted Successfully");
+      await getAllSPs();
+      setSelected([]);
+    } else {
+      toast.error("Failed to delete");
+    }
+  };
+
   return (
     <Page title="Service providers">
       <Container>
@@ -201,6 +228,7 @@ export default function ServiceProviders() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            handleDelete={handleDelete}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
@@ -231,6 +259,7 @@ export default function ServiceProviders() {
                       sp_showReview,
                       sp_verified,
                       sp_profileImage,
+                      sp_paid,
                     } = row;
                     const isItemSelected = selected.indexOf(sp_contact) !== -1;
 
@@ -262,6 +291,9 @@ export default function ServiceProviders() {
                           </Stack>
                         </TableCell>
                         <TableCell align="left">{sp_bio}</TableCell>
+                        <TableCell align="center">
+                          {sp_paid === false ? <CancelOutlined /> : <Check />}
+                        </TableCell>
                         <TableCell align="left">{sp_skills}</TableCell>
                         <TableCell align="left">{sp_district}</TableCell>
                         <TableCell align="left">{sp_city}</TableCell>
@@ -271,7 +303,7 @@ export default function ServiceProviders() {
                           <Label
                             variant="ghost"
                             color={
-                              (sp_status === false && "error") || "success"
+                              (sp_status === "ACTIVE" && "success") || "error"
                             }
                           >
                             {sentenceCase(sp_status)}

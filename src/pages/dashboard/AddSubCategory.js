@@ -2,21 +2,27 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 import SubCategoryForm from "../../components/dashboard/SubCategoryForm";
+import { ContextProvider } from "../../Context";
 
 function AddSubCategory() {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   const [values, setValues] = useState({
     subCat_name: "",
     subCat_hassubCat: true,
     subCat_status: false,
     subCat_photo: "",
-    subCat_updatedby: "",
+    subCat_updatedby: account.displayName,
     categories: [],
     category_id: "",
+    subCat_photo:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
   });
 
   const [image, setImage] = useState("");

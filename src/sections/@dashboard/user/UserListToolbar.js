@@ -40,12 +40,14 @@ UserListToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
+  handleDelete: PropTypes.func,
 };
 
 export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
+  handleDelete,
 }) {
   return (
     <RootStyle
@@ -78,7 +80,7 @@ export default function UserListToolbar({
 
       {numSelected > 0 && (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>
         </Tooltip>

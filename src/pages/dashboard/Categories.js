@@ -26,14 +26,13 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import toast from "react-hot-toast";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: "category_name", label: "Name" },
   { id: "category_status", label: "Status" },
-  // { id: "category_doc", label: "Doc" },
-  // { id: "category_dou", label: "Dou" },
   { id: "category_showonhome", label: "Show on home" },
   { id: "category_updatedby", label: "Updated by" },
   { id: "" },
@@ -97,7 +96,7 @@ export default function Categories() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = Categories.map((n) => n._id);
+      const newSelecteds = Categories.map((n) => n.category_id);
       setSelected(newSelecteds);
       return;
     }
@@ -133,6 +132,31 @@ export default function Categories() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
+  };
+
+  const handleDelete = async () => {
+    let deleteStatus = true;
+
+    for (let i = 0; i < selected.length; i++) {
+      console.log(selected[i]);
+      try {
+        await axios.post("/v1/api/categories/deleteonecategory", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          id: selected[i],
+        });
+      } catch (err) {
+        deleteStatus = false;
+        console.log(err);
+      }
+    }
+
+    if (deleteStatus) {
+      toast.success("Deleted Successfully");
+      await getAllCategories();
+      setSelected([]);
+    } else {
+      toast.error("Failed to delete");
+    }
   };
 
   const emptyRows =
@@ -190,6 +214,7 @@ export default function Categories() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            handleDelete={handleDelete}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
@@ -214,8 +239,9 @@ export default function Categories() {
                       category_status,
                       category_showonhome,
                       category_updatedby,
+                      category_id,
                     } = row;
-                    const isItemSelected = selected.indexOf(_id) !== -1;
+                    const isItemSelected = selected.indexOf(category_id) !== -1;
 
                     return (
                       <TableRow
@@ -229,7 +255,9 @@ export default function Categories() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) => handleClick(event, _id)}
+                            onChange={(event) =>
+                              handleClick(event, category_id)
+                            }
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">

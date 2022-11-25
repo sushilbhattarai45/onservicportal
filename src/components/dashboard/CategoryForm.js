@@ -75,7 +75,7 @@ const CategoryForm = ({
           name="category_updatedby"
           type="text"
           label="Updated By"
-          onChange={handleInputChange}
+          disabled={true}
           value={values?.category_updatedby}
         />
 

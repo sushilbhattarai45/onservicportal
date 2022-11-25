@@ -10,20 +10,9 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-
-const skills = [
-  "House Plumbing",
-  "Office Plumbing",
-  "School Plumbing",
-  "Electrician",
-  "Carpenter",
-  "Painter",
-  "Mason",
-  "Programmer",
-  "Teacher",
-  "Doctor",
-  "Lawyer",
-];
+import toast from "react-hot-toast";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const SPForm = ({
   values,
@@ -36,6 +25,7 @@ const SPForm = ({
   buttonText,
   email,
 }) => {
+  const [skills, setSkills] = useState([]);
   const handleSkillsChange = (event) => {
     const {
       target: { value },
@@ -47,6 +37,29 @@ const SPForm = ({
 
     setDisableButton(false);
   };
+
+  const getSkills = async () => {
+    try {
+      const { data } = await axios.post(
+        "/v1/api/subcategories/getmixedsubcategory",
+        {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        }
+      );
+
+      console.log(data.data);
+      const s = data.data.map((skill) => skill.subCat_name);
+      console.log(s);
+      setSkills(s);
+    } catch (error) {
+      console.log(error);
+      toast();
+    }
+  };
+
+  useEffect(() => {
+    getSkills();
+  }, []);
 
   return (
     <form onSubmit={handleFormSubmit}>
@@ -144,6 +157,57 @@ const SPForm = ({
             value={values.email}
           />
         )}
+
+        <FormControl fullWidth>
+          <InputLabel id="select-paid">Paid</InputLabel>
+          <Select
+            labelId="select-paid"
+            value={values.sp_paid}
+            label="Paid"
+            onChange={handleInputChange}
+            name="sp_paid"
+            required
+          >
+            <MenuItem value={true}>Yes</MenuItem>
+            <MenuItem value={false}>No</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          fullWidth
+          name="sp_location"
+          type="url"
+          label="Map Location"
+          onChange={handleInputChange}
+          value={values?.sp_location}
+          required
+        />
+
+        <TextField
+          fullWidth
+          name="sp_tiktok"
+          type="text"
+          label="Tiktok Link"
+          onChange={handleInputChange}
+          value={values.sp_tiktok}
+        />
+      </Stack>
+
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
+        alignItems="center"
+        justifyContent="space-between"
+        my={2}
+      >
+        <TextField
+          fullWidth
+          name="sp_officeNumber"
+          type="number"
+          label="Office Number"
+          onChange={handleInputChange}
+          value={values.sp_officeNumber}
+        />
         <FormControl fullWidth>
           <InputLabel htmlFor="district">District</InputLabel>
           <OutlinedInput
@@ -190,22 +254,37 @@ const SPForm = ({
           onChange={handleInputChange}
           value={values.sp_contact}
         />
-        <TextField
-          fullWidth
-          name="sp_gender"
-          type="text"
-          label="Gender"
-          onChange={handleInputChange}
-          value={values.sp_gender}
-        />
-        <TextField
-          fullWidth
-          name="user_password"
-          type="text"
-          label="Status"
-          onChange={handleInputChange}
-          value={values.sp_status}
-        />
+
+        <FormControl fullWidth>
+          <InputLabel id="select-gender">Gender</InputLabel>
+          <Select
+            labelId="select-gender"
+            value={values.sp_gender}
+            label="Gender"
+            onChange={handleInputChange}
+            name="sp_gender"
+          >
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+            <MenuItem value="Others">Others</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="select-status">Status</InputLabel>
+          <Select
+            labelId="select-status"
+            value={values.sp_status}
+            label="Status"
+            onChange={handleInputChange}
+            name="sp_status"
+          >
+            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+            <MenuItem value="SUSPENDED">SUSPENDED</MenuItem>
+          </Select>
+        </FormControl>
+
         <FormControl fullWidth>
           <InputLabel id="select-verified">Verified</InputLabel>
           <Select
@@ -214,6 +293,20 @@ const SPForm = ({
             label="Verified"
             onChange={handleInputChange}
             name="sp_verified"
+          >
+            <MenuItem value={true}>True</MenuItem>
+            <MenuItem value={false}>False</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="select-review">Show Review</InputLabel>
+          <Select
+            labelId="select-review"
+            value={values.sp_showReview}
+            label="Show Review"
+            onChange={handleInputChange}
+            name="sp_showReview"
           >
             <MenuItem value={true}>True</MenuItem>
             <MenuItem value={false}>False</MenuItem>
