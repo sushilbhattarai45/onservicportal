@@ -294,7 +294,7 @@ export default function User() {
                           <Label
                             variant="ghost"
                             color={
-                              (user_status === false && "error") || "success"
+                              (user_status === "ACTIVE" && "success") || "error"
                             }
                           >
                             {sentenceCase(user_status)}

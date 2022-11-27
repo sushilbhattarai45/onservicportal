@@ -101,7 +101,6 @@ function EditProfile() {
       });
 
       toast.success("User details fetched successfully");
-
       setValues(data.data);
     } catch (error) {
       toast.error("Something went wrong");
