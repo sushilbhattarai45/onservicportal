@@ -65,6 +65,21 @@ const UserForm = ({
           value={values?.user_email}
           required
         />
+
+        <FormControl fullWidth>
+          <InputLabel id="select-gender">Gender</InputLabel>
+          <Select
+            labelId="select-gender"
+            value={values.user_gender}
+            label="Gender"
+            onChange={handleInputChange}
+            name="user_gender"
+          >
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+            <MenuItem value="Others">Others</MenuItem>
+          </Select>
+        </FormControl>
       </Stack>
       <Stack
         direction={{ xs: "column", sm: "row" }}
@@ -111,28 +126,6 @@ const UserForm = ({
         justifyContent="space-between"
         my={2}
       >
-        <TextField
-          fullWidth
-          name="user_contact"
-          type="number"
-          label="Contact"
-          onChange={handleInputChange}
-          value={values?.user_contact}
-        />
-        <FormControl fullWidth>
-          <InputLabel id="select-gender">Gender</InputLabel>
-          <Select
-            labelId="select-gender"
-            value={values.user_gender}
-            label="Gender"
-            onChange={handleInputChange}
-            name="user_gender"
-          >
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
-            <MenuItem value="Others">Others</MenuItem>
-          </Select>
-        </FormControl>
         <FormControl fullWidth>
           <InputLabel id="select-status">Status</InputLabel>
           <Select
@@ -147,6 +140,16 @@ const UserForm = ({
             <MenuItem value="SUSPENDED">SUSPENDED</MenuItem>
           </Select>
         </FormControl>
+
+        <TextField
+          fullWidth
+          name="user_contact"
+          type="number"
+          label="Contact"
+          onChange={handleInputChange}
+          value={values?.user_contact}
+        />
+
         <TextField
           fullWidth
           name="user_password"
