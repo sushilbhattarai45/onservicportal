@@ -152,6 +152,7 @@ const AdsForm = ({
             <MenuItem value="HOMETOP">Home Top</MenuItem>
             <MenuItem value="HOMEBOTTOM">Home Bottom</MenuItem>
             <MenuItem value="HOMEVIDEO">Home Video</MenuItem>
+            <MenuItem value="BMAD">Bookmark Ad</MenuItem>
             <MenuItem value="CATAD">Category ad</MenuItem>
           </Select>
         </FormControl>
