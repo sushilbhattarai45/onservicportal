@@ -175,12 +175,20 @@ const SPForm = ({
 
         <TextField
           fullWidth
+          name="sp_createdBy"
+          type="text"
+          label="Created By"
+          disabled={true}
+          value={values?.sp_createdBy}
+        />
+
+        <TextField
+          fullWidth
           name="sp_location"
           type="url"
           label="Map Location"
           onChange={handleInputChange}
           value={values?.sp_location}
-          required
         />
 
         <TextField
