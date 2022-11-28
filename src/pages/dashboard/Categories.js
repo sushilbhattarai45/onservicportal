@@ -261,16 +261,27 @@ export default function Categories() {
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={2}
+                          <Link
+                            to={`edit/${_id}`}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                            }}
                           >
-                            <Avatar alt={category_name} src={category_photo} />
-                            <Typography variant="subtitle2" noWrap>
-                              {category_name}
-                            </Typography>
-                          </Stack>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              <Avatar
+                                alt={category_name}
+                                src={category_photo}
+                              />
+                              <Typography variant="subtitle2" noWrap>
+                                {category_name}
+                              </Typography>
+                            </Stack>
+                          </Link>
                         </TableCell>
                         <TableCell align="left">
                           {category_status === true ? (

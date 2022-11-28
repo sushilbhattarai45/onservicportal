@@ -273,16 +273,24 @@ export default function User() {
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={2}
+                          <Link
+                            to={`edit/${user_contact}`}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                            }}
                           >
-                            <Avatar alt={user_name} src={user_profileImage} />
-                            <Typography variant="subtitle2" noWrap>
-                              {user_name}
-                            </Typography>
-                          </Stack>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              <Avatar alt={user_name} src={user_profileImage} />
+                              <Typography variant="subtitle2" noWrap>
+                                {user_name}
+                              </Typography>
+                            </Stack>
+                          </Link>
                         </TableCell>
                         <TableCell align="left">{user_email}</TableCell>
                         <TableCell align="left">{user_district}</TableCell>
@@ -294,7 +302,7 @@ export default function User() {
                           <Label
                             variant="ghost"
                             color={
-                              (user_status === false && "error") || "success"
+                              (user_status === "ACTIVE" && "success") || "error"
                             }
                           >
                             {sentenceCase(user_status)}
