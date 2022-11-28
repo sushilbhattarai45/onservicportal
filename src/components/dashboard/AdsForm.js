@@ -183,8 +183,8 @@ const AdsForm = ({
             onChange={handleInputChange}
             name="ads_status"
           >
-            <MenuItem value="ACTIVE">Active</MenuItem>
-            <MenuItem value="INACTIVE">Inactive</MenuItem>
+            <MenuItem value="true">Active</MenuItem>
+            <MenuItem value="false">Inactive</MenuItem>
           </Select>
         </FormControl>
       </Stack>
