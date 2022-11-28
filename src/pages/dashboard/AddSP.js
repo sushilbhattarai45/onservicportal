@@ -69,7 +69,9 @@ function EditServiceProvider() {
         console.log(userData);
         const { data } = await axios.post(`/v1/api/user/register`, userData);
 
-        if (data.user) {
+        if (data.statuscode == 600) {
+          toast.error("User already exists");
+        } else if (data.user) {
           setDisableButton(true);
 
           const spData = {
