@@ -175,12 +175,20 @@ const SPForm = ({
 
         <TextField
           fullWidth
+          name="sp_createdBy"
+          type="text"
+          label="Created By"
+          disabled={true}
+          value={values?.sp_createdBy}
+        />
+
+        <TextField
+          fullWidth
           name="sp_location"
           type="url"
           label="Map Location"
           onChange={handleInputChange}
           value={values?.sp_location}
-          required
         />
 
         <TextField
@@ -205,6 +213,7 @@ const SPForm = ({
           name="sp_officeNumber"
           type="number"
           label="Office Number"
+          InputProps={{ inputProps: { min: 100000, max: 989999999999 } }}
           onChange={handleInputChange}
           value={values.sp_officeNumber}
         />
@@ -253,6 +262,7 @@ const SPForm = ({
           label="Contact"
           onChange={handleInputChange}
           value={values.sp_contact}
+          InputProps={{ inputProps: { min: 9800000000, max: 989999999999 } }}
         />
 
         <FormControl fullWidth>

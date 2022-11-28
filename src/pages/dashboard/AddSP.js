@@ -2,12 +2,16 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import SPForm from "../../components/dashboard/SPForm";
 import { useNavigate } from "react-router-dom";
+import { ContextProvider } from "../../Context";
 
 function EditServiceProvider() {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   const [values, setValues] = useState({
     sp_name: "",
     sp_district: "",
@@ -28,6 +32,7 @@ function EditServiceProvider() {
     sp_tiktok: "",
     sp_officeNumber: "",
     sp_verified: true,
+    sp_createdBy: account.displayName,
   });
 
   const navigate = useNavigate();
@@ -69,7 +74,9 @@ function EditServiceProvider() {
         console.log(userData);
         const { data } = await axios.post(`/v1/api/user/register`, userData);
 
-        if (data.user) {
+        if (data.statuscode == 600) {
+          toast.error("User already exists");
+        } else if (data.user) {
           setDisableButton(true);
 
           const spData = {
