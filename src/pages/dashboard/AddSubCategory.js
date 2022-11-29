@@ -23,7 +23,11 @@ function AddSubCategory() {
     category_id: "",
     subCat_photo:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
+    subCat_isSecond: false,
   });
+
+  const [subCategories, setSubCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
@@ -32,45 +36,33 @@ function AddSubCategory() {
 
   const handleFilesChange = async (event) => {
     const file = event.target.files[0];
-
-    console.log(file);
-
-    if (!file) {
-      return;
-    }
-
-    // setImage(file);
-    console.log(URL.createObjectURL(file));
-
-    let data = new FormData();
-    data.append("file", file);
-
-    console.log(data);
-
-    try {
-      const response = await axios.post("/v1/api/user/uploadImage", {
-        data: data,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response?.data);
-
-      toast.success("Image uploaded successfully");
-
-      setDisableButton(false);
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(image);
+    toast.success("Image uploaded successfully");
+    setDisableButton(false);
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+
+    if (name == "subCat_isSecond" && value == true) {
+      setValues({
+        ...values,
+        categories: subCategories,
+        [name]: value,
+        category_id: "",
+      });
+    } else if (name == "subCat_isSecond" && value == false) {
+      setValues({
+        ...values,
+        categories: categories,
+        [name]: value,
+        category_id: "",
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    }
     setDisableButton(false);
   };
 
@@ -82,23 +74,44 @@ function AddSubCategory() {
       console.log(values);
 
       try {
-        const { data } = await axios.post(
-          `/v1/api/subcategories/postsubcategory`,
-          {
-            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-            ...values,
-          }
-        );
+        let id;
 
-        setDisableButton(true);
-        toast.success("Sub Category added successfully", {
-          duration: 4000,
-          position: "top-center",
-        });
+        if (values.subCat_isSecond) {
+          const { data } = await axios.post(
+            `/v1/api/subcategories/postsecond`,
+            {
+              GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+              ...values,
+            }
+          );
+
+          setDisableButton(true);
+          toast.success("Second Sub Category added successfully", {
+            duration: 4000,
+            position: "top-center",
+          });
+
+          id = data.data._id;
+        } else {
+          const { data } = await axios.post(
+            `/v1/api/subcategories/postsubcategory`,
+            {
+              GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+              ...values,
+            }
+          );
+
+          setDisableButton(true);
+          toast.success("Sub Category added successfully", {
+            duration: 4000,
+            position: "top-center",
+          });
+
+          id = data.data._id;
+        }
 
         // redirect to the edit page
-        const { _id } = data.data;
-        navigate(`/sub-category/edit/${_id}`);
+        navigate(`/sub-category/edit/${id}`);
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);
@@ -115,6 +128,8 @@ function AddSubCategory() {
       });
 
       console.log(data);
+      setCategories(data);
+
       setValues({
         ...values,
         categories: data,
@@ -124,8 +139,25 @@ function AddSubCategory() {
     }
   };
 
+  const getAllSubCategories = async () => {
+    try {
+      const { data } = await axios.post(
+        "/v1/api/subcategories/getallsubcategory",
+        {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        }
+      );
+
+      console.log(data);
+      setSubCategories(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getAllCategories();
+    getAllSubCategories();
   }, []);
 
   return (
