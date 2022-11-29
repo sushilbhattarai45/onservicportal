@@ -26,7 +26,7 @@ import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
-import { CancelOutlined, Check, Edit } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 
 // ----------------------------------------------------------------------
@@ -300,7 +300,11 @@ export default function ServiceProviders() {
                         </TableCell>
                         <TableCell align="left">{sp_bio}</TableCell>
                         <TableCell align="center">
-                          {sp_paid === false ? <CancelOutlined /> : <Check />}
+                          {sp_paid === false ? (
+                            <Label color="error">Not Paid</Label>
+                          ) : (
+                            <Label color="success">Paid</Label>
+                          )}
                         </TableCell>
                         <TableCell align="left">{sp_skills}</TableCell>
                         <TableCell align="left">{sp_district}</TableCell>
@@ -322,9 +326,13 @@ export default function ServiceProviders() {
                         </TableCell>
                         <TableCell align="left">
                           {sp_verified === false ? (
-                            <CancelOutlined />
+                            <Label variant="ghost" color="error">
+                              Not Verified
+                            </Label>
                           ) : (
-                            <Check />
+                            <Label variant="ghost" color="success">
+                              Verified
+                            </Label>
                           )}
                         </TableCell>
 
