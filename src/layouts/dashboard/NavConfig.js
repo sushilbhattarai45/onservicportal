@@ -12,6 +12,11 @@ const navConfig = [
     icon: getIcon("eva:pie-chart-2-fill"),
   },
   {
+    title: "Employees",
+    path: "/employees",
+    icon: getIcon("clarity:employee-group-solid"),
+  },
+  {
     title: "user",
     path: "/user",
     icon: getIcon("eva:people-fill"),
