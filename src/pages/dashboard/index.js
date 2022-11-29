@@ -16,3 +16,5 @@ export { default as AddAds } from "./AddAds";
 export { default as EditAds } from "./EditAds";
 export { default as ServiceProviders } from "./ServiceProviders";
 export { default as Employees } from "./Employees";
+export { default as AddEmployee } from "./AddEmployee";
+export { default as EditEmployee } from "./EditEmployee";
