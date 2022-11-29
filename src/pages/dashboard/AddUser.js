@@ -76,13 +76,17 @@ function AddUser() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/register`, values);
+        const { data } = await axios.post(`/v1/api/user/register`, values);
 
-        setDisableButton(true);
-        toast.success("User added successfully", {
-          duration: 4000,
-          position: "top-center",
-        });
+        if (data.statuscode == 600) {
+          toast.error(data.message);
+        } else {
+          setDisableButton(true);
+          toast.success("User added successfully", {
+            duration: 4000,
+            position: "top-center",
+          });
+        }
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);
