@@ -154,15 +154,28 @@ export default function SubCategories() {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
+      const { data: subCatData } = await axios.post(
+        "/v1/api/subcategories/getallsubcategory",
+        {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        }
+      );
+
+      const combineddata = [...catData, ...subCatData.data];
+
       // update the state with the data
       const newData = data.data.map((item) => {
-        const found = catData.find(
+        const found = combineddata.find(
           (element) => element._id === item.category_id
         );
         return {
           ...item,
           category: found ? (
-            found.category_name
+            found.category_name ? (
+              found.category_name
+            ) : (
+              found.subCat_name
+            )
           ) : (
             <Label variant="ghost" color="error">
               Not Found
