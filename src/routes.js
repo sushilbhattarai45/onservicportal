@@ -22,6 +22,9 @@ import {
   EditCategory,
   AddSubCategory,
   EditSubCategory,
+  Employees,
+  AddEmployee,
+  EditEmployee,
 } from "./pages/dashboard";
 
 //import other pages
@@ -66,6 +69,9 @@ export default function Router() {
         { path: "ads", element: <Ads /> },
         { path: "ads/new", element: <AddAds /> },
         { path: "ads/edit/:id", element: <EditAds /> },
+        { path: "employees", element: <Employees /> },
+        { path: "employees/new", element: <AddEmployee /> },
+        { path: "employees/edit/:id", element: <EditEmployee /> },
       ],
     },
     {
