@@ -128,9 +128,10 @@ const UserForm = ({
       >
         <FormControl fullWidth>
           <InputLabel id="select-status">Status</InputLabel>
+
           <Select
             labelId="select-status"
-            value={values.user_status}
+            value={values?.user_status}
             label="Status"
             onChange={handleInputChange}
             name="user_status"
@@ -140,7 +141,6 @@ const UserForm = ({
             <MenuItem value="SUSPENDED">SUSPENDED</MenuItem>
           </Select>
         </FormControl>
-
         <TextField
           fullWidth
           name="user_contact"
@@ -149,7 +149,6 @@ const UserForm = ({
           onChange={handleInputChange}
           value={values?.user_contact}
         />
-
         <TextField
           fullWidth
           name="user_password"
