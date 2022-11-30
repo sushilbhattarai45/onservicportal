@@ -33,6 +33,7 @@ function EditServiceProvider() {
     sp_officeNumber: "",
     sp_verified: true,
     sp_createdBy: account.displayName,
+    sp_platform: "web",
   });
 
   const navigate = useNavigate();
