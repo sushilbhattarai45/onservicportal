@@ -39,6 +39,21 @@ const EmployeeForm = ({
         </FormControl>
 
         <FormControl fullWidth>
+          <InputLabel id="select-post">Post</InputLabel>
+          <Select
+            labelId="select-post"
+            value={values?.employee_post}
+            label="Post"
+            onChange={handleInputChange}
+            name="employee_post"
+          >
+            <MenuItem value="ADMIN">Admin</MenuItem>
+            <MenuItem value="E1">Office Staff</MenuItem>
+            <MenuItem value="E2">Outside staff</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
           <InputLabel id="select-status">Status</InputLabel>
           <Select
             labelId="select-status"
@@ -61,18 +76,6 @@ const EmployeeForm = ({
             label="Contact"
             onChange={handleInputChange}
             value={values?.employee_contact}
-            required
-          />
-        </FormControl>
-        <FormControl sx={{ my: 1 }} fullWidth>
-          <InputLabel htmlFor="post">Post</InputLabel>
-          <OutlinedInput
-            id="post"
-            name="employee_post"
-            type="text"
-            label="Post"
-            onChange={handleInputChange}
-            value={values?.employee_post}
             required
           />
         </FormControl>

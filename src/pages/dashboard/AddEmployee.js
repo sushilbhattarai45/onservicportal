@@ -13,7 +13,7 @@ function AddEmployee() {
     employee_contact: "",
     employee_name: "",
     employee_status: true,
-    employee_post: "",
+    employee_post: "E1",
     employee_limit: 10,
   });
 
