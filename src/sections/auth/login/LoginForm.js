@@ -74,6 +74,12 @@ export default function LoginForm() {
       if (data.statuscode === 201) {
         setUserExists(true);
 
+        const { employee_post } = data.data;
+        if (employee_post === "E2") {
+          toast.error("You are not authorized to login");
+          return;
+        }
+
         // save the user details
         setLoginUser(data.data);
 

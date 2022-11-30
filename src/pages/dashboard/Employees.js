@@ -305,7 +305,11 @@ export default function Employees() {
                           )}
                         </TableCell>
 
-                        <TableCell align="left">{employee_post}</TableCell>
+                        <TableCell align="left">
+                          {employee_post == "E2" && "Outside Staff"}
+                          {employee_post == "E1" && "Office Staff"}
+                          {employee_post == "ADMIN" && "Admin"}
+                        </TableCell>
                         <TableCell align="left">{employee_contact}</TableCell>
 
                         <TableCell align="right">
