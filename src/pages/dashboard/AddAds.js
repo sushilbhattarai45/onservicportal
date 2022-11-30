@@ -43,7 +43,8 @@ function AddAds() {
 
     if (
       (name == "ads_location" && value == "HOMETOP") ||
-      (name == "ads_location" && value == "HOMEBOTTOM")
+      (name == "ads_location" && value == "HOMEBOTTOM") ||
+      (name == "ads_location" && value == "BMAD")
     ) {
       setValues((prevValues) => ({
         ...prevValues,

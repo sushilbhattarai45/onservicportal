@@ -262,7 +262,7 @@ const SPForm = ({
           label="Contact"
           onChange={handleInputChange}
           value={values.sp_contact}
-          InputProps={{ inputProps: { min: 9800000000, max: 989999999999 } }}
+          InputProps={{ inputProps: { min: 980000000, max: 989999999999 } }}
         />
 
         <FormControl fullWidth>
@@ -277,6 +277,7 @@ const SPForm = ({
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
             <MenuItem value="Others">Others</MenuItem>
+            <MenuItem value="Company">Company</MenuItem>
           </Select>
         </FormControl>
 

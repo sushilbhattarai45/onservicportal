@@ -19,6 +19,7 @@ function EditSubCategory() {
     subCat_updatedby: account.displayName,
     categories: [],
     category_id: "",
+    subCat_isSecond: false,
   });
 
   const [image, setImage] = useState("");
@@ -28,37 +29,7 @@ function EditSubCategory() {
 
   const handleFilesChange = async (event) => {
     const file = event.target.files[0];
-
     console.log(file);
-
-    if (!file) {
-      return;
-    }
-
-    // setImage(file);
-    console.log(URL.createObjectURL(file));
-
-    let data = new FormData();
-    data.append("file", file);
-
-    console.log(data);
-
-    try {
-      const response = await axios.post("/v1/api/user/uploadImage", {
-        data: data,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response?.data);
-
-      toast.success("Image uploaded successfully");
-
-      setDisableButton(false);
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(image);
   };
 
   const handleInputChange = (event) => {
@@ -128,14 +99,31 @@ function EditSubCategory() {
   };
 
   const getAllCategories = async () => {
+    let data;
+
     try {
-      const { data } = await axios.post("/v1/api/categories", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-      });
-
-      console.log(data);
-
       const newValues = await getSubCategoryDetails();
+
+      if (newValues.subCat_isSecond) {
+        //get all sub categories
+        const { data: subcategories } = await axios.post(
+          "/v1/api/subcategories/getallsubcategory",
+          {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          }
+        );
+
+        console.log(subcategories);
+        data = subcategories.data;
+      } else {
+        //get all categories
+        const { data: categories } = await axios.post("/v1/api/categories", {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        });
+
+        console.log(categories);
+        data = categories;
+      }
 
       toast.success("Details fetched successfully");
 
@@ -168,6 +156,7 @@ function EditSubCategory() {
           handleFilesChange={handleFilesChange}
           handleInputChange={handleInputChange}
           buttonText="Update"
+          edit={true}
         />
       </Container>
     </Page>

@@ -16,6 +16,7 @@ const SubCategoryForm = ({
   handleFilesChange,
   handleInputChange,
   buttonText,
+  edit,
 }) => {
   return (
     <form onSubmit={handleFormSubmit}>
@@ -39,6 +40,24 @@ const SubCategoryForm = ({
         direction={{ xs: "column", sm: "row" }}
         spacing={{ xs: 1, sm: 2, md: 1 }}
       >
+        <FormControl fullWidth>
+          <InputLabel id="select-isSubcat">
+            Is 2<sup>nd</sup> Sub Category?
+          </InputLabel>
+          <Select
+            labelId="select-isSubcat"
+            value={values?.subCat_isSecond}
+            label="Is 2nd Sub Category?"
+            onChange={handleInputChange}
+            name="subCat_isSecond"
+            required
+            disabled={edit}
+          >
+            <MenuItem value={true}>Yes</MenuItem>
+            <MenuItem value={false}>No</MenuItem>
+          </Select>
+        </FormControl>
+
         <FormControl sx={{ my: 1 }} fullWidth>
           <InputLabel htmlFor="name">Name</InputLabel>
           <OutlinedInput
@@ -53,18 +72,22 @@ const SubCategoryForm = ({
         </FormControl>
 
         <FormControl fullWidth>
-          <InputLabel id="select-verified">Category</InputLabel>
+          <InputLabel id="select-verified">
+            {values.subCat_isSecond ? `Sub category` : `Category`}
+          </InputLabel>
           <Select
             labelId="select-verified"
             value={values?.category_id}
-            label="Category"
+            label={values.subCat_isSecond ? `Sub category` : `Category`}
             onChange={handleInputChange}
             name="category_id"
             required
           >
             {values?.categories.map((category) => (
               <MenuItem value={category._id} key={category._id}>
-                {category.category_name}
+                {values.subCat_isSecond
+                  ? category.subCat_name
+                  : category.category_name}
               </MenuItem>
             ))}
           </Select>
