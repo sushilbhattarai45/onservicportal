@@ -35,10 +35,6 @@ const TABLE_HEAD = [
   { id: "sp_name", label: "Name" },
   { id: "sp_bio", label: "Bio" },
   { id: "sp_paid", label: "Paid" },
-  {
-    id: "sp_skills",
-    label: "Skills",
-  },
   { id: "sp_district", label: "District" },
   { id: "sp_city", label: "City" },
   { id: "sp_street", label: "Street" },
@@ -250,7 +246,6 @@ export default function ServiceProviders() {
                       _id,
                       sp_name,
                       sp_bio,
-                      sp_skills,
                       sp_district,
                       sp_city,
                       sp_street,
@@ -306,7 +301,7 @@ export default function ServiceProviders() {
                             <Label color="success">Paid</Label>
                           )}
                         </TableCell>
-                        <TableCell align="left">{sp_skills}</TableCell>
+
                         <TableCell align="left">{sp_district}</TableCell>
                         <TableCell align="left">{sp_city}</TableCell>
                         <TableCell align="left">{sp_street}</TableCell>
