@@ -31,20 +31,38 @@ function EditServiceProvider() {
   // const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
+  const [imageLoading, setImageLoading] = useState(false);
   const handleFilesChange = async (event) => {
-    const file = event.target.files[0];
-
-    console.log(file);
+    const [file] = event.target.files;
 
     if (!file) {
       return;
     }
 
-    // setImage(file);
-    console.log(URL.createObjectURL(file));
+    setImageLoading(true);
 
-    let data = new FormData();
-    data.append("file", file);
+    const formData = new FormData();
+    formData.append("pic", file);
+
+    try {
+      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const { msg, imgUrl } = data;
+
+      toast.success(msg);
+      setDisableButton(false);
+      setValues({
+        ...values,
+        sp_profileImage: imgUrl,
+      });
+    } catch (err) {
+      toast.error("Error uploading image");
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   const handleInputChange = (event) => {
@@ -110,6 +128,7 @@ function EditServiceProvider() {
           disableButton={disableButton}
           setDisableButton={setDisableButton}
           buttonText="Update"
+          imageLoading={imageLoading}
         />
       </Container>
     </Page>

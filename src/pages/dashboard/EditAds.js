@@ -30,8 +30,38 @@ function EditAds() {
 
   const id = window.location.pathname.split("/")[3];
 
+  const [imageLoading, setImageLoading] = useState(false);
   const handleFilesChange = async (event) => {
-    const file = event.target.files[0];
+    const [file] = event.target.files;
+
+    if (!file) {
+      return;
+    }
+
+    setImageLoading(true);
+
+    const formData = new FormData();
+    formData.append("pic", file);
+
+    try {
+      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const { msg, imgUrl } = data;
+
+      toast.success(msg);
+      setDisableButton(false);
+      setValues({
+        ...values,
+        ads_mediaLink: imgUrl,
+      });
+    } catch (err) {
+      toast.error("Error uploading image");
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   const handleInputChange = async (event) => {
@@ -165,6 +195,7 @@ function EditAds() {
           setValues={setValues}
           setDisableButton={setDisableButton}
           tags={tags}
+          imageLoading={imageLoading}
         />
       </Container>
     </Page>

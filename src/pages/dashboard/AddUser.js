@@ -21,47 +21,41 @@ function AddUser() {
     user_status: "ACTIVE",
   });
 
-  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
 
   const handleFilesChange = async (event) => {
-    const file = event.target.files[0];
-
-    console.log(file);
+    const [file] = event.target.files;
 
     if (!file) {
       return;
     }
 
-    // setImage(file);
-    console.log(URL.createObjectURL(file));
+    setImageLoading(true);
 
-    const data = new FormData();
-    data.append("profile", {
-      uri: file.url,
-      name: file.name,
-      type: "image/jpg",
-    });
+    const formData = new FormData();
+    formData.append("pic", file);
 
     const serverUrl = "http://172.104.188.69:3001/v1/api/user/uploadImage";
     try {
-      const response = await axios.post(serverUrl, {
-        method: "post",
-        data: data,
+      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      let url = response?.data?.fileName;
-      console.log(url);
+      const { msg, imgUrl } = data;
 
-      toast.success("Image uploaded successfully");
-
+      toast.success(msg);
       setDisableButton(false);
+      setValues({
+        ...values,
+        user_profileImage: imgUrl,
+      });
     } catch (err) {
-      console.log(err);
+      toast.error("Error uploading image");
+    } finally {
+      setImageLoading(false);
     }
-    console.log(image);
   };
 
   const handleInputChange = (event) => {
@@ -105,6 +99,7 @@ function AddUser() {
     <Page title="Add new user">
       <Container>
         <UserForm
+          imageLoading={imageLoading}
           values={values}
           handleFormSubmit={handleFormSubmit}
           disableButton={disableButton}

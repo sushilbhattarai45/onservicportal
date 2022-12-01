@@ -34,13 +34,46 @@ function EditServiceProvider() {
     sp_verified: true,
     sp_createdBy: account.displayName,
     sp_platform: "web",
+    employee_contact: account.contact,
   });
 
   const navigate = useNavigate();
 
   const [disableButton, setDisableButton] = useState(true);
 
-  const handleFilesChange = async (event) => {};
+  const [imageLoading, setImageLoading] = useState(false);
+  const handleFilesChange = async (event) => {
+    const [file] = event.target.files;
+
+    if (!file) {
+      return;
+    }
+
+    setImageLoading(true);
+
+    const formData = new FormData();
+    formData.append("pic", file);
+
+    try {
+      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const { msg, imgUrl } = data;
+
+      toast.success(msg);
+      setDisableButton(false);
+      setValues({
+        ...values,
+        sp_profileImage: imgUrl,
+      });
+    } catch (err) {
+      toast.error("Error uploading image");
+    } finally {
+      setImageLoading(false);
+    }
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -119,6 +152,7 @@ function EditServiceProvider() {
           setDisableButton={setDisableButton}
           buttonText="Save"
           email={true}
+          imageLoading={imageLoading}
         />
       </Container>
     </Page>

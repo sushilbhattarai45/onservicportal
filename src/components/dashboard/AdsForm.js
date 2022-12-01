@@ -9,6 +9,7 @@ import {
   MenuItem,
   Box,
   Chip,
+  CircularProgress,
 } from "@mui/material";
 
 const AdsForm = ({
@@ -21,6 +22,7 @@ const AdsForm = ({
   buttonText,
   setDisableButton,
   tags,
+  imageLoading,
 }) => {
   const handleTagChange = (event) => {
     const {
@@ -37,11 +39,15 @@ const AdsForm = ({
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={2} direction="row" alignItems="center">
-        <img
-          src={values?.ads_mediaLink}
-          alt="Error loading image"
-          height="150"
-        />
+        {imageLoading ? (
+          <CircularProgress />
+        ) : (
+          <img
+            src={values?.ads_mediaLink}
+            alt="Error loading image"
+            width="150"
+          />
+        )}
         <FormControl>
           <input
             id="outlined-adornment-amount"
