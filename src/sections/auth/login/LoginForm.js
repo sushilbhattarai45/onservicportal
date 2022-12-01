@@ -1,21 +1,14 @@
 import * as Yup from "yup";
 import { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 import { useFormik, Form, FormikProvider } from "formik";
 // material
-import {
-  Link,
-  Stack,
-  Checkbox,
-  TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel,
-} from "@mui/material";
+import { Stack, Checkbox, TextField, FormControlLabel } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-// component
-import Iconify from "../../../components/Iconify";
+
 import toast from "react-hot-toast";
+import axios from "axios";
 
 // user logged in or not
 import { useContext } from "react";
@@ -25,52 +18,113 @@ export default function LoginForm() {
   const { login } = useContext(ContextProvider);
   const [, setUser] = login;
 
+  const [userExists, setUserExists] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const [loginUser, setLoginUser] = useState({});
+
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
-
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Email must be a valid email address")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+    contact: Yup.string()
+      .matches(/^[0-9]+$/, "Invalid phone number")
+      .required("Phone number is required")
+      .min(10, "Phone number must be exactly 10 digits")
+      .max(10, "Must be exactly 10 digits"),
+    otp: Yup.string()
+      .min(6, "OTP must be exactly 6 digits")
+      .max(6, "OTP must be exactly 6 digits"),
   });
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      contact: "",
+      otp: "",
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      if (
-        formik.values.email === "test@admin.com" &&
-        formik.values.password === "test"
-      ) {
-        const user = {
-          displayName: "Aashish",
-          email: formik.values.email,
-          photoURL: "/static/illustrations/illustration_avatar.png",
-        };
-        setUser(user);
-        if (formik.values.remember) {
-          localStorage.setItem("user", JSON.stringify(user));
-        }
-        toast.success("Login Successful");
-        navigate("/app", { replace: true });
+    onSubmit: async () => {
+      if (userExists) {
+        handleLogin();
       } else {
-        toast.error("Invalid Credentials");
+        await sendOTP();
+        return true;
       }
     },
   });
 
+  const sendOTP = async () => {
+    const contact = formik.values.contact;
+    if (`${contact}`.length !== 10) {
+      toast.error("Invalid Phone Number");
+      return;
+    }
+
+    try {
+      const { data } = await axios.post("v1/api/employee/login", {
+        employee_contact: contact,
+        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      });
+
+      if (data.statuscode === 404) {
+        toast.error("User does not exist");
+        setUserExists(false);
+        return;
+      }
+
+      if (data.statuscode === 201) {
+        setUserExists(true);
+
+        const { employee_post } = data.data;
+        if (employee_post === "E2") {
+          toast.error("You are not authorized to login");
+          return;
+        }
+
+        // save the user details
+        setLoginUser(data.data);
+
+        toast.success("OTP sent to your phone number");
+        //save the otp
+        setOtp(data.otp);
+        return;
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleLogin = () => {
+    const enteredOtp = formik.values.otp;
+
+    if (enteredOtp === "" || enteredOtp.length !== 6) {
+      toast.error("Invalid OTP");
+      return;
+    }
+
+    if (enteredOtp == otp) {
+      const user = {
+        displayName: loginUser.employee_name,
+        contact: loginUser.employee_contact,
+        post: loginUser.employee_post,
+        photoURL: "/static/illustrations/illustration_avatar.png",
+      };
+
+      setUser(user);
+
+      if (formik.values.remember) {
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+
+      toast.success("Login Successful");
+      navigate("/app", { replace: true });
+    } else {
+      console.log(enteredOtp, otp);
+      toast.error("Invalid OTP");
+    }
+  };
+
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
     formik;
-
-  const handleShowPassword = () => {
-    setShowPassword((show) => !show);
-  };
 
   return (
     <FormikProvider value={formik}>
@@ -78,34 +132,28 @@ export default function LoginForm() {
         <Stack spacing={3}>
           <TextField
             fullWidth
-            autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps("email")}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            autoComplete="phone"
+            type="number"
+            label="Contact number"
+            {...getFieldProps("contact")}
+            error={Boolean(touched.contact && errors.contact)}
+            helperText={touched.contact && errors.contact}
+            disabled={userExists}
+            required
           />
 
-          <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showPassword ? "text" : "password"}
-            label="Password"
-            {...getFieldProps("password")}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleShowPassword} edge="end">
-                    <Iconify
-                      icon={showPassword ? "eva:eye-fill" : "eva:eye-off-fill"}
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
-          />
+          {userExists && (
+            <TextField
+              fullWidth
+              autoComplete="otp"
+              type="text"
+              label="OTP"
+              {...getFieldProps("otp")}
+              error={Boolean(touched.otp && errors.otp)}
+              helperText={touched.otp && errors.otp}
+              required
+            />
+          )}
         </Stack>
 
         <Stack
@@ -123,15 +171,6 @@ export default function LoginForm() {
             }
             label="Remember me"
           />
-
-          <Link
-            component={RouterLink}
-            variant="subtitle2"
-            to="#"
-            underline="hover"
-          >
-            Forgot password?
-          </Link>
         </Stack>
 
         <LoadingButton

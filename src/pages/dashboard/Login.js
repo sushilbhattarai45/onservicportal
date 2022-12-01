@@ -61,19 +61,6 @@ export default function Login() {
       <RootStyle>
         <HeaderStyle>
           <Logo />
-
-          {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {""}
-              <Link
-                variant="subtitle2"
-                component={RouterLink}
-                to="/admin/register"
-              >
-                Get started
-              </Link>
-            </Typography>
-          )}
         </HeaderStyle>
 
         {mdUp && (
