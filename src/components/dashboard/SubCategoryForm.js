@@ -7,6 +7,7 @@ import {
   Button,
   Select,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 
 const SubCategoryForm = ({
@@ -17,11 +18,20 @@ const SubCategoryForm = ({
   handleInputChange,
   buttonText,
   edit,
+  imageLoading,
 }) => {
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={2} direction="row" alignItems="center">
-        <img src={values?.subCat_photo} alt="Error loading image" width="150" />
+        {imageLoading ? (
+          <CircularProgress />
+        ) : (
+          <img
+            src={values?.subCat_photo}
+            alt="Error loading image"
+            width="150"
+          />
+        )}
         <FormControl>
           <input
             id="outlined-adornment-amount"
@@ -30,6 +40,7 @@ const SubCategoryForm = ({
             label="Upload Image"
             accept="image/*"
             name="category_photo"
+            required
           />
         </FormControl>
       </Stack>

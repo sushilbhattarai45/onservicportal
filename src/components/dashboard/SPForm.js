@@ -9,6 +9,7 @@ import {
   MenuItem,
   Box,
   Chip,
+  CircularProgress,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
@@ -24,6 +25,7 @@ const SPForm = ({
   setDisableButton,
   buttonText,
   email,
+  imageLoading,
 }) => {
   const [skills, setSkills] = useState([]);
   const handleSkillsChange = (event) => {
@@ -64,9 +66,11 @@ const SPForm = ({
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={2} direction="row" alignItems="center">
-        {values?.sp_profileImage && (
+        {imageLoading ? (
+          <CircularProgress />
+        ) : (
           <img
-            src={values.sp_profileImage}
+            src={values?.sp_profileImage}
             alt="Error loading image"
             width="150"
           />
@@ -79,6 +83,7 @@ const SPForm = ({
             label="Upload Image"
             accept="image/*"
             name="user_profileImage"
+            required
           />
         </FormControl>
       </Stack>
