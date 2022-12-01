@@ -65,6 +65,15 @@ function EditServiceProvider() {
     }
   };
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    setDisableButton(false);
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
