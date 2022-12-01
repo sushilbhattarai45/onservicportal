@@ -24,39 +24,38 @@ function EditCategory() {
 
   const id = window.location.pathname.split("/")[3];
 
+  const [imageLoading, setImageLoading] = useState(false);
   const handleFilesChange = async (event) => {
-    const file = event.target.files[0];
-
-    console.log(file);
+    const [file] = event.target.files;
 
     if (!file) {
       return;
     }
 
-    // setImage(file);
-    console.log(URL.createObjectURL(file));
+    setImageLoading(true);
 
-    let data = new FormData();
-    data.append("file", file);
-
-    console.log(data);
+    const formData = new FormData();
+    formData.append("pic", file);
 
     try {
-      const response = await axios.post("/v1/api/user/uploadImage", {
-        data: data,
+      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response?.data);
+      const { msg, imgUrl } = data;
 
-      toast.success("Image uploaded successfully");
-
+      toast.success(msg);
       setDisableButton(false);
+      setValues({
+        ...values,
+        category_photo: imgUrl,
+      });
     } catch (err) {
-      console.log(err);
+      toast.error("Error uploading image");
+    } finally {
+      setImageLoading(false);
     }
-    console.log(image);
   };
 
   const handleInputChange = (event) => {
@@ -126,6 +125,7 @@ function EditCategory() {
           handleFilesChange={handleFilesChange}
           handleInputChange={handleInputChange}
           buttonText="Update"
+          imageLoading={imageLoading}
         />
       </Container>
     </Page>

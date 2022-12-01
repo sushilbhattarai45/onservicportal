@@ -22,14 +22,42 @@ function EditSubCategory() {
     subCat_isSecond: false,
   });
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const id = window.location.pathname.split("/")[3];
 
+  const [imageLoading, setImageLoading] = useState(false);
   const handleFilesChange = async (event) => {
-    const file = event.target.files[0];
-    console.log(file);
+    const [file] = event.target.files;
+
+    if (!file) {
+      return;
+    }
+
+    setImageLoading(true);
+
+    const formData = new FormData();
+    formData.append("pic", file);
+
+    try {
+      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const { msg, imgUrl } = data;
+
+      toast.success(msg);
+      setDisableButton(false);
+      setValues({
+        ...values,
+        subCat_photo: imgUrl,
+      });
+    } catch (err) {
+      toast.error("Error uploading image");
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   const handleInputChange = (event) => {
@@ -157,6 +185,7 @@ function EditSubCategory() {
           handleInputChange={handleInputChange}
           buttonText="Update"
           edit={true}
+          imageLoading={imageLoading}
         />
       </Container>
     </Page>
