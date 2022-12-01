@@ -7,6 +7,7 @@ import {
   Button,
   MenuItem,
   Select,
+  CircularProgress,
 } from "@mui/material";
 
 const UserForm = ({
@@ -16,15 +17,20 @@ const UserForm = ({
   handleFilesChange,
   handleInputChange,
   buttonText,
+  imageLoading,
 }) => {
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={2} direction="row" alignItems="center">
-        <img
-          src={values?.user_profileImage}
-          alt="Error loading image"
-          width="150"
-        />
+        {imageLoading ? (
+          <CircularProgress />
+        ) : (
+          <img
+            src={values?.user_profileImage}
+            alt="Error loading image"
+            width="150"
+          />
+        )}
         <FormControl>
           <input
             id="outlined-adornment-amount"
