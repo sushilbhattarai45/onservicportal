@@ -73,19 +73,14 @@ function EditSubCategory() {
     event.preventDefault();
 
     if (!disableButton) {
-      setValues({
-        ...values,
-        subCat_updatedby: account.displayName,
-      });
-
       const toastId = toast.loading("Saving...");
 
       const formatedData = {
         subCategory_photo: values.subCat_photo,
         subCategory_status: values.subCat_status,
-        subCategory_updatedby: values.subCat_updatedby,
         subCategory_name: values.subCat_name,
         category_id: values.category_id,
+        subCategory_updatedby: account.displayName,
       };
 
       try {

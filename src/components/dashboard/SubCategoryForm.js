@@ -143,8 +143,8 @@ const SubCategoryForm = ({
             onChange={handleInputChange}
             name="subCat_status"
           >
-            <MenuItem value={true}>True</MenuItem>
-            <MenuItem value={false}>False</MenuItem>
+            <MenuItem value={true}>Active</MenuItem>
+            <MenuItem value={false}>Inactive</MenuItem>
           </Select>
         </FormControl>
       </Stack>
