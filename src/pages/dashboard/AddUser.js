@@ -23,6 +23,7 @@ function AddUser() {
 
   const [imageLoading, setImageLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
+  const [contactError, setContactError] = useState("");
 
   const navigate = useNavigate();
 
@@ -65,11 +66,24 @@ function AddUser() {
       ...values,
       [name]: value,
     });
+
+    if (name === "user_contact") {
+      if (value.length !== 10) {
+        setContactError("Contact number must be 10 digits");
+      } else {
+        setContactError("");
+      }
+    }
     setDisableButton(false);
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    if (values?.user_contact?.length !== 10) {
+      setContactError("Invalid contact number");
+      return;
+    }
 
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
@@ -109,6 +123,7 @@ function AddUser() {
           handleFilesChange={handleFilesChange}
           handleInputChange={handleInputChange}
           buttonText="Save"
+          contactError={contactError}
         />
       </Container>
     </Page>

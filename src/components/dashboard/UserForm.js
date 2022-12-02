@@ -20,6 +20,7 @@ const UserForm = ({
   handleInputChange,
   buttonText,
   imageLoading,
+  contactError,
 }) => {
   return (
     <form onSubmit={handleFormSubmit}>
@@ -162,6 +163,9 @@ const UserForm = ({
           label="Contact"
           onChange={handleInputChange}
           value={values?.user_contact}
+          required
+          error={contactError}
+          helperText={contactError}
         />
 
         <TextField
