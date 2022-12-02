@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   CircularProgress,
+  Autocomplete,
 } from "@mui/material";
 
 import districts from "../../utils/districts";
@@ -98,21 +99,22 @@ const UserForm = ({
         justifyContent="space-between"
         my={2}
       >
-        <FormControl fullWidth>
-          <InputLabel id="select-districts">District</InputLabel>
-          <Select
-            labelId="select-districts"
-            value={values.user_district}
-            label="District"
-            onChange={handleInputChange}
-            name="user_district"
-            required
-          >
-            {districts.map((district) => (
-              <MenuItem value={district.value}>{district.label}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Autocomplete
+          fullWidth
+          id="district-select"
+          options={districts}
+          name="user_district"
+          value={values?.user_district}
+          onChange={(_, value) => {
+            handleInputChange({
+              target: {
+                name: "user_district",
+                value,
+              },
+            });
+          }}
+          renderInput={(params) => <TextField {...params} label="District" />}
+        />
 
         <FormControl sx={{ mx: 2 }} fullWidth>
           <InputLabel htmlFor="city">City</InputLabel>

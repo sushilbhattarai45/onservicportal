@@ -31,10 +31,7 @@ const SPForm = ({
   contactError,
 }) => {
   const [skills, setSkills] = useState([]);
-  const handleSkillsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+  const handleSkillsChange = (event, value) => {
     setValues({
       ...values,
       sp_skills: typeof value === "string" ? value.split(",") : value,
@@ -121,7 +118,17 @@ const SPForm = ({
           required
         />
 
-        <FormControl fullWidth>
+        <Autocomplete
+          fullWidth
+          multiple
+          value={values?.sp_skills}
+          onChange={handleSkillsChange}
+          id="controllable-states-demo"
+          options={skills}
+          renderInput={(params) => <TextField {...params} label="Skills" />}
+        />
+
+        {/* <FormControl fullWidth>
           <InputLabel id="multiple-skills-label">Skills</InputLabel>
           <Select
             required
@@ -145,7 +152,7 @@ const SPForm = ({
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
       </Stack>
       <Stack
         direction={{ xs: "column", sm: "row" }}
@@ -221,7 +228,6 @@ const SPForm = ({
           name="sp_officeNumber"
           type="number"
           label="Office Number"
-          InputProps={{ inputProps: { min: 100000, max: 989999999999 } }}
           onChange={handleInputChange}
           value={values.sp_officeNumber}
         />
@@ -230,36 +236,17 @@ const SPForm = ({
           fullWidth
           id="district-select"
           options={districts}
-          onChange={(_, value) =>
+          name="sp_district"
+          value={values?.sp_district}
+          onChange={(_, value) => {
             handleInputChange({
               target: {
                 name: "sp_district",
-                value: value.value,
+                value,
               },
-            })
-          }
-          name="sp_district"
-          value={values.sp_district}
-          autoHighlight
-          getOptionLabel={(option) => option.value || ""}
-          renderOption={(props, option) => (
-            <Box
-              component="li"
-              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-              {...props}
-            >
-              {option.label}
-            </Box>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="District"
-              inputProps={{
-                ...params.inputProps,
-              }}
-            />
-          )}
+            });
+          }}
+          renderInput={(params) => <TextField {...params} label="District" />}
         />
 
         <FormControl sx={{ mx: 2 }} fullWidth>
