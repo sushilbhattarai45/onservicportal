@@ -28,7 +28,6 @@ function AddSubCategory() {
   const [subCategories, setSubCategories] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const navigate = useNavigate();

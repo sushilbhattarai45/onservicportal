@@ -21,7 +21,6 @@ function EditProfile() {
     user_profileImage: "",
   });
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const [imageLoading, setImageLoading] = useState(false);
