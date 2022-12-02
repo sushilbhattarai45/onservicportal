@@ -138,6 +138,8 @@ function EditAds() {
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
 
+      console.log(values);
+
       try {
         await axios.post(`/v1/api/ads/updateAds`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
