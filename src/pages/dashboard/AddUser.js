@@ -70,10 +70,8 @@ function AddUser() {
     if (name === "user_contact") {
       if (value.length !== 10) {
         setContactError("Contact number must be 10 digits");
-        setDisableButton(true);
       } else {
         setContactError("");
-        setDisableButton(false);
       }
     }
     setDisableButton(false);
