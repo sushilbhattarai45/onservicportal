@@ -60,7 +60,7 @@ const UserForm = ({
             label="name"
             onChange={handleInputChange}
             value={values?.user_name}
-            required
+            required={buttonText === "Update" ? false : true}
           />
         </FormControl>
 
