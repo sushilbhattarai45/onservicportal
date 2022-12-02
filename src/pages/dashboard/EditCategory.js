@@ -72,16 +72,13 @@ function EditCategory() {
 
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
-      setValues({
-        ...values,
-        category_updatedby: account.displayName,
-      });
 
       try {
         const { data } = await axios.post(`/v1/api/categories/updatecategory`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
           id,
+          category_updatedby: account.displayName,
         });
 
         if (data.statuscode === 400) {
