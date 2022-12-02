@@ -56,6 +56,7 @@ const AdsForm = ({
             label="Upload Image"
             accept="image/*"
             name="ads_mediaLink"
+            required={values?.ads_mediaLink ? false : true}
           />
         </FormControl>
       </Stack>

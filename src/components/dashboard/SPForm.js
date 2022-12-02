@@ -83,7 +83,7 @@ const SPForm = ({
             label="Upload Image"
             accept="image/*"
             name="user_profileImage"
-            required={buttonText === "Update" ? false : true}
+            required={values?.sp_profileImage ? false : true}
           />
         </FormControl>
       </Stack>
