@@ -95,6 +95,8 @@ function EditSubCategory() {
           duration: 4000,
           position: "top-center",
         });
+
+        await getAllCategories();
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);

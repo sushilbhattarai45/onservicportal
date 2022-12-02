@@ -45,6 +45,8 @@ function EditEmployee() {
           duration: 4000,
           position: "top-center",
         });
+
+        await getEmployeeDetails();
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);

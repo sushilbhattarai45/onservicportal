@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import axios from "axios";
 import UserForm from "../../components/dashboard/UserForm";
+import { useNavigate } from "react-router-dom";
 
 function AddUser() {
   const [values, setValues] = useState({
@@ -22,6 +23,8 @@ function AddUser() {
 
   const [imageLoading, setImageLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
+
+  const navigate = useNavigate();
 
   const handleFilesChange = async (event) => {
     const [file] = event.target.files;
@@ -83,6 +86,8 @@ function AddUser() {
             duration: 4000,
             position: "top-center",
           });
+
+          navigate(`/users/edit/${data.data.user_contact}`);
         }
       } catch (error) {
         toast.error("Something went wrong");
