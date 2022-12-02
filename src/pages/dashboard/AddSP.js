@@ -20,8 +20,7 @@ function EditServiceProvider() {
     sp_contact: "",
     sp_gender: "Male",
     sp_skills: [],
-    sp_profileImage:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
+    sp_profileImage: "",
     sp_verified: false,
     sp_status: "ACTIVE",
     sp_bio: "",
@@ -40,6 +39,7 @@ function EditServiceProvider() {
   const navigate = useNavigate();
 
   const [disableButton, setDisableButton] = useState(true);
+  const [contactError, setContactError] = useState("");
 
   const [imageLoading, setImageLoading] = useState(false);
   const handleFilesChange = async (event) => {
@@ -81,11 +81,24 @@ function EditServiceProvider() {
       ...values,
       [name]: value,
     });
+
+    if (name === "sp_contact") {
+      if (value.length !== 10) {
+        setContactError("Contact number must be 10 digits");
+      } else {
+        setContactError("");
+      }
+    }
     setDisableButton(false);
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    if (values.sp_contact.length !== 10) {
+      setContactError("Invalide contact");
+      return;
+    }
 
     if (!disableButton) {
       const toastId = toast.loading("Adding Service Provider...");
@@ -153,6 +166,7 @@ function EditServiceProvider() {
           buttonText="Save"
           email={true}
           imageLoading={imageLoading}
+          contactError={contactError}
         />
       </Container>
     </Page>

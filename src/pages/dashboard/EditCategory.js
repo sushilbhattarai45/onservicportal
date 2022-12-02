@@ -19,7 +19,6 @@ function EditCategory() {
     category_updatedby: account.displayName,
   });
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const id = window.location.pathname.split("/")[3];
@@ -72,20 +71,26 @@ function EditCategory() {
 
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
-      console.log(values);
 
       try {
-        await axios.post(`/v1/api/categories/updatecategory`, {
+        const { data } = await axios.post(`/v1/api/categories/updatecategory`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
           id,
+          category_updatedby: account.displayName,
         });
+
+        if (data.statuscode === 400) {
+          toast.error(data.error);
+        }
 
         setDisableButton(true);
         toast.success("Category updated successfully", {
           duration: 4000,
           position: "top-center",
         });
+
+        await getCategoryDetails();
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);

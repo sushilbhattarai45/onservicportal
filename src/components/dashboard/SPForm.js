@@ -26,6 +26,7 @@ const SPForm = ({
   buttonText,
   email,
   imageLoading,
+  contactError,
 }) => {
   const [skills, setSkills] = useState([]);
   const handleSkillsChange = (event) => {
@@ -83,7 +84,7 @@ const SPForm = ({
             label="Upload Image"
             accept="image/*"
             name="user_profileImage"
-            required
+            required={values?.sp_profileImage ? false : true}
           />
         </FormControl>
       </Stack>
@@ -267,7 +268,9 @@ const SPForm = ({
           label="Contact"
           onChange={handleInputChange}
           value={values.sp_contact}
-          InputProps={{ inputProps: { min: 980000000, max: 989999999999 } }}
+          required
+          error={contactError}
+          helperText={contactError}
         />
 
         <FormControl fullWidth>

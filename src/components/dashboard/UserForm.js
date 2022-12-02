@@ -10,6 +10,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 
+import districts from "../../utils/districts";
+
 const UserForm = ({
   values,
   handleFormSubmit,
@@ -18,6 +20,7 @@ const UserForm = ({
   handleInputChange,
   buttonText,
   imageLoading,
+  contactError,
 }) => {
   return (
     <form onSubmit={handleFormSubmit}>
@@ -39,6 +42,7 @@ const UserForm = ({
             label="Upload Image"
             accept="image/*"
             name="user_profileImage"
+            required={values?.user_profileImage ? false : true}
           />
         </FormControl>
       </Stack>
@@ -95,16 +99,21 @@ const UserForm = ({
         my={2}
       >
         <FormControl fullWidth>
-          <InputLabel htmlFor="district">District</InputLabel>
-          <OutlinedInput
-            id="district"
-            name="user_district"
-            type="text"
-            label="district"
+          <InputLabel id="select-districts">District</InputLabel>
+          <Select
+            labelId="select-districts"
+            value={values.user_district}
+            label="District"
             onChange={handleInputChange}
-            value={values?.user_district}
-          />
+            name="user_district"
+            required
+          >
+            {districts.map((district) => (
+              <MenuItem value={district.value}>{district.label}</MenuItem>
+            ))}
+          </Select>
         </FormControl>
+
         <FormControl sx={{ mx: 2 }} fullWidth>
           <InputLabel htmlFor="city">City</InputLabel>
           <OutlinedInput
@@ -154,6 +163,9 @@ const UserForm = ({
           label="Contact"
           onChange={handleInputChange}
           value={values?.user_contact}
+          required
+          error={contactError}
+          helperText={contactError}
         />
         <TextField
           fullWidth

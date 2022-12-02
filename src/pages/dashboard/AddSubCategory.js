@@ -21,15 +21,13 @@ function AddSubCategory() {
     subCat_updatedby: account.displayName,
     categories: [],
     category_id: "",
-    subCat_photo:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
+    subCat_photo: "",
     subCat_isSecond: false,
   });
 
   const [subCategories, setSubCategories] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const navigate = useNavigate();

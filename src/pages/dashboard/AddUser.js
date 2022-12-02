@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import axios from "axios";
 import UserForm from "../../components/dashboard/UserForm";
+import { useNavigate } from "react-router-dom";
 
 function AddUser() {
   const [values, setValues] = useState({
@@ -16,13 +17,15 @@ function AddUser() {
     user_contact: "",
     user_gender: "Male",
     user_password: "1234",
-    user_profileImage:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
+    user_profileImage: "",
     user_status: "ACTIVE",
   });
 
   const [imageLoading, setImageLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
+  const [contactError, setContactError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleFilesChange = async (event) => {
     const [file] = event.target.files;
@@ -64,11 +67,24 @@ function AddUser() {
       ...values,
       [name]: value,
     });
+
+    if (name === "user_contact") {
+      if (value.length !== 10) {
+        setContactError("Contact number must be 10 digits");
+      } else {
+        setContactError("");
+      }
+    }
     setDisableButton(false);
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    if (values?.user_contact?.length !== 10) {
+      setContactError("Invalid contact number");
+      return;
+    }
 
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
@@ -85,6 +101,8 @@ function AddUser() {
             duration: 4000,
             position: "top-center",
           });
+
+          navigate(`/users/edit/${data.data.user_contact}`);
         }
       } catch (error) {
         toast.error("Something went wrong");
@@ -106,6 +124,7 @@ function AddUser() {
           handleFilesChange={handleFilesChange}
           handleInputChange={handleInputChange}
           buttonText="Save"
+          contactError={contactError}
         />
       </Container>
     </Page>

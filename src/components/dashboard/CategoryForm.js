@@ -39,6 +39,7 @@ const CategoryForm = ({
             label="Upload Image"
             accept="image/*"
             name="category_photo"
+            required={values?.category_photo ? false : true}
           />
         </FormControl>
       </Stack>
@@ -94,8 +95,8 @@ const CategoryForm = ({
             onChange={handleInputChange}
             name="category_status"
           >
-            <MenuItem value={true}>True</MenuItem>
-            <MenuItem value={false}>False</MenuItem>
+            <MenuItem value={true}>Active</MenuItem>
+            <MenuItem value={false}>Inactive</MenuItem>
           </Select>
         </FormControl>
       </Stack>

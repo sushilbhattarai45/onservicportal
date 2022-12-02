@@ -41,11 +41,18 @@ const AdsForm = ({
       <Stack spacing={2} direction="row" alignItems="center">
         {imageLoading ? (
           <CircularProgress />
-        ) : (
+        ) : values?.ads_type === "IMAGE" ? (
           <img
             src={values?.ads_mediaLink}
             alt="Error loading image"
-            width="150"
+            width="300"
+          />
+        ) : (
+          <video
+            src={values?.ads_mediaLink}
+            alt="Error loading video"
+            controls
+            width="300"
           />
         )}
         <FormControl>
@@ -54,8 +61,9 @@ const AdsForm = ({
             type="file"
             onChange={handleFilesChange}
             label="Upload Image"
-            accept="image/*"
+            accept={values?.ads_type === "IMAGE" ? "image/*" : "video/*"}
             name="ads_mediaLink"
+            required={values?.ads_mediaLink ? false : true}
           />
         </FormControl>
       </Stack>
@@ -114,39 +122,6 @@ const AdsForm = ({
         spacing={{ xs: 1, sm: 2, md: 1 }}
       >
         <FormControl fullWidth>
-          <InputLabel id="multiple-tags-label">Tags</InputLabel>
-          <Select
-            labelId="multiple-tags-label"
-            id="multiple-tags-label"
-            multiple
-            value={values.ads_tag}
-            onChange={handleTagChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Tags" />}
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-          >
-            {tags.map((tag) => (
-              <MenuItem key={tag} value={tag}>
-                {tag}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Stack>
-
-      <Stack
-        alignItems="center"
-        justifyContent="space-between"
-        my={2}
-        direction={{ xs: "column", sm: "row" }}
-        spacing={{ xs: 1, sm: 2, md: 1 }}
-      >
-        <FormControl fullWidth>
           <InputLabel id="select-verified">Location</InputLabel>
           <Select
             labelId="select-verified"
@@ -162,7 +137,41 @@ const AdsForm = ({
             <MenuItem value="CATAD">Category ad</MenuItem>
           </Select>
         </FormControl>
+        {values?.ads_location == "CATAD" && (
+          <FormControl fullWidth>
+            <InputLabel id="multiple-tags-label">Tags</InputLabel>
+            <Select
+              labelId="multiple-tags-label"
+              id="multiple-tags-label"
+              multiple
+              value={values.ads_tag}
+              onChange={handleTagChange}
+              input={<OutlinedInput id="select-multiple-chip" label="Tags" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </Box>
+              )}
+            >
+              {tags.map((tag) => (
+                <MenuItem key={tag} value={tag}>
+                  {tag}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+      </Stack>
 
+      <Stack
+        alignItems="center"
+        justifyContent="space-between"
+        my={2}
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
+      >
         <TextField
           fullWidth
           name="ads_updatedBy"

@@ -305,7 +305,7 @@ export default function User() {
                               (user_status === "ACTIVE" && "success") || "error"
                             }
                           >
-                            {sentenceCase(user_status)}
+                            {user_status && sentenceCase(user_status)}
                           </Label>
                         </TableCell>
 
