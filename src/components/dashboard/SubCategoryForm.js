@@ -40,7 +40,7 @@ const SubCategoryForm = ({
             label="Upload Image"
             accept="image/*"
             name="category_photo"
-            required={buttonText === "Update" ? false : true}
+            required={values?.subCat_photo ? false : true}
           />
         </FormControl>
       </Stack>

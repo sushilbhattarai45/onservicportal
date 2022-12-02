@@ -41,6 +41,7 @@ const UserForm = ({
             label="Upload Image"
             accept="image/*"
             name="user_profileImage"
+            required={values?.user_profileImage ? false : true}
           />
         </FormControl>
       </Stack>
@@ -60,7 +61,7 @@ const UserForm = ({
             label="name"
             onChange={handleInputChange}
             value={values?.user_name}
-            required={buttonText === "Update" ? false : true}
+            required
           />
         </FormControl>
 

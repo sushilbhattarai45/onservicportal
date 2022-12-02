@@ -39,6 +39,7 @@ const CategoryForm = ({
             label="Upload Image"
             accept="image/*"
             name="category_photo"
+            required={values?.category_photo ? false : true}
           />
         </FormControl>
       </Stack>
