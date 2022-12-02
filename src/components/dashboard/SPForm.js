@@ -7,8 +7,6 @@ import {
   Button,
   Select,
   MenuItem,
-  Box,
-  Chip,
   CircularProgress,
   Autocomplete,
 } from "@mui/material";
@@ -127,32 +125,6 @@ const SPForm = ({
           options={skills}
           renderInput={(params) => <TextField {...params} label="Skills" />}
         />
-
-        {/* <FormControl fullWidth>
-          <InputLabel id="multiple-skills-label">Skills</InputLabel>
-          <Select
-            required
-            labelId="multiple-skills-label"
-            id="multiple-skills-label"
-            multiple
-            value={values.sp_skills}
-            onChange={handleSkillsChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Skills" />}
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-          >
-            {skills.map((skill) => (
-              <MenuItem key={skill} value={skill}>
-                {skill}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
       </Stack>
       <Stack
         direction={{ xs: "column", sm: "row" }}
