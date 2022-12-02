@@ -73,6 +73,11 @@ function EditSubCategory() {
     event.preventDefault();
 
     if (!disableButton) {
+      setValues({
+        ...values,
+        subCat_updatedby: account.displayName,
+      });
+
       const toastId = toast.loading("Saving...");
 
       const formatedData = {
