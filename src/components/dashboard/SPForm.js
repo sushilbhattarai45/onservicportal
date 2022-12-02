@@ -14,6 +14,7 @@ import {
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import districts from "../../utils/districts";
 
 const SPForm = ({
   values,
@@ -223,17 +224,23 @@ const SPForm = ({
           onChange={handleInputChange}
           value={values.sp_officeNumber}
         />
+
         <FormControl fullWidth>
-          <InputLabel htmlFor="district">District</InputLabel>
-          <OutlinedInput
-            id="district"
-            name="sp_district"
-            type="text"
-            label="district"
-            onChange={handleInputChange}
+          <InputLabel id="select-districts">District</InputLabel>
+          <Select
+            labelId="select-districts"
             value={values.sp_district}
-          />
+            label="District"
+            onChange={handleInputChange}
+            name="sp_district"
+            required
+          >
+            {districts.map((district) => (
+              <MenuItem value={district.value}>{district.label}</MenuItem>
+            ))}
+          </Select>
         </FormControl>
+
         <FormControl sx={{ mx: 2 }} fullWidth>
           <InputLabel htmlFor="city">City</InputLabel>
           <OutlinedInput
