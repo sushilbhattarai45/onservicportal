@@ -136,17 +136,13 @@ function EditAds() {
     event.preventDefault();
 
     if (!disableButton) {
-      setValues({
-        ...values,
-        ads_updatedBy: account.displayName,
-      });
-
       const toastId = toast.loading("Saving...");
 
       try {
         await axios.post(`/v1/api/ads/updateAds`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
+          ads_updatedBy: account.displayName,
           _id: id,
         });
 
