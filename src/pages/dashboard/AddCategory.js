@@ -19,8 +19,7 @@ function AddCategory() {
     category_showonhome: false,
     category_photo: "",
     category_updatedby: account.displayName,
-    category_photo:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=780",
+    category_photo: "",
   });
 
   const [image, setImage] = useState("");
