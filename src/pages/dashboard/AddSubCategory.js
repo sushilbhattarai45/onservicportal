@@ -127,6 +127,14 @@ function AddSubCategory() {
             }
           );
 
+          if (data.statuscode == 600) {
+            toast.error(data.error, {
+              duration: 4000,
+              position: "top-center",
+            });
+            return;
+          }
+
           setDisableButton(true);
           toast.success("Sub Category added successfully", {
             duration: 4000,
