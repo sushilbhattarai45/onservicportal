@@ -90,6 +90,9 @@ function EditServiceProvider() {
       }
     }
     setDisableButton(false);
+
+    console.log(name + " " + value);
+    console.log(values);
   };
 
   const handleFormSubmit = async (event) => {

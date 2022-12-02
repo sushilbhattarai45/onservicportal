@@ -10,6 +10,7 @@ import {
   Box,
   Chip,
   CircularProgress,
+  Autocomplete,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
@@ -225,21 +226,41 @@ const SPForm = ({
           value={values.sp_officeNumber}
         />
 
-        <FormControl fullWidth>
-          <InputLabel id="select-districts">District</InputLabel>
-          <Select
-            labelId="select-districts"
-            value={values.sp_district}
-            label="District"
-            onChange={handleInputChange}
-            name="sp_district"
-            required
-          >
-            {districts.map((district) => (
-              <MenuItem value={district.value}>{district.label}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Autocomplete
+          fullWidth
+          id="district-select"
+          options={districts}
+          onChange={(_, value) =>
+            handleInputChange({
+              target: {
+                name: "sp_district",
+                value: value.value,
+              },
+            })
+          }
+          name="sp_district"
+          value={values.sp_district}
+          autoHighlight
+          getOptionLabel={(option) => option.value || ""}
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+              {...props}
+            >
+              {option.label}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="District"
+              inputProps={{
+                ...params.inputProps,
+              }}
+            />
+          )}
+        />
 
         <FormControl sx={{ mx: 2 }} fullWidth>
           <InputLabel htmlFor="city">City</InputLabel>
