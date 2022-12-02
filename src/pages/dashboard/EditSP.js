@@ -87,6 +87,8 @@ function EditServiceProvider() {
 
         setDisableButton(true);
         toast.success("Service Provider updated successfully");
+
+        getSpDetails();
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);

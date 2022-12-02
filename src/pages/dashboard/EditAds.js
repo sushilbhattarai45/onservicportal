@@ -151,6 +151,8 @@ function EditAds() {
           duration: 4000,
           position: "top-center",
         });
+
+        await getAdDetails();
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);

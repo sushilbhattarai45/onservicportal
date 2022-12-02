@@ -81,6 +81,8 @@ function EditProfile() {
           duration: 4000,
           position: "top-center",
         });
+
+        await getUserDetails();
       } catch (error) {
         toast.error("Something went wrong");
         console.log(error);
