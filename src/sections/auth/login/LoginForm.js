@@ -74,9 +74,14 @@ export default function LoginForm() {
       if (data.statuscode === 201) {
         setUserExists(true);
 
-        const { employee_post } = data.data;
+        const { employee_post, employee_status } = data.data;
         if (employee_post === "E2") {
           toast.error("You are not authorized to login");
+          return;
+        }
+
+        if (employee_status === false) {
+          toast.error("You are not authorized to access the dashboard.");
           return;
         }
 
