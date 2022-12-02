@@ -28,7 +28,6 @@ function EditServiceProvider() {
     sp_officeNumber: "",
   });
 
-  // const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const [imageLoading, setImageLoading] = useState(false);

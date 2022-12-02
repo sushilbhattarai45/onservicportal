@@ -27,7 +27,6 @@ function AddAds() {
 
   const [tags, setTags] = useState([]);
 
-  //   const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const navigate = useNavigate();

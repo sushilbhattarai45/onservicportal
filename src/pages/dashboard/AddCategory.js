@@ -22,7 +22,6 @@ function AddCategory() {
     category_photo: "",
   });
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const navigate = useNavigate();

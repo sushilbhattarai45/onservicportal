@@ -19,7 +19,6 @@ function EditCategory() {
     category_updatedby: account.displayName,
   });
 
-  const [image, setImage] = useState("");
   const [disableButton, setDisableButton] = useState(true);
 
   const id = window.location.pathname.split("/")[3];
