@@ -75,19 +75,16 @@ function EditAds() {
         ...prevValues,
         ads_type: "IMAGE",
       }));
-      setTags([]);
     } else if (name == "ads_location" && value == "HOMEVIDEO") {
       setValues((prevValues) => ({
         ...prevValues,
         ads_type: "VIDEO",
       }));
-      setTags([]);
     } else if (name == "ads_location" && value == "CATAD") {
       setValues((prevValues) => ({
         ...prevValues,
         ads_type: "IMAGE",
       }));
-      await getAllTags();
     }
 
     setValues((prevValues) => ({
@@ -184,6 +181,7 @@ function EditAds() {
 
   useEffect(() => {
     getAdDetails();
+    getAllTags();
   }, []);
 
   return (
