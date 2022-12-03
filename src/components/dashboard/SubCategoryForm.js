@@ -8,7 +8,10 @@ import {
   Select,
   MenuItem,
   CircularProgress,
+  Autocomplete,
 } from "@mui/material";
+
+import { useState, useEffect } from "react";
 
 const SubCategoryForm = ({
   values,
@@ -20,6 +23,24 @@ const SubCategoryForm = ({
   edit,
   imageLoading,
 }) => {
+  const [defaultValue, setDefaultValue] = useState([]);
+
+  // get the value to be displayed in the category select
+  const getValues = () => {
+    const { categories, category_id } = values;
+    if (category_id) {
+      const category = categories.find(
+        (category) => category._id === category_id
+      );
+
+      setDefaultValue(category);
+    }
+  };
+
+  useEffect(() => {
+    getValues();
+  }, [values]);
+
   return (
     <form onSubmit={handleFormSubmit}>
       <Stack spacing={2} direction="row" alignItems="center">
@@ -82,27 +103,38 @@ const SubCategoryForm = ({
           />
         </FormControl>
 
-        <FormControl fullWidth>
-          <InputLabel id="select-verified">
-            {values.subCat_isSecond ? `Sub category` : `Category`}
-          </InputLabel>
-          <Select
-            labelId="select-verified"
-            value={values?.category_id}
-            label={values.subCat_isSecond ? `Sub category` : `Category`}
-            onChange={handleInputChange}
-            name="category_id"
-            required
-          >
-            {values?.categories.map((category) => (
-              <MenuItem value={category._id} key={category._id}>
-                {values.subCat_isSecond
-                  ? category.subCat_name
-                  : category.category_name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Autocomplete
+          fullWidth
+          value={defaultValue}
+          onChange={(_, newValue) => {
+            if (!newValue) {
+              return;
+            }
+            handleInputChange({
+              target: {
+                name: "category_id",
+                value: newValue._id,
+              },
+            });
+          }}
+          id="category-select"
+          options={values?.categories}
+          getOptionLabel={(option) =>
+            values.subCat_isSecond ? option.subCat_name : option.category_name
+          }
+          renderOption={(props, value) => (
+            <li {...props}>
+              {values.subCat_isSecond ? value.subCat_name : value.category_name}
+            </li>
+          )}
+          isOptionEqualToValue={(option, value) => option._id == value._id}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={values.subCat_isSecond ? `Subcategory ` : `Category`}
+            />
+          )}
+        />
       </Stack>
 
       <Stack
