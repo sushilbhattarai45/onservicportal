@@ -90,6 +90,9 @@ function EditServiceProvider() {
       }
     }
     setDisableButton(false);
+
+    console.log(name + " " + value);
+    console.log(values);
   };
 
   const handleFormSubmit = async (event) => {
@@ -118,7 +121,6 @@ function EditServiceProvider() {
           user_profileImage: values.sp_profileImage,
         };
 
-        console.log(userData);
         const { data } = await axios.post(`/v1/api/user/register`, userData);
 
         if (data.statuscode == 600) {

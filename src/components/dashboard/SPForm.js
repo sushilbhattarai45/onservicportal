@@ -7,13 +7,13 @@ import {
   Button,
   Select,
   MenuItem,
-  Box,
-  Chip,
   CircularProgress,
+  Autocomplete,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import districts from "../../utils/districts";
 
 const SPForm = ({
   values,
@@ -29,10 +29,7 @@ const SPForm = ({
   contactError,
 }) => {
   const [skills, setSkills] = useState([]);
-  const handleSkillsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+  const handleSkillsChange = (event, value) => {
     setValues({
       ...values,
       sp_skills: typeof value === "string" ? value.split(",") : value,
@@ -119,31 +116,15 @@ const SPForm = ({
           required
         />
 
-        <FormControl fullWidth>
-          <InputLabel id="multiple-skills-label">Skills</InputLabel>
-          <Select
-            required
-            labelId="multiple-skills-label"
-            id="multiple-skills-label"
-            multiple
-            value={values.sp_skills}
-            onChange={handleSkillsChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Skills" />}
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-          >
-            {skills.map((skill) => (
-              <MenuItem key={skill} value={skill}>
-                {skill}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Autocomplete
+          fullWidth
+          multiple
+          value={values?.sp_skills}
+          onChange={handleSkillsChange}
+          id="controllable-states-demo"
+          options={skills}
+          renderInput={(params) => <TextField {...params} label="Skills" />}
+        />
       </Stack>
       <Stack
         direction={{ xs: "column", sm: "row" }}
@@ -219,21 +200,27 @@ const SPForm = ({
           name="sp_officeNumber"
           type="number"
           label="Office Number"
-          InputProps={{ inputProps: { min: 100000, max: 989999999999 } }}
           onChange={handleInputChange}
           value={values.sp_officeNumber}
         />
-        <FormControl fullWidth>
-          <InputLabel htmlFor="district">District</InputLabel>
-          <OutlinedInput
-            id="district"
-            name="sp_district"
-            type="text"
-            label="district"
-            onChange={handleInputChange}
-            value={values.sp_district}
-          />
-        </FormControl>
+
+        <Autocomplete
+          fullWidth
+          id="district-select"
+          options={districts}
+          name="sp_district"
+          value={values?.sp_district}
+          onChange={(_, value) => {
+            handleInputChange({
+              target: {
+                name: "sp_district",
+                value,
+              },
+            });
+          }}
+          renderInput={(params) => <TextField {...params} label="District" />}
+        />
+
         <FormControl sx={{ mx: 2 }} fullWidth>
           <InputLabel htmlFor="city">City</InputLabel>
           <OutlinedInput

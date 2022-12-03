@@ -7,8 +7,7 @@ import {
   Button,
   Select,
   MenuItem,
-  Box,
-  Chip,
+  Autocomplete,
   CircularProgress,
 } from "@mui/material";
 
@@ -24,10 +23,7 @@ const AdsForm = ({
   tags,
   imageLoading,
 }) => {
-  const handleTagChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+  const handleTagChange = (_, value) => {
     setValues({
       ...values,
       ads_tag: typeof value === "string" ? value.split(",") : value,
@@ -138,30 +134,15 @@ const AdsForm = ({
           </Select>
         </FormControl>
         {values?.ads_location == "CATAD" && (
-          <FormControl fullWidth>
-            <InputLabel id="multiple-tags-label">Tags</InputLabel>
-            <Select
-              labelId="multiple-tags-label"
-              id="multiple-tags-label"
-              multiple
-              value={values.ads_tag}
-              onChange={handleTagChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Tags" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-            >
-              {tags.map((tag) => (
-                <MenuItem key={tag} value={tag}>
-                  {tag}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            fullWidth
+            multiple
+            value={values?.ads_tag}
+            onChange={handleTagChange}
+            id="tags-select"
+            options={tags}
+            renderInput={(params) => <TextField {...params} label="Tags" />}
+          />
         )}
       </Stack>
 

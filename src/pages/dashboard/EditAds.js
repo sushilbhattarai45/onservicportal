@@ -75,19 +75,16 @@ function EditAds() {
         ...prevValues,
         ads_type: "IMAGE",
       }));
-      setTags([]);
     } else if (name == "ads_location" && value == "HOMEVIDEO") {
       setValues((prevValues) => ({
         ...prevValues,
         ads_type: "VIDEO",
       }));
-      setTags([]);
     } else if (name == "ads_location" && value == "CATAD") {
       setValues((prevValues) => ({
         ...prevValues,
         ads_type: "IMAGE",
       }));
-      await getAllTags();
     }
 
     setValues((prevValues) => ({
@@ -138,6 +135,8 @@ function EditAds() {
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
 
+      console.log(values);
+
       try {
         await axios.post(`/v1/api/ads/updateAds`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
@@ -182,6 +181,7 @@ function EditAds() {
 
   useEffect(() => {
     getAdDetails();
+    getAllTags();
   }, []);
 
   return (
