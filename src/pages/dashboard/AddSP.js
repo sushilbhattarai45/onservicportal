@@ -32,7 +32,7 @@ function EditServiceProvider() {
     sp_officeNumber: "",
     sp_verified: true,
     sp_createdBy: account.displayName,
-    sp_platform: "web",
+    sp_platform: "WEB",
     employee_contact: account.contact,
   });
 
@@ -156,7 +156,7 @@ function EditServiceProvider() {
         const { data } = await axios.post(`/v1/api/user/register`, userData);
 
         if (data.statuscode == 600) {
-          toast.error("User already exists");
+          toast.error(data.message);
         } else if (data.user) {
           setDisableButton(true);
 
