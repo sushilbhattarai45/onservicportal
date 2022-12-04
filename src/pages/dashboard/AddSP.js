@@ -178,8 +178,12 @@ function EditServiceProvider() {
           toast.error(data.message);
         }
       } catch (error) {
-        toast.error("Something went wrong");
-        console.log(error);
+        if (error.response.data.statusCode === 500) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error("Something went wrong");
+          console.log(error);
+        }
       } finally {
         toast.dismiss(toastId);
       }
