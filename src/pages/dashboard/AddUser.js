@@ -2,12 +2,16 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState } from "react";
 import axios from "axios";
 import UserForm from "../../components/dashboard/UserForm";
 import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { ContextProvider } from "../../Context";
 
 function AddUser() {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   const [values, setValues] = useState({
     user_name: "",
     user_email: "",
@@ -17,7 +21,7 @@ function AddUser() {
     user_contact: "",
     user_gender: "Male",
     user_password: "1234",
-    user_profileImage: "",
+    user_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${account.displayName}`,
     user_status: "ACTIVE",
   });
 
@@ -62,10 +66,19 @@ function AddUser() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+
+    if (values.user_profileImage.includes("https://ui-avatars.com/api/")) {
+      setValues({
+        ...values,
+        user_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${values.user_name}`,
+        [name]: value,
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    }
 
     if (name === "user_contact") {
       if (value.length !== 10) {
