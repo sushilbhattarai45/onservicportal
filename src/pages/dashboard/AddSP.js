@@ -20,7 +20,7 @@ function EditServiceProvider() {
     sp_contact: "",
     sp_gender: "Male",
     sp_skills: [],
-    sp_profileImage: "",
+    sp_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${account.displayName}`,
     sp_verified: false,
     sp_status: "ACTIVE",
     sp_bio: "",
@@ -77,10 +77,19 @@ function EditServiceProvider() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+
+    if (values.sp_profileImage.includes("https://ui-avatars.com/api/")) {
+      setValues({
+        ...values,
+        sp_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${values.sp_name}`,
+        [name]: value,
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    }
 
     if (name === "sp_contact") {
       if (value.length !== 10) {
@@ -100,6 +109,29 @@ function EditServiceProvider() {
 
     if (values.sp_contact.length !== 10) {
       setContactError("Invalide contact");
+      return;
+    }
+
+    if (values.sp_name === "") {
+      toast.error("Name is required");
+      return;
+    } else if (values.sp_district === "") {
+      toast.error("District is required");
+      return;
+    } else if (values.sp_city === "") {
+      toast.error("City is required");
+      return;
+    } else if (values.sp_street === "") {
+      toast.error("Street is required");
+      return;
+    } else if (values.sp_contact === "") {
+      toast.error("Contact is required");
+      return;
+    } else if (values.sp_skills.length === 0) {
+      toast.error("Skills is required");
+      return;
+    } else if (values.sp_bio === "") {
+      toast.error("Bio is required");
       return;
     }
 
