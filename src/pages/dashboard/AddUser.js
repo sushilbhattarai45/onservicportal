@@ -98,6 +98,18 @@ function AddUser() {
       return;
     }
 
+    if (
+      values.user_name === "" ||
+      values.user_email === "" ||
+      values.user_district === "" ||
+      values.user_city === "" ||
+      values.user_street === "" ||
+      values.user_contact === ""
+    ) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
       console.log(values);
