@@ -145,6 +145,7 @@ function EditServiceProvider() {
           user_name: values.sp_name,
           user_email: values.email,
           user_district: values.sp_district,
+          employee_contact:account.contact,
           user_city: values.sp_city,
           user_street: values.sp_street,
           user_contact: values.sp_contact,
