@@ -150,6 +150,7 @@ function EditServiceProvider() {
           user_contact: values.sp_contact,
           user_gender: values.sp_gender,
           user_password: "1234",
+          sp_platform:"WEB",
           user_profileImage: values.sp_profileImage,
         };
 
