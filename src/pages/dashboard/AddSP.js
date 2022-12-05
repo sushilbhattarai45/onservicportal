@@ -145,13 +145,13 @@ function EditServiceProvider() {
           user_name: values.sp_name,
           user_email: values.email,
           user_district: values.sp_district,
-          employee_contact:account.contact,
+          employee_contact: account.contact,
           user_city: values.sp_city,
           user_street: values.sp_street,
           user_contact: values.sp_contact,
           user_gender: values.sp_gender,
-          user_password: "1234",
-          sp_platform:"WEB",
+          user_password: "123456",
+          sp_platform: "WEB",
           user_profileImage: values.sp_profileImage,
         };
 
