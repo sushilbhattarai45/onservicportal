@@ -21,7 +21,7 @@ function AddUser() {
     user_contact: "",
     user_gender: "Male",
     sp_platform: "WEB",
-    employee_contact:account.contact,
+          employee_contact:account.contact,
     user_password: "1234",
     user_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${account.displayName}`,
     user_status: "ACTIVE",
