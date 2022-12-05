@@ -295,10 +295,10 @@ export default function ServiceProviders() {
                         </TableCell>
                         <TableCell align="left">{sp_bio}</TableCell>
                         <TableCell align="center">
-                          {sp_paid === false ? (
-                            <Label color="error">Not Paid</Label>
-                          ) : (
+                          {sp_paid ? (
                             <Label color="success">Paid</Label>
+                          ) : (
+                            <Label color="error">Not Paid</Label>
                           )}
                         </TableCell>
 
