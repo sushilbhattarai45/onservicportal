@@ -111,7 +111,7 @@ export default function LoginForm() {
         displayName: loginUser.employee_name,
         contact: loginUser.employee_contact,
         post: loginUser.employee_post,
-        photoURL: "/static/illustrations/illustration_avatar.png",
+        photoURL: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${loginUser.employee_name}`,
       };
 
       setUser(user);
