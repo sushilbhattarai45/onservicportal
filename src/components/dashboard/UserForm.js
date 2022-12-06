@@ -200,6 +200,19 @@ const UserForm = ({
           />
         )}
 
+        {values?.user_updatedBy && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="updatedBy"
+            type="text"
+            label="Updated by"
+            disabled={true}
+            value={values?.user_updatedBy}
+          />
+        )}
+
         <Button
           variant="contained"
           color="primary"

@@ -25,6 +25,7 @@ function AddUser() {
     user_password: "123456",
     user_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${account.displayName}`,
     user_status: "ACTIVE",
+    user_updatedby: account.displayName,
   });
 
   const [imageLoading, setImageLoading] = useState(false);
