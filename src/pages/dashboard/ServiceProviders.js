@@ -40,7 +40,6 @@ const TABLE_HEAD = [
   { id: "sp_street", label: "Street" },
   { id: "sp_contact", label: "Contact" },
   { id: "sp_status", label: "Status" },
-  { id: "sp_showReview", label: "Show on home" },
   {
     id: "sp_verified",
     label: "Verified",
@@ -251,7 +250,6 @@ export default function ServiceProviders() {
                       sp_street,
                       sp_contact,
                       sp_status,
-                      sp_showReview,
                       sp_verified,
                       sp_profileImage,
                       sp_paid,
@@ -315,9 +313,6 @@ export default function ServiceProviders() {
                           >
                             {sentenceCase(sp_status)}
                           </Label>
-                        </TableCell>
-                        <TableCell align="left">
-                          {sp_showReview ? "Yes" : "No"}
                         </TableCell>
                         <TableCell align="left">
                           {sp_verified === false ? (

@@ -321,11 +321,25 @@ const SPForm = ({
       </Stack>
 
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
         alignItems="center"
-        justifyContent="flex-end"
+        justifyContent="space-between"
         my={2}
       >
+        {values?.sp_toc && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="toc"
+            type="text"
+            label="Date of creation"
+            disabled={true}
+            value={values?.sp_toc.date + " " + values?.sp_toc.time}
+          />
+        )}
+
         <Button
           variant="contained"
           color="success"
