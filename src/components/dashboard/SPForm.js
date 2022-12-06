@@ -340,6 +340,19 @@ const SPForm = ({
           />
         )}
 
+        {values?.sp_updatedBy && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="updatedBy"
+            type="text"
+            label="Updated by"
+            disabled={true}
+            value={values?.sp_updatedBy}
+          />
+        )}
+
         <Button
           variant="contained"
           color="success"

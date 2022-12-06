@@ -2,12 +2,16 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SPForm from "../../components/dashboard/SPForm";
+import { ContextProvider } from "../../Context";
 
 function EditServiceProvider() {
   const id = window.location.pathname.split("/")[3];
+
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
 
   const [values, setValues] = useState({
     sp_name: "",
@@ -26,6 +30,7 @@ function EditServiceProvider() {
     sp_location: "",
     sp_tiktok: "",
     sp_officeNumber: "",
+    sp_updatedby: account.displayName,
   });
 
   const [disableButton, setDisableButton] = useState(true);
@@ -97,6 +102,7 @@ function EditServiceProvider() {
         await axios.post(`/v1/api/sp/updateSp`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
+          sp_updatedby: account.displayName,
         });
 
         setDisableButton(true);
