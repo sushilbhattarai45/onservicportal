@@ -34,7 +34,7 @@ function EditServiceProvider() {
     sp_createdBy: account.displayName,
     sp_platform: "WEB",
     employee_contact: account.contact,
-    sp_updatedby: account.displayName,
+    sp_updatedBy: account.displayName,
   });
 
   const navigate = useNavigate();

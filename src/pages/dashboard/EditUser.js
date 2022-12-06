@@ -23,7 +23,7 @@ function EditProfile() {
     user_gender: "",
     user_password: "",
     user_profileImage: "",
-    user_updatedby: account.displayName,
+    user_updatedBy: account.displayName,
   });
 
   const [disableButton, setDisableButton] = useState(true);
@@ -96,7 +96,7 @@ function EditProfile() {
       try {
         await axios.post(`/v1/api/user/updateUser`, {
           ...values,
-          user_updatedby: account.displayName,
+          user_updatedBy: account.displayName,
         });
 
         setDisableButton(true);

@@ -30,7 +30,7 @@ function EditServiceProvider() {
     sp_location: "",
     sp_tiktok: "",
     sp_officeNumber: "",
-    sp_updatedby: account.displayName,
+    sp_updatedBy: account.displayName,
   });
 
   const [disableButton, setDisableButton] = useState(true);
@@ -102,7 +102,7 @@ function EditServiceProvider() {
         await axios.post(`/v1/api/sp/updateSp`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
-          sp_updatedby: account.displayName,
+          sp_updatedBy: account.displayName,
         });
 
         setDisableButton(true);
