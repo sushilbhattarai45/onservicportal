@@ -74,13 +74,17 @@ function AddCategory() {
 
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
-      console.log(values);
 
       try {
         const { data } = await axios.post(`/v1/api/categories/postcategory`, {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
           ...values,
         });
+
+        if (data.statuscode === 600) {
+          toast.error(data.error);
+          return;
+        }
 
         setDisableButton(true);
         toast.success("Category added successfully", {
