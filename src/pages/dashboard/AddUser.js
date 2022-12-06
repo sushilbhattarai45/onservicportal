@@ -129,7 +129,7 @@ function AddUser() {
             position: "top-center",
           });
 
-          navigate(`/users/edit/${data.data.user_contact}`);
+          navigate(`/user/edit/${data.user.user_contact}`);
         }
       } catch (error) {
         toast.error("Something went wrong");

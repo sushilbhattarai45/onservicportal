@@ -38,6 +38,17 @@ const EmployeeForm = ({
           />
         </FormControl>
 
+        <TextField
+          label="Limit"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          name="employee_limit"
+          onChange={handleInputChange}
+          value={values?.employee_limit}
+        />
+
         <FormControl fullWidth>
           <InputLabel id="select-post">Post</InputLabel>
           <Select
