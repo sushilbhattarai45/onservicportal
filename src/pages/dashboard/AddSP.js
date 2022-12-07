@@ -34,6 +34,7 @@ function EditServiceProvider() {
     sp_createdBy: account.displayName,
     sp_platform: "WEB",
     employee_contact: account.contact,
+    sp_updatedBy: account.displayName,
   });
 
   const navigate = useNavigate();
@@ -150,7 +151,7 @@ function EditServiceProvider() {
           user_street: values.sp_street,
           user_contact: values.sp_contact,
           user_gender: values.sp_gender,
-          user_password: "123456",
+          user_password: "12345678",
           sp_platform: "WEB",
           user_profileImage: values.sp_profileImage,
         };

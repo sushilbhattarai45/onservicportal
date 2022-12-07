@@ -2,12 +2,16 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import UserForm from "../../components/dashboard/UserForm";
+import { ContextProvider } from "../../Context";
 
 function EditProfile() {
   const id = window.location.pathname.split("/")[3];
+
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
 
   const [values, setValues] = useState({
     user_name: "",
@@ -19,6 +23,7 @@ function EditProfile() {
     user_gender: "",
     user_password: "",
     user_profileImage: "",
+    user_updatedBy: account.displayName,
   });
 
   const [disableButton, setDisableButton] = useState(true);
@@ -89,7 +94,10 @@ function EditProfile() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/updateUser`, values);
+        await axios.post(`/v1/api/user/updateUser`, {
+          ...values,
+          user_updatedBy: account.displayName,
+        });
 
         setDisableButton(true);
         toast.success("User updated successfully", {
