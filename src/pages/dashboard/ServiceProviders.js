@@ -65,36 +65,32 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_user) => _user.sp_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
 export default function ServiceProviders() {
   const [SPs, setSPs] = useState([]);
+  const [searchBy, setSearchBy] = useState("sp_name");
 
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState("asc");
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState("sp_name");
-
   const [filterName, setFilterName] = useState("");
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  function applySortFilter(array, comparator, query) {
+    const stabilizedThis = array?.map((el, index) => [el, index]);
+    stabilizedThis?.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+
+    if (query) {
+      return filter(array, (_sp) => {
+        return _sp[searchBy].toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      });
+    }
+    return stabilizedThis?.map((el) => el[0]);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -224,6 +220,11 @@ export default function ServiceProviders() {
             filterName={filterName}
             onFilterName={handleFilterByName}
             handleDelete={handleDelete}
+            name="sp_name"
+            contact="sp_contact"
+            select={true}
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
