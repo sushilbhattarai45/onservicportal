@@ -107,7 +107,6 @@ function AddUser() {
       values.user_email === "" ||
       values.user_district === "" ||
       values.user_city === "" ||
-      values.user_street === "" ||
       values.user_contact === ""
     ) {
       toast.error("Please fill all the fields");

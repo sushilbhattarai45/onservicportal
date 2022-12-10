@@ -122,9 +122,6 @@ function EditServiceProvider() {
     } else if (values.sp_city === "") {
       toast.error("City is required");
       return;
-    } else if (values.sp_street === "") {
-      toast.error("Street is required");
-      return;
     } else if (values.sp_contact === "") {
       toast.error("Contact is required");
       return;
