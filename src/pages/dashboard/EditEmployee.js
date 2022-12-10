@@ -82,7 +82,7 @@ function EditEmployee() {
     try {
       const { data } = await axios.post("/v1/api/sp/spbyemployee", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        employee_contact: account.contact,
+        employee_contact: id,
       });
 
       console.log(data.data);

@@ -94,7 +94,7 @@ export default function DashboardApp() {
                   Users
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Create, edit, delete users and their details.
+                  Create, edit, delete all users and their details.
                 </Typography>
               </CardContent>
             </CardActionArea>
