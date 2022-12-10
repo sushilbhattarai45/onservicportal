@@ -41,6 +41,11 @@ const navConfig = [
     path: "/ads",
     icon: getIcon("tabler:ad-2"),
   },
+  {
+    title: "Today's SPs",
+    path: "/sp-today",
+    icon: getIcon("mdi:account-service"),
+  },
 ];
 
 export default navConfig;
