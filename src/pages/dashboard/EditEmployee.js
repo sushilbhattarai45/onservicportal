@@ -2,11 +2,18 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import EmployeeForm from "../../components/dashboard/EmployeeForm";
+import EmployeeAllSP from "../../components/dashboard/EmployeeAllSP";
+import { ContextProvider } from "../../Context";
 
 function EditEmployee() {
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
+  const [sps, setSps] = useState([]);
+
   const [values, setValues] = useState({
     employee_contact: "",
     employee_name: "",
@@ -71,8 +78,24 @@ function EditEmployee() {
     }
   };
 
+  const getAllSPs = async () => {
+    try {
+      const { data } = await axios.post("/v1/api/sp/spbyemployee", {
+        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        employee_contact: account.contact,
+      });
+
+      console.log(data.data);
+
+      setSps(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getEmployeeDetails();
+    getAllSPs();
   }, []);
 
   return (
@@ -85,6 +108,8 @@ function EditEmployee() {
           handleInputChange={handleInputChange}
           buttonText="Update"
         />
+
+        {sps.length > 0 && <EmployeeAllSP sps={sps} />}
       </Container>
     </Page>
   );
