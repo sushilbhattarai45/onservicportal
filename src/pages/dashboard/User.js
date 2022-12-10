@@ -65,37 +65,35 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array?.map((el, index) => [el, index]);
-  stabilizedThis?.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_user) =>
-        _user.user_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis?.map((el) => el[0]);
-}
-
 export default function User() {
   const [USERLIST, setUSERLIST] = useState([]);
+  const [searchBy, setSearchBy] = useState("user_name");
 
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState("asc");
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState("user_name");
-
   const [filterName, setFilterName] = useState("");
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  function applySortFilter(array, comparator, query) {
+    const stabilizedThis = array?.map((el, index) => [el, index]);
+    stabilizedThis?.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+
+    if (query) {
+      return filter(array, (_user) => {
+        return (
+          _user[searchBy].toLowerCase().indexOf(query.toLowerCase()) !== -1
+        );
+      });
+    }
+
+    return stabilizedThis?.map((el) => el[0]);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -219,10 +217,15 @@ export default function User() {
 
         <Card>
           <UserListToolbar
+            name="user_name"
+            contact="user_contact"
+            select={true}
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
             handleDelete={handleDelete}
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
           />
 
           <TableContainer sx={{ minWidth: 800 }}>
