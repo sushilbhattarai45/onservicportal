@@ -1,7 +1,7 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import moment from "moment/moment";
 // material
 import {
   Card,
@@ -32,17 +32,17 @@ import { toast } from "react-hot-toast";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: "user_name", label: "Username" },
-  { id: "user_email", label: "Email" },
-  { id: "user_district", label: "District" },
-  { id: "user_city", label: "City" },
-  { id: "user_street", label: "Street" },
-  { id: "user_contact", label: "Contact" },
-  { id: "user_gender", label: "Gender" },
+  { id: "sp_name", label: "Name" },
+  { id: "sp_bio", label: "Bio" },
+  { id: "sp_paid", label: "Paid" },
+  { id: "sp_district", label: "District" },
+  { id: "sp_city", label: "City" },
+  { id: "sp_street", label: "Street" },
+  { id: "sp_contact", label: "Contact" },
+  { id: "sp_status", label: "Status" },
   {
-    id: "user_status",
-    label: "User Status",
-    align: "center",
+    id: "sp_verified",
+    label: "Verified",
   },
   { id: "" },
 ];
@@ -65,14 +65,14 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function User() {
-  const [USERLIST, setUSERLIST] = useState([]);
-  const [searchBy, setSearchBy] = useState("user_name");
+export default function TodaySPs() {
+  const [SPs, setSPs] = useState([]);
+  const [searchBy, setSearchBy] = useState("sp_name");
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState("user_name");
+  const [orderBy, setOrderBy] = useState("sp_name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -85,13 +85,10 @@ export default function User() {
     });
 
     if (query) {
-      return filter(array, (_user) => {
-        return (
-          _user[searchBy].toLowerCase().indexOf(query.toLowerCase()) !== -1
-        );
+      return filter(array, (_sp) => {
+        return _sp[searchBy].toLowerCase().indexOf(query.toLowerCase()) !== -1;
       });
     }
-
     return stabilizedThis?.map((el) => el[0]);
   }
 
@@ -103,7 +100,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST?.map((n) => n.user_contact);
+      const newSelecteds = SPs.map((n) => n.sp_contact);
       setSelected(newSelecteds);
       return;
     }
@@ -142,30 +139,47 @@ export default function User() {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - SPs.length) : 0;
 
   const filteredUsers = applySortFilter(
-    USERLIST,
+    SPs,
     getComparator(order, orderBy),
     filterName
   );
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  const getAllUsers = async () => {
+  const getAllSPs = async () => {
     try {
-      const { data } = await axios.post("/v1/api/user/getAllUser", {
+      const { data } = await axios.post("/v1/api/sp/getAllSp", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
-      setUSERLIST(data.data);
+      filterTodaySPs(data.data);
+
+      // setSPs(data.data);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const filterTodaySPs = (data) => {
+    let todaySPs = [];
+
+    for (let i = 0; i < data.length; i++) {
+      const createdDate = moment(data[i].sp_toc.date).format("ll");
+      const todayDate = moment().format("ll");
+
+      if (createdDate === todayDate) {
+        todaySPs.push(data[i]);
+      }
+    }
+
+    setSPs(todaySPs);
+  };
+
   useEffect(() => {
-    getAllUsers();
+    getAllSPs();
   }, []);
 
   const handleDelete = async () => {
@@ -174,9 +188,9 @@ export default function User() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/user/deleteuser", {
+        await axios.post("/v1/api/sp/deletesp", {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          user_contact: selected[i],
+          sp_contact: selected[i],
         });
       } catch (err) {
         deleteStatus = false;
@@ -186,7 +200,7 @@ export default function User() {
 
     if (deleteStatus) {
       toast.success("Deleted Successfully");
-      await getAllUsers();
+      await getAllSPs();
       setSelected([]);
     } else {
       toast.error("Failed to delete");
@@ -194,7 +208,7 @@ export default function User() {
   };
 
   return (
-    <Page title="User">
+    <Page title="Service providers">
       <Container>
         <Stack
           direction="row"
@@ -203,27 +217,19 @@ export default function User() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            User
+            Today's Service providers
           </Typography>
-          <Button
-            variant="contained"
-            component={Link}
-            to="new"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New User
-          </Button>
         </Stack>
 
         <Card>
           <UserListToolbar
-            name="user_name"
-            contact="user_contact"
-            select={true}
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
             handleDelete={handleDelete}
+            name="sp_name"
+            contact="sp_contact"
+            select={true}
             searchBy={searchBy}
             setSearchBy={setSearchBy}
           />
@@ -234,7 +240,7 @@ export default function User() {
                 order={order}
                 orderBy={orderBy}
                 headLabel={TABLE_HEAD}
-                rowCount={USERLIST.length}
+                rowCount={SPs.length}
                 numSelected={selected.length}
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -245,18 +251,19 @@ export default function User() {
                   .map((row) => {
                     const {
                       _id,
-                      user_name,
-                      user_email,
-                      user_district,
-                      user_city,
-                      user_street,
-                      user_contact,
-                      user_gender,
-                      user_status,
-                      user_profileImage,
+                      sp_name,
+                      sp_bio,
+                      sp_district,
+                      sp_city,
+                      sp_street,
+                      sp_contact,
+                      sp_status,
+                      sp_verified,
+                      sp_profileImage,
+                      sp_paid,
+                      sp_toc,
                     } = row;
-                    const isItemSelected =
-                      selected.indexOf(user_contact) !== -1;
+                    const isItemSelected = selected.indexOf(sp_contact) !== -1;
 
                     return (
                       <TableRow
@@ -270,52 +277,54 @@ export default function User() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={(event) =>
-                              handleClick(event, user_contact)
-                            }
+                            onChange={(event) => handleClick(event, sp_contact)}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          <Link
-                            to={`edit/${user_contact}`}
-                            style={{
-                              textDecoration: "none",
-                              color: "inherit",
-                            }}
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={2}
                           >
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              spacing={2}
-                            >
-                              <Avatar alt={user_name} src={user_profileImage} />
-                              <Typography variant="subtitle2" noWrap>
-                                {user_name}
-                              </Typography>
-                            </Stack>
-                          </Link>
+                            <Avatar alt={sp_name} src={sp_profileImage} />
+                            <Typography variant="subtitle2" noWrap>
+                              {sp_name}
+                            </Typography>
+                          </Stack>
                         </TableCell>
-                        <TableCell align="left">{user_email}</TableCell>
-                        <TableCell align="left">{user_district}</TableCell>
-                        <TableCell align="left">{user_city}</TableCell>
-                        <TableCell align="left">{user_street}</TableCell>
-                        <TableCell align="left">{user_contact}</TableCell>
-                        <TableCell align="left">{user_gender}</TableCell>
+                        <TableCell align="left">{sp_bio}</TableCell>
+                        <TableCell align="center">
+                          {sp_paid ? (
+                            <Label color="success">Paid</Label>
+                          ) : (
+                            <Label color="error">Not Paid</Label>
+                          )}
+                        </TableCell>
+
+                        <TableCell align="left">{sp_district}</TableCell>
+                        <TableCell align="left">{sp_city}</TableCell>
+                        <TableCell align="left">{sp_street}</TableCell>
+                        <TableCell align="left">{sp_contact}</TableCell>
                         <TableCell align="left">
                           <Label
                             variant="ghost"
                             color={
-                              (user_status === "ACTIVE" && "success") || "error"
+                              (sp_status === "ACTIVE" && "success") || "error"
                             }
                           >
-                            {user_status && sentenceCase(user_status)}
+                            {sentenceCase(sp_status)}
                           </Label>
                         </TableCell>
-
-                        <TableCell align="right">
-                          <Link to={`edit/${user_contact}`}>
-                            <Edit />
-                          </Link>
+                        <TableCell align="left">
+                          {sp_verified === false ? (
+                            <Label variant="ghost" color="error">
+                              Not Verified
+                            </Label>
+                          ) : (
+                            <Label variant="ghost" color="success">
+                              Verified
+                            </Label>
+                          )}
                         </TableCell>
                       </TableRow>
                     );
@@ -342,7 +351,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 50]}
             component="div"
-            count={USERLIST.length}
+            count={SPs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

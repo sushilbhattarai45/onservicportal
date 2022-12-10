@@ -45,6 +45,11 @@ function AddEmployee() {
           ...values,
         });
 
+        if (data.statuscode === 600) {
+          toast.error("Employee already exists");
+          return;
+        }
+
         setDisableButton(true);
         toast.success("Employee added successfully", {
           duration: 4000,

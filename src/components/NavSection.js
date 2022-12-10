@@ -81,6 +81,14 @@ function NavItem({ item, active }) {
     return;
   }
 
+  if (title == "Ads" && account.post == "E1") {
+    return;
+  }
+
+  if (title == "Today's SPs" && account.post == "E1") {
+    return;
+  }
+
   if (children) {
     return (
       <>

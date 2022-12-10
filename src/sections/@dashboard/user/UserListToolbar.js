@@ -8,9 +8,13 @@ import {
   Typography,
   OutlinedInput,
   InputAdornment,
+  Select,
+  Stack,
+  MenuItem,
 } from "@mui/material";
 // component
 import Iconify from "../../../components/Iconify";
+import { useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -44,11 +48,20 @@ UserListToolbar.propTypes = {
 };
 
 export default function UserListToolbar({
+  select,
   numSelected,
   filterName,
   onFilterName,
   handleDelete,
+  name,
+  contact,
+  searchBy,
+  setSearchBy,
 }) {
+  const handleSearchBy = (e) => {
+    setSearchBy(e.target.value);
+  };
+
   return (
     <RootStyle
       sx={{
@@ -62,6 +75,26 @@ export default function UserListToolbar({
         <Typography component="div" variant="subtitle1">
           {numSelected} selected
         </Typography>
+      ) : select ? (
+        <Stack display="flex" direction="row" alignItems="center">
+          <Select value={searchBy} onChange={handleSearchBy}>
+            <MenuItem value={name}>Name</MenuItem>
+            <MenuItem value={contact}>Contact</MenuItem>
+          </Select>
+          <SearchStyle
+            value={filterName}
+            onChange={onFilterName}
+            placeholder={`Search by ${searchBy}...`}
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ color: "text.disabled", width: 20, height: 20 }}
+                />
+              </InputAdornment>
+            }
+          />
+        </Stack>
       ) : (
         <SearchStyle
           value={filterName}
