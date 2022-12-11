@@ -25,7 +25,7 @@ import {
   Employees,
   AddEmployee,
   EditEmployee,
-  TodaySPs,
+  FilterSPs,
 } from "./pages/dashboard";
 
 //import other pages
@@ -73,7 +73,7 @@ export default function Router() {
         { path: "employees", element: <Employees /> },
         { path: "employees/new", element: <AddEmployee /> },
         { path: "employees/edit/:id", element: <EditEmployee /> },
-        { path: "sp-today", element: <TodaySPs /> },
+        { path: "sp-filter", element: <FilterSPs /> },
       ],
     },
     {
