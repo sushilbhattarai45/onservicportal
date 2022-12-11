@@ -165,12 +165,12 @@ export default function ServiceProviders() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  const filterSPs = (date) => {
+  const filterSPs = (newDate) => {
     const data = AllSPs;
+    const date = newDate || date;
     const selectedDate = moment(date).format("ll");
 
     let todaySPs = [];
-    console.log(selectedDate);
 
     for (let i = 0; i < data.length; i++) {
       const createdDate = moment(data[i].sp_toc.date).format("ll");
@@ -189,7 +189,7 @@ export default function ServiceProviders() {
       });
 
       setAllSPs(data.data);
-      filterSPs();
+      filterSPs(date);
     } catch (err) {
       console.log(err);
     }

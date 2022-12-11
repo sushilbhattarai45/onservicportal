@@ -42,8 +42,8 @@ const navConfig = [
     icon: getIcon("tabler:ad-2"),
   },
   {
-    title: "Today's SPs",
-    path: "/sp-today",
+    title: "Filter SPs",
+    path: "/sp-filter",
     icon: getIcon("mdi:account-service"),
   },
 ];

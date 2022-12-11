@@ -18,4 +18,4 @@ export { default as ServiceProviders } from "./ServiceProviders";
 export { default as Employees } from "./Employees";
 export { default as AddEmployee } from "./AddEmployee";
 export { default as EditEmployee } from "./EditEmployee";
-export { default as TodaySPs } from "./TodaySPs";
+export { default as FilterSPs } from "./FilterSPs";
