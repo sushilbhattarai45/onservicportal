@@ -1,14 +1,13 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
 import { useState, useEffect } from "react";
-import moment from "moment/moment";
+import { Link } from "react-router-dom";
 // material
 import {
   Card,
   Table,
   Stack,
   Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -18,6 +17,13 @@ import {
   TableContainer,
   TablePagination,
 } from "@mui/material";
+import * as React from "react";
+import dayjs from "dayjs";
+import TextField from "@mui/material/TextField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+
 // components
 import Page from "../../components/Page";
 import Label from "../../components/Label";
@@ -28,6 +34,7 @@ import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
+import moment from "moment/moment";
 
 // ----------------------------------------------------------------------
 
@@ -65,9 +72,12 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function TodaySPs() {
+export default function ServiceProviders() {
   const [SPs, setSPs] = useState([]);
+  const [AllSPs, setAllSPs] = useState([]);
   const [searchBy, setSearchBy] = useState("sp_name");
+
+  const [date, setDate] = useState(dayjs(new Date()).format("YYYY-MM-DD"));
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
@@ -75,6 +85,12 @@ export default function TodaySPs() {
   const [orderBy, setOrderBy] = useState("sp_name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleDateChange = (newValue) => {
+    setDate(newValue._d);
+
+    filterSPs(newValue._d);
+  };
 
   function applySortFilter(array, comparator, query) {
     const stabilizedThis = array?.map((el, index) => [el, index]);
@@ -149,33 +165,34 @@ export default function TodaySPs() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const filterSPs = (date) => {
+    const data = AllSPs;
+    const selectedDate = moment(date).format("ll");
+
+    let todaySPs = [];
+    console.log(selectedDate);
+
+    for (let i = 0; i < data.length; i++) {
+      const createdDate = moment(data[i].sp_toc.date).format("ll");
+
+      if (createdDate === selectedDate) {
+        todaySPs.push(data[i]);
+      }
+    }
+    setSPs(todaySPs);
+  };
+
   const getAllSPs = async () => {
     try {
       const { data } = await axios.post("/v1/api/sp/getAllSp", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
-      filterTodaySPs(data.data);
-
-      // setSPs(data.data);
+      setAllSPs(data.data);
+      filterSPs();
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const filterTodaySPs = (data) => {
-    let todaySPs = [];
-
-    for (let i = 0; i < data.length; i++) {
-      const createdDate = moment(data[i].sp_toc.date).format("ll");
-      const todayDate = moment().format("ll");
-
-      if (createdDate === todayDate) {
-        todaySPs.push(data[i]);
-      }
-    }
-
-    setSPs(todaySPs);
   };
 
   useEffect(() => {
@@ -208,7 +225,7 @@ export default function TodaySPs() {
   };
 
   return (
-    <Page title="Service providers">
+    <Page title="Service providers filter by date">
       <Container>
         <Stack
           direction="row"
@@ -217,8 +234,18 @@ export default function TodaySPs() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Today's Service providers
+            Service providers
           </Typography>
+
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <MobileDatePicker
+              label="Pick a date"
+              inputFormat="MM/DD/YYYY"
+              value={date}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </Stack>
 
         <Card>
@@ -261,7 +288,6 @@ export default function TodaySPs() {
                       sp_verified,
                       sp_profileImage,
                       sp_paid,
-                      sp_toc,
                     } = row;
                     const isItemSelected = selected.indexOf(sp_contact) !== -1;
 
@@ -281,16 +307,24 @@ export default function TodaySPs() {
                           />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={2}
+                          <Link
+                            to={`/sp/edit/${sp_contact}`}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                            }}
                           >
-                            <Avatar alt={sp_name} src={sp_profileImage} />
-                            <Typography variant="subtitle2" noWrap>
-                              {sp_name}
-                            </Typography>
-                          </Stack>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              <Avatar alt={sp_name} src={sp_profileImage} />
+                              <Typography variant="subtitle2" noWrap>
+                                {sp_name}
+                              </Typography>
+                            </Stack>
+                          </Link>
                         </TableCell>
                         <TableCell align="left">{sp_bio}</TableCell>
                         <TableCell align="center">
@@ -325,6 +359,12 @@ export default function TodaySPs() {
                               Verified
                             </Label>
                           )}
+                        </TableCell>
+
+                        <TableCell align="right">
+                          <Link to={`/sp/edit/${sp_contact}`}>
+                            <Edit />
+                          </Link>
                         </TableCell>
                       </TableRow>
                     );
