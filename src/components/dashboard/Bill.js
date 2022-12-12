@@ -11,8 +11,7 @@ function Bill({ name, contact, billId, image, date, address }) {
         border: "1px solid #ccc",
         borderRadius: "5px",
         maxWidth: "450px",
-        margin: "0 auto",
-        marginBottom: "1rem",
+        margin: "2rem auto 1rem auto",
         backgroundColor: "#eee",
       }}
     >
