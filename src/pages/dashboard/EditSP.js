@@ -144,16 +144,6 @@ function EditServiceProvider() {
   return (
     <Page title="Edit Service Provider">
       <Container>
-        {bill?.sp_billid && (
-          <Bill
-            image={bill?.sp_profileImage}
-            name={bill.sp_name}
-            contact={bill.sp_contact}
-            billId={bill?.sp_billid}
-            date={bill?.sp_toc.date}
-            address={`${bill?.sp_street}, ${bill.sp_city}, ${bill.sp_district}`}
-          />
-        )}
         <SPForm
           values={values}
           setValues={setValues}
@@ -166,6 +156,17 @@ function EditServiceProvider() {
           imageLoading={imageLoading}
           contactError={contactError}
         />
+
+        {bill?.sp_billid && (
+          <Bill
+            image={bill?.sp_profileImage}
+            name={bill.sp_name}
+            contact={bill.sp_contact}
+            billId={bill?.sp_billid}
+            date={bill?.sp_toc.date}
+            address={`${bill?.sp_street}, ${bill.sp_city}, ${bill.sp_district}`}
+          />
+        )}
       </Container>
     </Page>
   );
