@@ -167,8 +167,7 @@ export default function ServiceProviders() {
 
   const filterSPs = (newDate) => {
     const data = AllSPs;
-    const date = newDate || date;
-    const selectedDate = moment(date).format("ll");
+    const selectedDate = moment(newDate).format("ll");
 
     let todaySPs = [];
 
@@ -197,7 +196,7 @@ export default function ServiceProviders() {
 
   useEffect(() => {
     getAllSPs();
-  }, []);
+  }, [SPs]);
 
   const handleDelete = async () => {
     let deleteStatus = true;
