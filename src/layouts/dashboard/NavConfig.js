@@ -42,6 +42,11 @@ const navConfig = [
     icon: getIcon("tabler:ad-2"),
   },
   {
+    title: "Filter Users",
+    path: "/user-filter",
+    icon: getIcon("eva:people-fill"),
+  },
+  {
     title: "Filter SPs",
     path: "/sp-filter",
     icon: getIcon("mdi:account-service"),
