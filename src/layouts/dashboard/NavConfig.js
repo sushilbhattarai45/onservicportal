@@ -51,6 +51,11 @@ const navConfig = [
     path: "/sp-filter",
     icon: getIcon("mdi:account-service"),
   },
+  {
+    title: "Filter Categories",
+    path: "/categories-filter",
+    icon: getIcon("bxs:category"),
+  },
 ];
 
 export default navConfig;

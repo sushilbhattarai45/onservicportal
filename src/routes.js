@@ -27,6 +27,7 @@ import {
   EditEmployee,
   FilterSPs,
   FilterUsers,
+  FilterCategory,
 } from "./pages/dashboard";
 
 //import other pages
@@ -76,6 +77,7 @@ export default function Router() {
         { path: "employees/edit/:id", element: <EditEmployee /> },
         { path: "sp-filter", element: <FilterSPs /> },
         { path: "user-filter", element: <FilterUsers /> },
+        { path: "categories-filter", element: <FilterCategory /> },
       ],
     },
     {
