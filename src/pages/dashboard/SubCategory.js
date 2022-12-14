@@ -1,6 +1,7 @@
 import { filter } from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ContextProvider } from "../../Context";
 // material
 import {
   Card,
@@ -83,6 +84,9 @@ export default function SubCategories() {
   const [orderBy, setOrderBy] = useState("subCat_name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -196,6 +200,12 @@ export default function SubCategories() {
   }, []);
 
   const handleDelete = async () => {
+    //check the permission
+    if (account.role !== "ADMIN") {
+      toast.error("You don't have permission to delete");
+      return;
+    }
+
     let deleteStatus = true;
 
     for (let i = 0; i < selected.length; i++) {

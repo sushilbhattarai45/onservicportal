@@ -1,5 +1,5 @@
 import { filter } from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 // material
 import {
@@ -23,6 +23,7 @@ import Label from "../../components/Label";
 import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
+import { ContextProvider } from "../../Context";
 
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
@@ -85,6 +86,9 @@ export default function Ads() {
   const [orderBy, setOrderBy] = useState("ads_name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -173,6 +177,12 @@ export default function Ads() {
   }, []);
 
   const handleDelete = async () => {
+    //check the permission
+    if (account.role !== "ADMIN") {
+      toast.error("You don't have permission to delete");
+      return;
+    }
+
     let deleteStatus = true;
 
     for (let i = 0; i < selected.length; i++) {
