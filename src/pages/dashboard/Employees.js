@@ -1,5 +1,6 @@
+import { ContextProvider } from "../../Context";
 import { filter } from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 // material
 import {
@@ -68,6 +69,9 @@ export default function Employees() {
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   function applySortFilter(array, comparator, query) {
     const stabilizedThis = array?.map((el, index) => [el, index]);
     stabilizedThis?.sort((a, b) => {
@@ -131,6 +135,12 @@ export default function Employees() {
   };
 
   const handleDelete = async () => {
+    //check the permission
+    if (account.role !== "ADMIN") {
+      toast.error("You don't have permission to delete");
+      return;
+    }
+
     let deleteStatus = true;
 
     for (let i = 0; i < selected.length; i++) {

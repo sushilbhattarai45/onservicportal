@@ -1,6 +1,7 @@
 import { filter } from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ContextProvider } from "../../Context";
 // material
 import {
   Card,
@@ -75,18 +76,15 @@ function applySortFilter(array, comparator, query) {
 
 export default function Categories() {
   const [Categories, setCategories] = useState([]);
-
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState("asc");
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState("category_name");
-
   const [filterName, setFilterName] = useState("");
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -135,6 +133,12 @@ export default function Categories() {
   };
 
   const handleDelete = async () => {
+    //check the permission
+    if (account.role !== "ADMIN") {
+      toast.error("You don't have permission to delete");
+      return;
+    }
+
     let deleteStatus = true;
 
     for (let i = 0; i < selected.length; i++) {

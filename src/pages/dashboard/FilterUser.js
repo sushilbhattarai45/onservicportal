@@ -9,7 +9,6 @@ import {
   Table,
   Stack,
   Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -18,17 +17,22 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  TextField,
 } from "@mui/material";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 // components
 import Page from "../../components/Page";
 import Label from "../../components/Label";
-import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
+import moment from "moment/moment";
 
 // ----------------------------------------------------------------------
 
@@ -69,6 +73,8 @@ function getComparator(order, orderBy) {
 export default function User() {
   const [USERLIST, setUSERLIST] = useState([]);
   const [searchBy, setSearchBy] = useState("user_name");
+  const [AllUsers, setAllUsers] = useState([]);
+  const [date, setDate] = useState(dayjs(new Date()).format("YYYY-MM-DD"));
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
@@ -79,6 +85,12 @@ export default function User() {
 
   const { login } = useContext(ContextProvider);
   const [account] = login;
+
+  const handleDateChange = (newValue) => {
+    setDate(newValue._d);
+
+    filterUsers(newValue._d);
+  };
 
   function applySortFilter(array, comparator, query) {
     const stabilizedThis = array?.map((el, index) => [el, index]);
@@ -156,13 +168,30 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const filterUsers = (newDate) => {
+    const data = AllUsers;
+    const selectedDate = moment(newDate).format("ll");
+
+    let selectedUsers = [];
+
+    for (let i = 0; i < data.length; i++) {
+      const createdDate = moment(data[i].user_toc.date).format("ll");
+
+      if (createdDate === selectedDate) {
+        selectedUsers.push(data[i]);
+      }
+    }
+    setUSERLIST(selectedUsers);
+  };
+
   const getAllUsers = async () => {
     try {
       const { data } = await axios.post("/v1/api/user/getAllUser", {
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 
-      setUSERLIST(data.data);
+      setAllUsers(data.data);
+      filterUsers(date);
     } catch (err) {
       console.log(err);
     }
@@ -170,7 +199,7 @@ export default function User() {
 
   useEffect(() => {
     getAllUsers();
-  }, []);
+  }, [USERLIST]);
 
   const handleDelete = async () => {
     //check the permission
@@ -213,16 +242,17 @@ export default function User() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            User
+            Users
           </Typography>
-          <Button
-            variant="contained"
-            component={Link}
-            to="new"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New User
-          </Button>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <MobileDatePicker
+              label="Pick a date"
+              inputFormat="MM/DD/YYYY"
+              value={date}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </Stack>
 
         <Card>
@@ -287,7 +317,7 @@ export default function User() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Link
-                            to={`edit/${user_contact}`}
+                            to={`/user/edit/${user_contact}`}
                             style={{
                               textDecoration: "none",
                               color: "inherit",
@@ -323,7 +353,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Link to={`edit/${user_contact}`}>
+                          <Link to={`/user/edit/${user_contact}`}>
                             <Edit />
                           </Link>
                         </TableCell>

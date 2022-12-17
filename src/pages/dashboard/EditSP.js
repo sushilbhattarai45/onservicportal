@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SPForm from "../../components/dashboard/SPForm";
+import Bill from "../../components/dashboard/Bill";
 import { ContextProvider } from "../../Context";
 
 function EditServiceProvider() {
@@ -12,6 +13,8 @@ function EditServiceProvider() {
 
   const { login } = useContext(ContextProvider);
   const [account] = login;
+
+  const [bill, setBill] = useState({});
 
   const [values, setValues] = useState({
     sp_name: "",
@@ -126,6 +129,7 @@ function EditServiceProvider() {
       });
 
       setValues(data.data);
+      setBill(data.data);
       toast.success("Details fetched successfully");
     } catch (error) {
       toast.error("Error fetching details");
@@ -152,6 +156,17 @@ function EditServiceProvider() {
           imageLoading={imageLoading}
           contactError={contactError}
         />
+
+        {bill?.sp_billid && (
+          <Bill
+            image={bill?.sp_profileImage}
+            name={bill.sp_name}
+            contact={bill.sp_contact}
+            billId={bill?.sp_billid}
+            date={bill?.sp_toc.date}
+            address={`${bill?.sp_street}, ${bill.sp_city}, ${bill.sp_district}`}
+          />
+        )}
       </Container>
     </Page>
   );

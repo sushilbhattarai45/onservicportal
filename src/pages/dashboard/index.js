@@ -19,3 +19,5 @@ export { default as Employees } from "./Employees";
 export { default as AddEmployee } from "./AddEmployee";
 export { default as EditEmployee } from "./EditEmployee";
 export { default as FilterSPs } from "./FilterSPs";
+export { default as FilterUsers } from "./FilterUser";
+export { default as FilterCategory } from "./FilterCategory";

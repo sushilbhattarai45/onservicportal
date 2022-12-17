@@ -1,7 +1,8 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ContextProvider } from "../../Context";
 // material
 import {
   Card,
@@ -86,6 +87,9 @@ export default function ServiceProviders() {
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const { login } = useContext(ContextProvider);
+  const [account] = login;
+
   const handleDateChange = (newValue) => {
     setDate(newValue._d);
 
@@ -167,8 +171,7 @@ export default function ServiceProviders() {
 
   const filterSPs = (newDate) => {
     const data = AllSPs;
-    const date = newDate || date;
-    const selectedDate = moment(date).format("ll");
+    const selectedDate = moment(newDate).format("ll");
 
     let todaySPs = [];
 
@@ -197,9 +200,15 @@ export default function ServiceProviders() {
 
   useEffect(() => {
     getAllSPs();
-  }, []);
+  }, [SPs]);
 
   const handleDelete = async () => {
+    //check the permission
+    if (account.role !== "ADMIN") {
+      toast.error("You don't have permission to delete");
+      return;
+    }
+
     let deleteStatus = true;
 
     for (let i = 0; i < selected.length; i++) {
