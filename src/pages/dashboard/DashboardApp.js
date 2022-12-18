@@ -8,7 +8,6 @@ import {
   CardActionArea,
   CardMedia,
   CardContent,
-  CardActions,
 } from "@mui/material";
 // components
 import Page from "../../components/Page";
@@ -100,24 +99,26 @@ export default function DashboardApp() {
             </CardActionArea>
           </Card>
 
-          <Card sx={{ maxWidth: 340, minWidth: 250, my: 3 }}>
-            <CardActionArea onClick={() => navigate("/employees")}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="/static/illustrations/employees.jpg"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Employees
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Create, edit, delete employees and their details.
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          {user.post == "ADMIN" && (
+            <Card sx={{ maxWidth: 340, minWidth: 250, my: 3 }}>
+              <CardActionArea onClick={() => navigate("/employees")}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="/static/illustrations/employees.jpg"
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Employees
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Create, edit, delete employees and their details.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          )}
 
           <Card sx={{ maxWidth: 340, minWidth: 250, my: 3 }}>
             <CardActionArea onClick={() => navigate("/sp")}>
@@ -176,24 +177,26 @@ export default function DashboardApp() {
             </CardActionArea>
           </Card>
 
-          <Card sx={{ maxWidth: 340, minWidth: 250, my: 3 }}>
-            <CardActionArea onClick={() => navigate("/ads")}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="/static/illustrations/ads.png"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Ads
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Create, edit, delete Advertisements and their details.
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          {user.post == "ADMIN" && (
+            <Card sx={{ maxWidth: 340, minWidth: 250, my: 3 }}>
+              <CardActionArea onClick={() => navigate("/ads")}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="/static/illustrations/ads.png"
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Ads
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Create, edit, delete Advertisements and their details.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          )}
         </Stack>
       </Container>
     </Page>
