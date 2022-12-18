@@ -162,15 +162,6 @@ const SPForm = ({
 
         <TextField
           fullWidth
-          name="sp_createdBy"
-          type="text"
-          label="Created By"
-          disabled={true}
-          value={values?.sp_createdBy}
-        />
-
-        <TextField
-          fullWidth
           name="sp_location"
           type="url"
           label="Map Location"
@@ -337,6 +328,19 @@ const SPForm = ({
             label="Date of creation"
             disabled={true}
             value={values?.sp_toc.date + " " + values?.sp_toc.time}
+          />
+        )}
+
+        {values?.sp_createdBy && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="sp_createdBy"
+            type="text"
+            label="Created By"
+            disabled={true}
+            value={values?.sp_createdBy}
           />
         )}
 
