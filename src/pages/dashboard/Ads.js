@@ -307,7 +307,13 @@ export default function Ads() {
                             {ads_link}
                           </a>
                         </TableCell>
-                        <TableCell align="left">{ads_location}</TableCell>
+                        <TableCell align="left">
+                          {ads_location == "CATAD"
+                            ? `Category Ad`
+                            : ads_location == "BMAD"
+                            ? `Bookmark Ad`
+                            : ads_location}
+                        </TableCell>
                         <TableCell align="left">{ads_type}</TableCell>
                         <TableCell align="left">
                           {ads_status === "true" ? (
