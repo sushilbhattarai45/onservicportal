@@ -62,7 +62,7 @@ export default function LoginForm() {
     try {
       const { data } = await axios.post("v1/api/employee/login", {
         employee_contact: contact,
-                portal:"MAIN",
+        portal: "MAIN",
         GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
       });
 

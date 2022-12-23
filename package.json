@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "proxy": "https://server.onservic.com/",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -34,7 +35,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "set PORT=5000 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
