@@ -165,6 +165,7 @@ function EditServiceProvider() {
             billId={bill?.sp_billid}
             date={bill?.sp_toc.date}
             address={`${bill?.sp_street}, ${bill.sp_city}, ${bill.sp_district}`}
+            paid={bill?.sp_paid}
           />
         )}
       </Container>

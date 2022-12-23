@@ -1,6 +1,6 @@
 import React from "react";
 
-function Bill({ name, contact, billId, image, date, address }) {
+function Bill({ name, contact, billId, image, date, address, paid }) {
   return (
     <div
       style={{
@@ -32,6 +32,7 @@ function Bill({ name, contact, billId, image, date, address }) {
         <p>Contact: {contact}</p>
         <p>Address: {address}</p>
         <p>Registered on: {date}</p>
+        {paid && <p>Paid: Rs. 1000</p>}
       </div>
     </div>
   );

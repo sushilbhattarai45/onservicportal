@@ -113,7 +113,6 @@ const SPForm = ({
           multiline
           onChange={handleInputChange}
           value={values.sp_bio}
-          required
         />
 
         <Autocomplete
