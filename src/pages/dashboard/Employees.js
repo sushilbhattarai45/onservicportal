@@ -25,7 +25,8 @@ import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
+
 import { Edit } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
@@ -146,9 +147,13 @@ export default function Employees() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/employee/deleteOne", {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          employee_contact: selected[i],
+        await axios({
+          method: "POST",
+          url: "/v1/api/employee/deleteOne",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            employee_contact: selected[i],
+          },
         });
       } catch (err) {
         deleteStatus = false;
@@ -178,8 +183,12 @@ export default function Employees() {
 
   const getAllEmployees = async () => {
     try {
-      const { data } = await axios.post("/v1/api/employee/getAll", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/employee/getAll",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       console.log(data);
