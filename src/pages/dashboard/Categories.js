@@ -180,7 +180,7 @@ export default function Categories() {
 
   const getAllCategories = async () => {
     try {
-      const { data } = axios({
+      const { data } = await axios({
         method: "POST",
         url: "/v1/api/categories",
         data: {
