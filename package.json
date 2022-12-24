@@ -1,7 +1,6 @@
 {
   "name": "onservice",
   "version": "0.1.0",
-  "proxy": "https://server.onservic.com/",
   "private": true,
   "homepage": ".",
   "dependencies": {

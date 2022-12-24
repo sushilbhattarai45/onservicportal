@@ -8,7 +8,7 @@ import { Stack, Checkbox, TextField, FormControlLabel } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 import toast from "react-hot-toast";
-import axios from "axios";
+import axios from "../../../utils/axiosInstance";
 
 // user logged in or not
 import { useContext } from "react";
@@ -60,10 +60,14 @@ export default function LoginForm() {
     }
 
     try {
-      const { data } = await axios.post("v1/api/employee/login", {
-        employee_contact: contact,
-        portal: "MAIN",
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/employee/login",
+        data: {
+          employee_contact: contact,
+          portal: "MAIN",
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       if (data.statuscode === 404) {
