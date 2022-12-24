@@ -3,7 +3,10 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import SPForm from "../../components/dashboard/SPForm";
 import Bill from "../../components/dashboard/Bill";
 import { ContextProvider } from "../../Context";
@@ -53,11 +56,12 @@ function EditServiceProvider() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -102,10 +106,14 @@ function EditServiceProvider() {
       const toastId = toast.loading("Updating Service Provider...");
 
       try {
-        await axios.post(`/v1/api/sp/updateSp`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
-          sp_updatedBy: account.displayName,
+        await axios.post({
+          method: "POST",
+          url: `/v1/api/sp/updateSp`,
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+            sp_updatedBy: account.displayName,
+          },
         });
 
         setDisableButton(true);
@@ -123,9 +131,13 @@ function EditServiceProvider() {
 
   const getSpDetails = async () => {
     try {
-      const { data } = await axios.post(`/v1/api/sp/getOneSp`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        sp_contact: id,
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/sp/getOneSp`,
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          sp_contact: id,
+        },
       });
 
       setValues(data.data);

@@ -3,7 +3,10 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import UserForm from "../../components/dashboard/UserForm";
 import { ContextProvider } from "../../Context";
 
@@ -43,11 +46,12 @@ function EditProfile() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -94,9 +98,13 @@ function EditProfile() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/user/updateUser`, {
-          ...values,
-          user_updatedBy: account.displayName,
+        await axios({
+          method: "POST",
+          url: `/v1/api/user/updateUser`,
+          data: {
+            ...values,
+            user_updatedBy: account.displayName,
+          },
         });
 
         setDisableButton(true);
@@ -118,9 +126,13 @@ function EditProfile() {
   const getUserDetails = async () => {
     try {
       console.log(id);
-      const { data } = await axios.post(`/v1/api/user/getOneUser`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        user_contact: id,
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/user/getOneUser`,
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          user_contact: id,
+        },
       });
 
       toast.success("User details fetched successfully");

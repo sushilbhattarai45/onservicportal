@@ -3,7 +3,10 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import CategoryForm from "../../components/dashboard/CategoryForm";
 import { ContextProvider } from "../../Context";
 
@@ -37,11 +40,12 @@ function EditCategory() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -73,11 +77,15 @@ function EditCategory() {
       const toastId = toast.loading("Saving...");
 
       try {
-        const { data } = await axios.post(`/v1/api/categories/updatecategory`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
-          id,
-          category_updatedby: account.displayName,
+        const { data } = await axios({
+          method: "POST",
+          url: `/v1/api/categories/updatecategory`,
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+            id,
+            category_updatedby: account.displayName,
+          },
         });
 
         if (data.statuscode === 400) {
@@ -102,8 +110,12 @@ function EditCategory() {
 
   const getCategoryDetails = async () => {
     try {
-      const { data } = await axios.post(`/v1/api/categories`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/categories`,
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       const category = data.find((category) => category._id === id);

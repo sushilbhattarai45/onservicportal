@@ -3,7 +3,10 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import { ContextProvider } from "../../Context";
 import AdsForm from "../../components/dashboard/AdsForm";
 
@@ -44,11 +47,12 @@ function EditAds() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -97,16 +101,21 @@ function EditAds() {
   const getAllTags = async () => {
     console.log("get all tags");
     try {
-      const { data: categories } = await axios.post("/v1/api/categories", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data: categories } = await axios({
+        method: "POST",
+        url: "/v1/api/categories",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
-      const { data: subcategories } = await axios.post(
-        "/v1/api/subcategories/getallsubcategory",
-        {
+      const { data: subcategories } = await axios({
+        method: "POST",
+        url: "/v1/api/subcategories/getallsubcategory",
+        data: {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        }
-      );
+        },
+      });
 
       console.log(categories);
 
@@ -138,11 +147,15 @@ function EditAds() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/ads/updateAds`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
-          ads_updatedBy: account.displayName,
-          _id: id,
+        await axios({
+          method: "POST",
+          url: `/v1/api/ads/updateAds`,
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+            ads_updatedBy: account.displayName,
+            _id: id,
+          },
         });
 
         setDisableButton(true);
@@ -163,8 +176,12 @@ function EditAds() {
 
   const getAdDetails = async () => {
     try {
-      const { data } = await axios.post(`/v1/api/ads/getAllAds`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/ads/getAllAds`,
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       console.log(data);

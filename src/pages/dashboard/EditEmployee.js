@@ -3,7 +3,9 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+
 import EmployeeForm from "../../components/dashboard/EmployeeForm";
 import EmployeeAllSP from "../../components/dashboard/EmployeeAllSP";
 import { ContextProvider } from "../../Context";
@@ -42,9 +44,13 @@ function EditEmployee() {
       console.log(values);
 
       try {
-        await axios.post(`/v1/api/employee/update`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
+        await axios({
+          method: "POST",
+          url: "/v1/api/employee/update",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+          },
         });
 
         setDisableButton(true);
@@ -65,9 +71,13 @@ function EditEmployee() {
 
   const getEmployeeDetails = async () => {
     try {
-      const { data } = await axios.post(`/v1/api/employee/getOne`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        employee_contact: id,
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/employee/getOne`,
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          employee_contact: id,
+        },
       });
 
       setValues(data.data);
@@ -80,9 +90,13 @@ function EditEmployee() {
 
   const getAllSPs = async () => {
     try {
-      const { data } = await axios.post("/v1/api/sp/spbyemployee", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        employee_contact: id,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/sp/spbyemployee",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          employee_contact: id,
+        },
       });
 
       console.log(data.data);
