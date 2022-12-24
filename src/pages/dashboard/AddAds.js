@@ -145,9 +145,13 @@ function AddAds() {
       const toastId = toast.loading("Saving...");
 
       try {
-        const { data } = await axios.post(`/v1/api/ads/post`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
+        const { data } = await axios({
+          method: "POST",
+          url: "/v1/api/ads/post",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+          },
         });
 
         setDisableButton(true);
