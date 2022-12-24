@@ -152,7 +152,7 @@ export default function FilterCategories() {
 
   const handleDelete = async () => {
     //check the permission
-    if (account.role !== "ADMIN") {
+    if (account.post !== "ADMIN") {
       toast.error("You don't have permission to delete");
       return;
     }

@@ -133,8 +133,9 @@ export default function Categories() {
   };
 
   const handleDelete = async () => {
+    console.log(account);
     //check the permission
-    if (account.role !== "ADMIN") {
+    if (account.post !== "ADMIN") {
       toast.error("You don't have permission to delete");
       return;
     }
