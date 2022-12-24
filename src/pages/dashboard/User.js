@@ -26,7 +26,7 @@ import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 
@@ -158,8 +158,12 @@ export default function User() {
 
   const getAllUsers = async () => {
     try {
-      const { data } = await axios.post("/v1/api/user/getAllUser", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/user/getAllUser",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       setUSERLIST(data.data);
@@ -184,9 +188,13 @@ export default function User() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/user/deleteuser", {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          user_contact: selected[i],
+        await axios({
+          method: "POST",
+          url: "/v1/api/user/deleteuser",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            user_contact: selected[i],
+          },
         });
       } catch (err) {
         deleteStatus = false;

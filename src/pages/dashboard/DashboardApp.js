@@ -14,7 +14,7 @@ import Page from "../../components/Page";
 import { ContextProvider } from "../../Context";
 
 import { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -27,9 +27,13 @@ export default function DashboardApp() {
 
   const getEmployeeDetails = async () => {
     try {
-      const { data } = await axios.post(`/v1/api/employee/getOne`, {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        employee_contact: user.contact,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/employee/getOne",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+          employee_contact: user.contact,
+        },
       });
 
       setLimit(data.data.employee_limit);

@@ -25,7 +25,7 @@ import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 import { ContextProvider } from "../../Context";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 
@@ -149,8 +149,12 @@ export default function Ads() {
 
   const getAllAds = async () => {
     try {
-      const { data } = await axios.post("/v1/api/ads/getAllAds", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/ads/getAllAds",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       const refinedData = Object.values(data)
@@ -188,9 +192,13 @@ export default function Ads() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/ads/delete", {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          _id: selected[i],
+        await axios({
+          method: "POST",
+          url: "/v1/api/ads/delete",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            _id: selected[i],
+          },
         });
       } catch (err) {
         deleteStatus = false;

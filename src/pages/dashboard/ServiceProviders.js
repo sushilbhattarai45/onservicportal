@@ -26,7 +26,7 @@ import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 
@@ -155,8 +155,12 @@ export default function ServiceProviders() {
 
   const getAllSPs = async () => {
     try {
-      const { data } = await axios.post("/v1/api/sp/getAllSp", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/sp/getAllSp",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       console.log(data.data);
@@ -183,9 +187,13 @@ export default function ServiceProviders() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/sp/deletesp", {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          sp_contact: selected[i],
+        await axios({
+          method: "POST",
+          url: "/v1/api/sp/deletesp",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            sp_contact: selected[i],
+          },
         });
       } catch (err) {
         deleteStatus = false;

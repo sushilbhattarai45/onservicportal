@@ -3,7 +3,10 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import SPForm from "../../components/dashboard/SPForm";
 import { useNavigate } from "react-router-dom";
 import { ContextProvider } from "../../Context";
@@ -56,11 +59,12 @@ function EditServiceProvider() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -153,7 +157,11 @@ function EditServiceProvider() {
           user_profileImage: values.sp_profileImage,
         };
 
-        const { data } = await axios.post(`/v1/api/user/register`, userData);
+        const { data } = await axios({
+          method: "POST",
+          url: "/v1/api/user/register",
+          data: userData,
+        });
 
         if (data.statuscode == 600) {
           toast.error(data.message);
@@ -166,9 +174,13 @@ function EditServiceProvider() {
           };
 
           // save the service provider
-          const { data: sp_data } = await axios.post(`/v1/api/sp/postSp`, {
-            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-            ...spData,
+          const { data: sp_data } = await axios({
+            method: "POST",
+            url: `/v1/api/sp/postSp`,
+            data: {
+              GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+              ...spData,
+            },
           });
 
           toast.success("Service Provider added successfully");

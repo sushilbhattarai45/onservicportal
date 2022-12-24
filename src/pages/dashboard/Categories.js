@@ -25,7 +25,7 @@ import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import { Edit } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
@@ -144,9 +144,13 @@ export default function Categories() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/categories/deleteonecategory", {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          id: selected[i],
+        await axios({
+          method: "POST",
+          url: "/v1/api/categories/deleteonecategory",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            id: selected[i],
+          },
         });
       } catch (err) {
         deleteStatus = false;
@@ -176,8 +180,12 @@ export default function Categories() {
 
   const getAllCategories = async () => {
     try {
-      const { data } = await axios.post("/v1/api/categories", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = axios({
+        method: "POST",
+        url: "/v1/api/categories",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       console.log(data);

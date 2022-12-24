@@ -3,7 +3,9 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
 
 import { useNavigate } from "react-router-dom";
 import SubCategoryForm from "../../components/dashboard/SubCategoryForm";
@@ -46,11 +48,12 @@ function AddSubCategory() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -103,13 +106,14 @@ function AddSubCategory() {
         let id;
 
         if (values.subCat_isSecond) {
-          const { data } = await axios.post(
-            `/v1/api/subcategories/postsecond`,
-            {
+          const { data } = await axios({
+            method: "POST",
+            url: `/v1/api/subcategories/postsecond`,
+            data: {
               GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
               ...values,
-            }
-          );
+            },
+          });
 
           setDisableButton(true);
           toast.success("Second Sub Category added successfully", {
@@ -119,13 +123,14 @@ function AddSubCategory() {
 
           id = data.data._id;
         } else {
-          const { data } = await axios.post(
-            `/v1/api/subcategories/postsubcategory`,
-            {
+          const { data } = await axios({
+            method: "POST",
+            url: `/v1/api/subcategories/postsubcategory`,
+            data: {
               GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
               ...values,
-            }
-          );
+            },
+          });
 
           if (data.statuscode == 600) {
             toast.error(data.error, {
@@ -157,8 +162,12 @@ function AddSubCategory() {
 
   const getAllCategories = async () => {
     try {
-      const { data } = await axios.post("/v1/api/categories", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/categories`,
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
       console.log(data);
@@ -175,12 +184,13 @@ function AddSubCategory() {
 
   const getAllSubCategories = async () => {
     try {
-      const { data } = await axios.post(
-        "/v1/api/subcategories/getallsubcategory",
-        {
+      const { data } = await axios({
+        method: "POST",
+        url: `/v1/api/subcategories/getallsubcategory`,
+        data: {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        }
-      );
+        },
+      });
 
       console.log(data);
       setSubCategories(data.data);

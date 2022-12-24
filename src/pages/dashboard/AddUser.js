@@ -2,7 +2,9 @@ import { Container } from "@mui/material";
 import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import UserForm from "../../components/dashboard/UserForm";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
@@ -46,13 +48,13 @@ function AddUser() {
     const formData = new FormData();
     formData.append("pic", file);
 
-    const serverUrl = "http://172.104.188.69:3001/v1/api/user/uploadImage";
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -118,7 +120,11 @@ function AddUser() {
       console.log(values);
 
       try {
-        const { data } = await axios.post(`/v1/api/user/register`, values);
+        const { data } = await axios({
+          method: "POST",
+          url: "/v1/api/user/register",
+          data: values,
+        });
 
         if (data.statuscode == 600) {
           toast.error(data.message);

@@ -3,7 +3,7 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState } from "react";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import EmployeeForm from "../../components/dashboard/EmployeeForm";
 
 import { useNavigate } from "react-router-dom";
@@ -40,9 +40,13 @@ function AddEmployee() {
       console.log(values);
 
       try {
-        const { data } = await axios.post(`/v1/api/employee/post`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
+        const { data } = await axios({
+          method: "POST",
+          url: "/v1/api/employee/post",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+          },
         });
 
         if (data.statuscode === 600) {

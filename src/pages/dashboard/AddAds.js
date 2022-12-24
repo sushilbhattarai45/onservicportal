@@ -3,7 +3,8 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useContext, useEffect } from "react";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
 
 import { useNavigate } from "react-router-dom";
 import AdsForm from "../../components/dashboard/AdsForm";
@@ -45,11 +46,12 @@ function AddAds() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -99,16 +101,21 @@ function AddAds() {
   const getAllTags = async () => {
     console.log("get all tags");
     try {
-      const { data: categories } = await axios.post("/v1/api/categories", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+      const { data: categories } = await axios({
+        method: "POST",
+        url: "/v1/api/categories",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
-      const { data: subcategories } = await axios.post(
-        "/v1/api/subcategories/getallsubcategory",
-        {
+      const { data: subcategories } = await axios({
+        method: "POST",
+        url: "/v1/api/subcategories/getallsubcategory",
+        data: {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        }
-      );
+        },
+      });
 
       console.log(categories);
 

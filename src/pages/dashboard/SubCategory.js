@@ -25,7 +25,7 @@ import Iconify from "../../components/Iconify";
 import SearchNotFound from "../../components/SearchNotFound";
 import { UserListHead, UserListToolbar } from "../../sections/@dashboard/user";
 
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 
@@ -147,23 +147,29 @@ export default function SubCategories() {
 
   const getAllSubCategories = async () => {
     try {
-      const { data } = await axios.post(
-        "/v1/api/subcategories/getallsubcategory",
-        {
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/subcategories/getallsubcategory",
+        data: {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        }
-      );
-
-      const { data: catData } = await axios.post("/v1/api/categories", {
-        GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
       });
 
-      const { data: subCatData } = await axios.post(
-        "/v1/api/subcategories/getallsubcategory",
-        {
+      const { data: catData } = await axios({
+        method: "POST",
+        url: "/v1/api/categories",
+        data: {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        }
-      );
+        },
+      });
+
+      const { data: subCatData } = await axios({
+        method: "POST",
+        url: "/v1/api/subcategories/getallsubcategory",
+        data: {
+          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+        },
+      });
 
       const combineddata = [...catData, ...subCatData.data];
 
@@ -211,9 +217,13 @@ export default function SubCategories() {
     for (let i = 0; i < selected.length; i++) {
       console.log(selected[i]);
       try {
-        await axios.post("/v1/api/subcategories/deleteone", {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          id: selected[i],
+        await axios({
+          method: "POST",
+          url: "/v1/api/subcategories/deleteone",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            id: selected[i],
+          },
         });
       } catch (err) {
         deleteStatus = false;

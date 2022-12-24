@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import districts from "../../utils/districts";
 
 const SPForm = ({
@@ -40,12 +40,13 @@ const SPForm = ({
 
   const getSkills = async () => {
     try {
-      const { data } = await axios.post(
-        "/v1/api/subcategories/getmixedsubcategory",
-        {
+      const { data } = await axios({
+        method: "POST",
+        url: "/v1/api/subcategories/getmixedsubcategory",
+        data: {
           GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-        }
-      );
+        },
+      });
 
       console.log(data.data);
       const s = data.data.map((skill) => skill.subCat_name);

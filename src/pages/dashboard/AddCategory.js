@@ -3,7 +3,9 @@ import Page from "../../components/Page";
 import toast from "react-hot-toast";
 
 import { useState, useContext } from "react";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
+import upload from "../../utils/axiosInstanceUpload";
+
 import CategoryForm from "../../components/dashboard/CategoryForm";
 
 import { useNavigate } from "react-router-dom";
@@ -40,11 +42,12 @@ function AddCategory() {
     formData.append("pic", file);
 
     try {
-      const { data } = await axios.post("/v1/api/user/web/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const { data } = await upload({
+        method: "POST",
+        url: "/v1/api/user/web/upload",
+        data: formData,
       });
+
       const { msg, imgUrl } = data;
 
       toast.success(msg);
@@ -76,9 +79,13 @@ function AddCategory() {
       const toastId = toast.loading("Saving...");
 
       try {
-        const { data } = await axios.post(`/v1/api/categories/postcategory`, {
-          GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
-          ...values,
+        const { data } = await axios({
+          method: "POST",
+          url: "/v1/api/categories/postcategory",
+          data: {
+            GIVEN_API_KEY: process.env.REACT_APP_API_KEY,
+            ...values,
+          },
         });
 
         if (data.statuscode === 600) {
