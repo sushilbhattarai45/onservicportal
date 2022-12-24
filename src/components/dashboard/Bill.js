@@ -15,7 +15,7 @@ function Bill({ name, contact, billId, image, date, address, paid }) {
         backgroundColor: "#eee",
       }}
     >
-      <img src={image} />
+      <img src={image} alt="Error loading image" width="150" />
       <div
         style={{
           display: "flex",
