@@ -69,7 +69,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 {account.displayName}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {account.post}
+                {account.post === "ADMIN" ? "Administrator" : "Office Staff"}
               </Typography>
             </Box>
           </AccountStyle>

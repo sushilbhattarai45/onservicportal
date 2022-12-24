@@ -21,6 +21,7 @@ function EditEmployee() {
     employee_name: "",
     employee_status: true,
     employee_post: "",
+    employee_limit: 0,
   });
 
   const [disableButton, setDisableButton] = useState(true);
@@ -29,10 +30,26 @@ function EditEmployee() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+    if (name === "employee_limit") {
+      if (value < 0) {
+        toast.error("Limit cannot be negative");
+        return;
+      } else if (value > 10) {
+        toast.error("Limit cannot be greater than 10");
+        return;
+      }
+
+      setValues({
+        ...values,
+        employee_limit: parseInt(value),
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    }
+
     setDisableButton(false);
   };
 
@@ -41,7 +58,6 @@ function EditEmployee() {
 
     if (!disableButton) {
       const toastId = toast.loading("Saving...");
-      console.log(values);
 
       try {
         await axios({
@@ -79,6 +95,8 @@ function EditEmployee() {
           employee_contact: id,
         },
       });
+
+      console.log(data.data);
 
       setValues(data.data);
       toast.success("Details fetched successfully");
