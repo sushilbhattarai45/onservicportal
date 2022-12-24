@@ -247,6 +247,7 @@ const SPForm = ({
           onChange={handleInputChange}
           value={values.sp_contact}
           required
+          disabled={buttonText === "Update" ? true : false}
           error={contactError}
           helperText={contactError}
         />

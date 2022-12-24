@@ -158,6 +158,7 @@ const UserForm = ({
             <MenuItem value="SUSPENDED">SUSPENDED</MenuItem>
           </Select>
         </FormControl>
+
         <TextField
           fullWidth
           name="user_contact"
@@ -165,6 +166,7 @@ const UserForm = ({
           label="Contact"
           onChange={handleInputChange}
           value={values?.user_contact}
+          disabled={buttonText === "Update" ? true : false}
           required
           error={contactError}
           helperText={contactError}
