@@ -108,7 +108,7 @@ function EditServiceProvider() {
       const toastId = toast.loading("Updating Service Provider...");
 
       try {
-        await axios.post({
+        await axios({
           method: "POST",
           url: `/v1/api/sp/updateSp`,
           data: {
