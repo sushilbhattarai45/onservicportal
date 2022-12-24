@@ -11,6 +11,8 @@ import SPForm from "../../components/dashboard/SPForm";
 import Bill from "../../components/dashboard/Bill";
 import { ContextProvider } from "../../Context";
 
+import { Stack } from "@mui/material";
+
 function EditServiceProvider() {
   const id = window.location.pathname.split("/")[3];
 
@@ -168,6 +170,43 @@ function EditServiceProvider() {
           imageLoading={imageLoading}
           contactError={contactError}
         />
+
+        {/* Display images */}
+        <Stack>
+          {values?.sp_media?.photo?.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt="Service Provider"
+              style={{
+                maxWidth: "300px",
+                maxHeight: "300px",
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                margin: "10px",
+              }}
+            />
+          ))}
+
+          {
+            // Display videos
+            values?.sp_media?.video && (
+              <video
+                src={values?.sp_media?.video}
+                controls
+                style={{
+                  maxWidth: "300px",
+                  maxHeight: "300px",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  margin: "10px",
+                }}
+              />
+            )
+          }
+        </Stack>
 
         {bill?.sp_billid && (
           <Bill
