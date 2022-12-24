@@ -172,7 +172,12 @@ function EditServiceProvider() {
         />
 
         {/* Display images */}
-        <Stack>
+        <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          flexWrap="wrap"
+        >
           {values?.sp_media?.photo?.map((image, index) => (
             <img
               key={index}
