@@ -23,6 +23,7 @@ export default function DashboardApp() {
   const [user] = login;
 
   const [limit, setLimit] = useState(0);
+  const [totallimit, setTotalLimit] = useState(0);
   const navigate = useNavigate();
 
   const getEmployeeDetails = async () => {
@@ -37,6 +38,7 @@ export default function DashboardApp() {
       });
 
       setLimit(data.data.employee_limit);
+      setTotalLimit(data.data.employee_totallimit);
     } catch (error) {
       toast.error("Something went wrong getting limit");
       console.log(error);
@@ -72,7 +74,9 @@ export default function DashboardApp() {
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
-            <Typography variant="h5">Remaining limit: {limit}!</Typography>
+            <Typography variant="h5">
+              Remaining limit: {limit} {totallimit && `out of ${totallimit}`}!
+            </Typography>
           </Grid>
         </Grid>
 
