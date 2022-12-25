@@ -182,6 +182,12 @@ export default function ServiceProviders() {
       return;
     }
 
+    // ask for confirmation
+    const confirm = window.confirm("Are you sure you want to delete?");
+    if (!confirm) {
+      return;
+    }
+
     let deleteStatus = true;
 
     for (let i = 0; i < selected.length; i++) {
