@@ -60,7 +60,7 @@ function EditEmployee() {
       const toastId = toast.loading("Saving...");
 
       try {
-        await axios({
+        const { data } = await axios({
           method: "POST",
           url: "/v1/api/employee/update",
           data: {
@@ -68,6 +68,7 @@ function EditEmployee() {
             ...values,
           },
         });
+        console.log(data.data);
 
         setDisableButton(true);
         toast.success("Employee updated successfully", {

@@ -157,6 +157,8 @@ export default function Ads() {
         },
       });
 
+      console.log(data);
+
       const refinedData = Object.values(data)
         .map((item) => {
           return item;
