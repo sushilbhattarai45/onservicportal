@@ -187,11 +187,24 @@ const AdsForm = ({
       </Stack>
 
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
         alignItems="center"
-        justifyContent="flex-end"
+        justifyContent="space-between"
         my={2}
       >
+        {values?.ads_toc && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="toc"
+            type="text"
+            label="Date of creation"
+            disabled={true}
+            value={values?.ads_toc.date + " " + values?.ads_toc.time}
+          />
+        )}
         <Button
           variant="contained"
           color="primary"

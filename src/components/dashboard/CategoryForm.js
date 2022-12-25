@@ -102,11 +102,36 @@ const CategoryForm = ({
       </Stack>
 
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
         alignItems="center"
-        justifyContent="flex-end"
+        justifyContent="space-between"
         my={2}
       >
+        {values?.category_doc && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="toc"
+            type="text"
+            label="Date of creation"
+            disabled={true}
+            value={values?.category_doc.date + " " + values?.category_doc.time}
+          />
+        )}
+        {values?.category_dou && (
+          <TextField
+            sx={{
+              minWidth: 200,
+            }}
+            name="toc"
+            type="text"
+            label="Date of updation"
+            disabled={true}
+            value={values?.category_dou.date + " " + values?.category_dou.time}
+          />
+        )}
         <Button
           variant="contained"
           color="primary"

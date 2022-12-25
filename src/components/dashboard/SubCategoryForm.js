@@ -72,6 +72,18 @@ const SubCategoryForm = ({
         direction={{ xs: "column", sm: "row" }}
         spacing={{ xs: 1, sm: 2, md: 1 }}
       >
+        <FormControl sx={{ my: 1 }} fullWidth>
+          <InputLabel htmlFor="name">Name</InputLabel>
+          <OutlinedInput
+            id="name"
+            name="subCat_name"
+            type="text"
+            label="name"
+            onChange={handleInputChange}
+            value={values?.subCat_name}
+            required
+          />
+        </FormControl>
         <FormControl fullWidth>
           <InputLabel id="select-isSubcat">
             Is 2<sup>nd</sup> Sub Category?
@@ -88,19 +100,6 @@ const SubCategoryForm = ({
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
           </Select>
-        </FormControl>
-
-        <FormControl sx={{ my: 1 }} fullWidth>
-          <InputLabel htmlFor="name">Name</InputLabel>
-          <OutlinedInput
-            id="name"
-            name="subCat_name"
-            type="text"
-            label="name"
-            onChange={handleInputChange}
-            value={values?.subCat_name}
-            required
-          />
         </FormControl>
 
         <Autocomplete
@@ -135,15 +134,6 @@ const SubCategoryForm = ({
             />
           )}
         />
-      </Stack>
-
-      <Stack
-        alignItems="center"
-        justifyContent="space-between"
-        my={2}
-        direction={{ xs: "column", sm: "row" }}
-        spacing={{ xs: 1, sm: 2, md: 1 }}
-      >
         <FormControl fullWidth>
           <InputLabel id="select-verified">Has Sub Category</InputLabel>
           <Select
@@ -157,15 +147,15 @@ const SubCategoryForm = ({
             <MenuItem value={false}>False</MenuItem>
           </Select>
         </FormControl>
-        <TextField
-          fullWidth
-          name="subCat_updatedby"
-          type="text"
-          label="Updated By"
-          disabled={true}
-          value={values?.subCat_updatedby}
-        />
+      </Stack>
 
+      <Stack
+        alignItems="center"
+        justifyContent="space-between"
+        my={2}
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 1 }}
+      >
         <FormControl fullWidth>
           <InputLabel id="select-verified">Status</InputLabel>
           <Select
@@ -179,6 +169,36 @@ const SubCategoryForm = ({
             <MenuItem value={false}>Inactive</MenuItem>
           </Select>
         </FormControl>
+        {values?.subCat_doc && (
+          <TextField
+            fullWidth
+            name="toc"
+            type="text"
+            label="Date of creation"
+            disabled={true}
+            value={values?.subCat_doc.date + " " + values?.subCat_doc.time}
+          />
+        )}
+
+        <TextField
+          fullWidth
+          name="subCat_updatedby"
+          type="text"
+          label="Updated By"
+          disabled={true}
+          value={values?.subCat_updatedby}
+        />
+
+        {values?.subCat_dou && (
+          <TextField
+            fullWidth
+            name="toc"
+            type="text"
+            label="Date of updation"
+            disabled={true}
+            value={values?.subCat_dou.date + " " + values?.subCat_dou.time}
+          />
+        )}
       </Stack>
 
       <Stack
