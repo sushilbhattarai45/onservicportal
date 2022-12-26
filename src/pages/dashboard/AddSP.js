@@ -26,7 +26,7 @@ function EditServiceProvider() {
     sp_profileImage: `https://ui-avatars.com/api/?size=128&background=random&rounded=true&name=${account.displayName}`,
     sp_verified: false,
     sp_status: "ACTIVE",
-    sp_bio: "",
+    sp_bio: "Onservic Service Provider",
     sp_showReview: true,
     email: "",
     sp_paid: true,
