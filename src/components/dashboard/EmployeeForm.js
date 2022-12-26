@@ -44,6 +44,7 @@ const EmployeeForm = ({
           InputLabelProps={{
             shrink: true,
           }}
+          fullWidth
           name="employee_limit"
           onChange={handleInputChange}
           value={values?.employee_limit}
