@@ -31,10 +31,10 @@ function EditEmployee() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     if (name === "employee_limit") {
-      if (value < 0) {
-        toast.error("Limit cannot be negative");
+      if (value < -100) {
+        toast.error("Limit cannot be Less than -100");
         return;
-      } else if (value > 10) {
+      } else if (value > 100) {
         toast.error("Limit cannot be greater than 10");
         return;
       }
