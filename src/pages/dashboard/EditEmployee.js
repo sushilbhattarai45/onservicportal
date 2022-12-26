@@ -35,7 +35,7 @@ function EditEmployee() {
         toast.error("Limit cannot be Less than -100");
         return;
       } else if (value > 100) {
-        toast.error("Limit cannot be greater than 10");
+        toast.error("Limit cannot be greater than 100");
         return;
       }
 
