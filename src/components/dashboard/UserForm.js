@@ -74,7 +74,6 @@ const UserForm = ({
           label="Email"
           onChange={handleInputChange}
           value={values?.user_email}
-          required
         />
 
         <FormControl fullWidth>

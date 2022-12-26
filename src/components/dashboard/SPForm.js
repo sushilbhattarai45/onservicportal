@@ -139,7 +139,6 @@ const SPForm = ({
             name="email"
             type="email"
             label="Email"
-            required
             onChange={handleInputChange}
             value={values.email}
           />

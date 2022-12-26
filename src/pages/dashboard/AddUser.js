@@ -106,7 +106,6 @@ function AddUser() {
 
     if (
       values.user_name === "" ||
-      values.user_email === "" ||
       values.user_district === "" ||
       values.user_city === "" ||
       values.user_contact === ""
